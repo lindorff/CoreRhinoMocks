@@ -1,32 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <ProjectGuid>{C63839EC-BEF3-4DCD-BE23-B6DA21E8BE20}</ProjectGuid>
-    <DefaultClientScript>JScript</DefaultClientScript>
-    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
-    <DefaultTargetSchema>IE50</DefaultTargetSchema>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
-    <PublishUrl>publish\</PublishUrl>
-    <Install>true</Install>
-    <InstallFrom>Disk</InstallFrom>
-    <UpdateEnabled>false</UpdateEnabled>
-    <UpdateMode>Foreground</UpdateMode>
-    <UpdateInterval>7</UpdateInterval>
-    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
-    <UpdatePeriodically>false</UpdatePeriodically>
-    <UpdateRequired>false</UpdateRequired>
-    <MapFileExtensions>true</MapFileExtensions>
-    <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
-    <UseApplicationTrust>false</UseApplicationTrust>
-    <BootstrapperEnabled>true</BootstrapperEnabled>
     <TargetFramework>net45</TargetFramework>
-    <FileUpgradeFlags />
-    <UpgradeBackupLocation />
     <AssemblyTitle>Rhino.Mocks</AssemblyTitle>
     <Company>$company</Company>
     <Product>$product</Product>
@@ -35,33 +9,8 @@
     <Version>3.6.0.0</Version>
     <AssemblyVersion>3.6.0.0</AssemblyVersion>
     <FileVersion>3.6.0.0</FileVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\debug\</OutputPath>
-    <BaseAddress>285212672</BaseAddress>
-    <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <DebugType>Full</DebugType>
-    <NoWarn>1607</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>..\..\Build\Tests\$(Configuration)\</OutputPath>
-    <BaseAddress>285212672</BaseAddress>
-    <FileAlignment>4096</FileAlignment>
-    <NoStdLib>false</NoStdLib>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
-    <StartAction>Program</StartAction>
-    <StartProgram>C:\Program Files\MbUnit\MbUnit.GUI.exe</StartProgram>
-    <StartArguments>D:\OSS\rhino-tools\rhino-mocks\Rhino.Mocks.Tests\bin\debug\Rhino.Mocks.Tests.dll</StartArguments>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Platform)' == 'AnyCPU' ">
-    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
@@ -108,13 +57,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="FieldsProblem\FieldProblem_Aharon.cs">
-      <SubType>Component</SubType>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Rhino.Mocks.Tests.Model\Rhino.Mocks.Tests.Model.csproj" />
-    <ProjectReference Include="..\Rhino.Mocks\Rhino.Mocks 2.0.csproj" />
+    <ProjectReference Include="..\Rhino.Mocks\Rhino.Mocks.csproj" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\ayende-open-source.snk">
