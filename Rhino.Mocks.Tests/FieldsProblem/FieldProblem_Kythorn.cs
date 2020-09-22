@@ -26,9 +26,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-#if DOTNET35
-
 using System;
 using Xunit;
 
@@ -105,4 +102,3 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 	
 }
-#endif
