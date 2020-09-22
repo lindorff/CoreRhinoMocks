@@ -72,8 +72,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem.FieldProblem_Nolan2
             Assert.Equal(_newObject, _demo.SomeObject);
         }
     }
-#if DOTNET35
-    
+
     public class
         When_mocking_properties_with_RhinoMocks_stub_and_setting_expectations_afterward :
             When_mocking_properties_with_RhinoMocks_stub
@@ -105,5 +104,4 @@ namespace Rhino.Mocks.Tests.FieldsProblem.FieldProblem_Nolan2
             SetValuesOnMock();
         }
     }
-#endif
 	}
