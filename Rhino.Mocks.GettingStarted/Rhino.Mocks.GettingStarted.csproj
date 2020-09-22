@@ -1,10 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <ProjectGuid>{59F8A3E2-80C5-4250-909A-16741DF81B23}</ProjectGuid>
     <TargetFramework>net45</TargetFramework>
-    <FileUpgradeFlags />
-    <UpgradeBackupLocation />
     <AssemblyTitle>Rhino.Mocks</AssemblyTitle>
     <Company>$company</Company>
     <Product>$product</Product>
@@ -13,13 +9,6 @@
     <Version>3.6.0.0</Version>
     <AssemblyVersion>3.6.0.0</AssemblyVersion>
     <FileVersion>3.6.0.0</FileVersion>
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugType>full</DebugType>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
@@ -35,60 +24,6 @@
     <ProjectReference Include="..\Rhino.Mocks\Rhino.Mocks.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\RhinoMocksIntroductionTest.cs" />
-    <Compile Remove="Documentation\01-RhinoMocksGenerics\01-RhinoMocksGenerics\RhinoMocksGenericsTest.cs" />
-    <Compile Remove="Documentation\02-RhinoMocksPartialMocks\02-RhinoMocksPartialMocks\RhinoMocksPartialMocksTest.cs" />
-    <Compile Remove="Documentation\03-RhinoMocksStubs\03-RhinoMocksStubs\RhinoMocksStubsTest.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\RhinoMocksOrderedUnorderedTest.cs" />
-    <Compile Remove="Documentation\05-RhinoMocksMockingDelegates\05-RhinoMocksMockingDelegates\RhinoMocksMockingDelegatesTest.cs" />
-    <Compile Remove="Documentation\06-RhinoMocksEvents\06-RhinoMocksEvents\EventWasRaisedTest.cs" />
-    <Compile Remove="Documentation\06-RhinoMocksEvents\06-RhinoMocksEvents\SubscribeToEventTest.cs" />
-    <Compile Remove="Documentation\07-RhinoMocksIEventRaiser\07-RhinoMocksIEventRaiser\RhinoMockIEventRaiserTest.cs" />
-    <Compile Remove="Documentation\08-RhinoMocksProperties\08-RhinoMocksProperties\RhinoMocksPropertiesTest.cs" />
-    <Compile Remove="Documentation\09-RhinoMocksTheDoHandler\09-RhinoMocksTheDoHandler\RhinoMocksTheDoHandlerTest.cs" />
-    <Compile Remove="Documentation\10-RhinoMocksConstraints\10-RhinoMocksConstraints\RhinoMocksConstraintsTest.cs" />
-    <Compile Remove="Documentation\11-RhinoMocksMethodOptions\11-RhinoMocksMethodOptions\RhinoMocksMethodOptionsTest.cs" />
-    <Compile Remove="Documentation\12-RhinoMocksSetupResult\12-RhinoMocksSetupResult\RhinoMocksSetupResultTest.cs" />
-    <Compile Remove="Documentation\13-RhinoMocksMockingClasses\13-RhinoMocksMockingClasses\RhinoMocksMockingClassesTest.cs" />
-    <Compile Remove="Documentation\14-RhinoMocksInternalMembers\14-RhinoMocksInternalMembers\RhinoMocksInternalMembersTest.cs" />
-    <Compile Remove="Documentation\15-RhinoMocksRecordPlaybackSyntax\15-RhinoMocksRecordPlaybackSyntax\RhinoMocksRecordPlaybackSyntaxTest.cs" />
-    <Compile Remove="Documentation\16-RhinoMocksWithSyntax\16-RhinoMocksWithSyntax\RhinoMocksWithSyntaxTest.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\IDemo.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\IProject.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\IProjectPresenter.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\IProjectRepository.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\IProjectView.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\Project.cs" />
-    <Compile Remove="Documentation\00-RhinoMocksIntroduction\00-RhinoMocksIntroduction\Implementation\ProjectPresenter.cs" />
-    <Compile Remove="Documentation\02-RhinoMocksPartialMocks\02-RhinoMocksPartialMocks\Implementation\ProcessorBase.cs" />
-    <Compile Remove="Documentation\03-RhinoMocksStubs\03-RhinoMocksStubs\Implementation\IAnimal.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\Bank.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\IBankAccount.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\IDatabaseManager.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\IProject.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\IProjectPresenter.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\IProjectRepository.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\IProjectView.cs" />
-    <Compile Remove="Documentation\04-RhinoMocksOrderedUnordered\04-RhinoMocksOrderedUnordered\Implementation\ProjectPresenter.cs" />
-    <Compile Remove="Documentation\06-RhinoMocksEvents\06-RhinoMocksEvents\Implementation\IEventSubscriber.cs" />
-    <Compile Remove="Documentation\06-RhinoMocksEvents\06-RhinoMocksEvents\Implementation\IWithEvents.cs" />
-    <Compile Remove="Documentation\06-RhinoMocksEvents\06-RhinoMocksEvents\Implementation\WithEvents.cs" />
-    <Compile Remove="Documentation\07-RhinoMocksIEventRaiser\07-RhinoMocksIEventRaiser\Implementation\IView.cs" />
-    <Compile Remove="Documentation\07-RhinoMocksIEventRaiser\07-RhinoMocksIEventRaiser\Implementation\Presenter.cs" />
-    <Compile Remove="Documentation\08-RhinoMocksProperties\08-RhinoMocksProperties\Implementation\IDemo.cs" />
-    <Compile Remove="Documentation\09-RhinoMocksTheDoHandler\09-RhinoMocksTheDoHandler\Implementation\INameSource.cs" />
-    <Compile Remove="Documentation\09-RhinoMocksTheDoHandler\09-RhinoMocksTheDoHandler\Implementation\Speaker.cs" />
-    <Compile Remove="Documentation\10-RhinoMocksConstraints\10-RhinoMocksConstraints\Implementation\IValidationMessagesLogger.cs" />
-    <Compile Remove="Documentation\10-RhinoMocksConstraints\10-RhinoMocksConstraints\Implementation\IValidator.cs" />
-    <Compile Remove="Documentation\10-RhinoMocksConstraints\10-RhinoMocksConstraints\Implementation\Message.cs" />
-    <Compile Remove="Documentation\10-RhinoMocksConstraints\10-RhinoMocksConstraints\Implementation\Validator.cs" />
-    <Compile Remove="Documentation\11-RhinoMocksMethodOptions\11-RhinoMocksMethodOptions\Implementation\IProjectView.cs" />
-    <Compile Remove="Documentation\12-RhinoMocksSetupResult\12-RhinoMocksSetupResult\Implementation\IDemo.cs" />
-    <Compile Remove="Documentation\14-RhinoMocksInternalMembers\14-RhinoMocksInternalMembers\Implementation\Class1.cs" />
-    <Compile Remove="Documentation\15-RhinoMocksRecordPlaybackSyntax\15-RhinoMocksRecordPlaybackSyntax\Implementation\ComponentImplementation.cs" />
-    <Compile Remove="Documentation\15-RhinoMocksRecordPlaybackSyntax\15-RhinoMocksRecordPlaybackSyntax\Implementation\IDependency.cs" />
-    <Compile Remove="Documentation\16-RhinoMocksWithSyntax\16-RhinoMocksWithSyntax\Implementation\ComponentImplementation.cs" />
-    <Compile Remove="Documentation\16-RhinoMocksWithSyntax\16-RhinoMocksWithSyntax\Implementation\IAnotherDependency.cs" />
-    <Compile Remove="Documentation\16-RhinoMocksWithSyntax\16-RhinoMocksWithSyntax\Implementation\IDependency.cs" />
+    <Compile Remove="Documentation\**\*.cs" />
   </ItemGroup>
 </Project>
