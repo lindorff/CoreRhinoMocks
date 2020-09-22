@@ -65,8 +65,8 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		public void DoubleGeneric()
 		{
 			string clrInstallationDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
-			string mscorwksFilename = Path.Combine(clrInstallationDir, "mscorwks.dll");
-			FileVersionInfo clrVersion = FileVersionInfo.GetVersionInfo(mscorwksFilename);
+			string mscordacwksFilename = Path.Combine(clrInstallationDir, "mscordacwks.dll");
+			FileVersionInfo clrVersion = FileVersionInfo.GetVersionInfo(mscordacwksFilename);
 			if(clrVersion.ProductMajorPart == 2 && 
 				clrVersion.ProductMinorPart == 0 &&
 				clrVersion.ProductBuildPart == 50727)
