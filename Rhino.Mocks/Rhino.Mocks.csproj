@@ -1,16 +1,5 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <ProjectType>Local</ProjectType>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <ProjectGuid>{1E8FECC7-9E9B-4275-A938-D956F5E5D4F8}</ProjectGuid>
-    <DefaultClientScript>JScript</DefaultClientScript>
-    <DefaultHTMLPageLayout>Grid</DefaultHTMLPageLayout>
-    <DefaultTargetSchema>IE50</DefaultTargetSchema>
-    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
-    <SignAssembly>true</SignAssembly>
-    <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
-    <FileUpgradeFlags />
-    <UpgradeBackupLocation />
     <TargetFramework>net45</TargetFramework>
     <AssemblyTitle>Rhino.Mocks</AssemblyTitle>
     <Company>$company</Company>
@@ -20,24 +9,8 @@
     <Version>3.6.0.0</Version>
     <AssemblyVersion>3.6.0.0</AssemblyVersion>
     <FileVersion>3.6.0.0</FileVersion>
-    <BaseAddress>285212672</BaseAddress>
-    <RegisterForComInterop>false</RegisterForComInterop>
-    <RemoveIntegerChecks>false</RemoveIntegerChecks>
-    <NoStdLib>false</NoStdLib>
-    <FileAlignment>4096</FileAlignment>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <OutputPath>bin\debug\</OutputPath>
-    <DocumentationFile>bin\debug\Rhino.Mocks.XML</DocumentationFile>
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
-    <NoWarn>1607</NoWarn>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <OutputPath>bin\$(Configuration)\</OutputPath>
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
-    <DocumentationFile>Rhino.Mocks.XML</DocumentationFile>
+    <SignAssembly>true</SignAssembly>
+    <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Castle.Core, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
