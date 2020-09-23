@@ -28,10 +28,8 @@
 
 
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
-using Castle.Core.Interceptor;
+using Castle.DynamicProxy;
 using Rhino.Mocks.Impl;
 
 namespace Rhino.Mocks.Interfaces

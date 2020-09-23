@@ -17,10 +17,6 @@
       <HintPath>..\SharedLibs\Castle.Core.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
-    <Reference Include="Castle.DynamicProxy2, Version=2.1.0.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
-      <HintPath>..\SharedLibs\Castle.DynamicProxy2.dll</HintPath>
-      <SpecificVersion>False</SpecificVersion>
-    </Reference>
     <Reference Include="Interop.ADODB, Version=2.8.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
       <HintPath>..\SharedLibs\Interop.ADODB.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
@@ -55,6 +51,7 @@
       <HintPath>..\SharedLibs\xunit.extensions.dll</HintPath>
       <SpecificVersion>False</SpecificVersion>
     </Reference>
+    <PackageReference Include="Castle.Core" Version="4.4.1" />
     <PackageReference Include="xunit.runner.console" Version="2.4.1">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>

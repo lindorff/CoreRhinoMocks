@@ -29,7 +29,6 @@
 
 using System;
 using System.Reflection;
-using Castle.Core.Interceptor;
 using Rhino.Mocks.Interfaces;
 using Rhino.Mocks.Utilities;
 using Castle.DynamicProxy;
