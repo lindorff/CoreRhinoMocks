@@ -29,7 +29,6 @@
 
 using System;
 using System.Reflection;
-using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using Xunit;
 using Rhino.Mocks.Expectations;
@@ -91,7 +90,7 @@ namespace Rhino.Mocks.Tests.Expectations
 	internal class FakeInvocation : AbstractInvocation
 	{
 		public FakeInvocation(MethodInfo targetMethod) 
-			: base(null, null, null, null, targetMethod, null, new object[0])
+			: base(null, null, targetMethod, new object[0])
 		{
 		}
 
@@ -99,5 +98,9 @@ namespace Rhino.Mocks.Tests.Expectations
 		{
 			throw new NotImplementedException();
 		}
+
+		public override object InvocationTarget => throw new NotImplementedException();
+		public override Type TargetType => throw new NotImplementedException();
+		public override MethodInfo MethodInvocationTarget => throw new NotImplementedException();
 	}
 }
