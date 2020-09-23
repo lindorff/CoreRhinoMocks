@@ -70,7 +70,7 @@ namespace Rhino.Mocks.Tests.Remoting
 			AppDomain.Unload(otherDomain);
 		}
 
-		[Fact]
+		[Fact(Skip = "Not supported in NET Core")]
 		public void MockInterface()
 		{
 			MockRepository mocks = new MockRepository();
@@ -83,7 +83,7 @@ namespace Rhino.Mocks.Tests.Remoting
 		}
 
 	
-		[Fact]
+		[Fact(Skip = "Not supported in NET Core")]
 		public void MockInterfaceWithSameName()
 		{
 			MockRepository mocks = new MockRepository();
@@ -98,7 +98,7 @@ namespace Rhino.Mocks.Tests.Remoting
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Fact(Skip = "Not supported in NET Core")]
 		public void MockInterfaceExpectException()
 		{
 			MockRepository mocks = new MockRepository();
@@ -112,7 +112,7 @@ namespace Rhino.Mocks.Tests.Remoting
 
 
 
-		[Fact]
+		[Fact(Skip = "Not supported in NET Core")]
 		public void MockInterfaceUnexpectedCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -127,7 +127,7 @@ namespace Rhino.Mocks.Tests.Remoting
 
 
 
-		[Fact]
+		[Fact(Skip = "Not supported in NET Core")]
 		public void MockClass()
 		{
 			MockRepository mocks = new MockRepository();
@@ -152,7 +152,7 @@ namespace Rhino.Mocks.Tests.Remoting
 		}
 
 
-		[Fact]
+		[Fact(Skip = "Not supported in NET Core")]
 		public void MockClassUnexpectedCall()
 		{
 			MockRepository mocks = new MockRepository();
