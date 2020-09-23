@@ -34,7 +34,6 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Text;
-using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Generated;
@@ -211,9 +210,9 @@ namespace Rhino.Mocks
         {
             proxyGenerationOptions = new ProxyGenerationOptions
             {
-                AttributesToAddToGeneratedTypes = 
+                AdditionalAttributes =
                     {
-                        new __ProtectAttribute()
+                        CustomAttributeInfo.FromExpression(() => new __ProtectAttribute()),
                     }
             };
             recorders = new Stack();
