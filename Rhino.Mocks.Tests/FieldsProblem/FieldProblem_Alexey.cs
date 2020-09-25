@@ -1,3 +1,5 @@
+#if NETFRAMEWORK
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -83,3 +85,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 	}
 }
+
+#endif

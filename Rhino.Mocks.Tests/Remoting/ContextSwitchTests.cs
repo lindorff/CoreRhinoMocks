@@ -26,6 +26,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+#if NETFRAMEWORK
 
 using System;
 using System.IO;
@@ -166,3 +167,5 @@ namespace Rhino.Mocks.Tests.Remoting
 	}
 
 }
+
+#endif

@@ -26,6 +26,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+#if NETFRAMEWORK
 
 using System;
 using System.Collections;
@@ -378,3 +379,5 @@ Message: Should be called only once",
 		}
 	}
 }
+
+#endif

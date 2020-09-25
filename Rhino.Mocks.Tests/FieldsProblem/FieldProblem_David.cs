@@ -30,13 +30,16 @@
 using System;
 using System.Text;
 using Xunit;
+#if NETFRAMEWORK
 using System.Web.UI;
+#endif
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_David
     {
+#if NETFRAMEWORK
         [Fact]
         public void MockWebUIPageClass()
         {
@@ -47,6 +50,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             page.Validate();
             mocks.VerifyAll();
         }
+#endif
 
         [Fact]
         public void MockClassWithVirtualMethodCallFromConstructor()

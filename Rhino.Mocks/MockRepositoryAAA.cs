@@ -163,18 +163,34 @@ namespace Rhino.Mocks
     /// <summary>
     /// Generate a mock object with dynamic replay semantics and remoting without needing the mock repository
     /// </summary>
+#if NETFRAMEWORK
     public static T GenerateDynamicMockWithRemoting<T>(params object[] argumentsForConstructor)
     {
       return CreateMockInReplay(r => r.DynamicMockWithRemoting<T>(argumentsForConstructor));
     }
+#else
+    [Obsolete("Remoting is not supported in .NET Core.", true)]
+    public static T GenerateDynamicMockWithRemoting<T>(params object[] argumentsForConstructor)
+    {
+        throw new NotSupportedException("Remoting is not supported in .NET Core.");
+    }
+#endif
 
     /// <summary>
     /// Generate a mock object with strict replay semantics and remoting without needing the mock repository
     /// </summary>
+#if NETFRAMEWORK
     public static T GenerateStrictMockWithRemoting<T>(params object[] argumentsForConstructor) where T : class
     {
       return CreateMockInReplay(r => r.StrictMockWithRemoting<T>(argumentsForConstructor));
     }
+#else
+    [Obsolete("Remoting is not supported in .NET Core.", true)]
+    public static T GenerateStrictMockWithRemoting<T>(params object[] argumentsForConstructor) where T : class
+    {
+        throw new NotSupportedException("Remoting is not supported in .NET Core.");
+    }
+#endif
 
     /// <summary>Helper method to create a mock object without a repository instance and put the object back into replay mode.</summary>
     /// <typeparam name="T">The type of mock object to create</typeparam>

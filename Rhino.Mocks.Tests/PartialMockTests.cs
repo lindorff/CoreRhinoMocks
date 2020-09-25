@@ -27,16 +27,20 @@
 #endregion
 
 
+
 using System;
 using System.Text;
-using System.Windows.Forms;
 using Xunit;
 using Rhino.Mocks.Exceptions;
+#if NETFRAMEWORK
+using System.Windows.Forms;
+#endif
 
 namespace Rhino.Mocks.Tests
 {
-    
-    public class PartialMockTests
+#if NETFRAMEWORK
+
+  public class PartialMockTests
     {
         MockRepository mocks;
         AbstractClass abs;
@@ -106,7 +110,9 @@ namespace Rhino.Mocks.Tests
     		mocks.VerifyAll();
     	}
     }
-    
+
+#endif
+
     public abstract class AbstractClass
     {
         public int Count = 0;

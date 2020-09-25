@@ -1,3 +1,5 @@
+#if NETFRAMEWORK
+
 using System;
 using System.Collections.Generic;
 using System.ServiceModel;
@@ -40,3 +42,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         }
     }
 }
+
+#endif
