@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -49,24 +49,24 @@ namespace Rhino.Mocks.Tests
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void MockAGenericInterface()
         {
             IList<int> list = mocks.StrictMock<IList<int>>();
             Assert.NotNull(list);
             Expect.Call(list.Count).Return(5);
             mocks.ReplayAll();
-            Assert.Equal(5, list.Count);
+            Assert.AreEqual(5, list.Count);
         }
 
-        [Fact]
+        [Test]
         public void DynamicMockOfGeneric()
         {
             IList<int> list = mocks.DynamicMock<IList<int>>();
             Assert.NotNull(list);
             Expect.Call(list.Count).Return(5);
             mocks.ReplayAll();
-            Assert.Equal(5, list.Count);
+            Assert.AreEqual(5, list.Count);
             list.Add(4);
         }
     }

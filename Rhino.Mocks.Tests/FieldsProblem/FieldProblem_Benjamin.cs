@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -6,7 +6,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 	public class FieldProblem_Benjamin
 	{
-		[Fact]
+		[Test]
         public void ThisTestPasses()
         {
             var interfaceStub = MockRepository.GenerateStub<InterfaceINeedToStub>();
@@ -14,10 +14,10 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             interfaceStub.Stub(x => x.MyStringValue).Return("string");
             interfaceStub.MyIntValue = 4;
 
-            Assert.Equal(4, interfaceStub.MyIntValue);
+            Assert.AreEqual(4, interfaceStub.MyIntValue);
         }
 
-        [Fact]
+        [Test]
         public void ThisTestDoesNotPass()
         {
             var myInterface = MockRepository.GenerateStub<InterfaceINeedToStub>();
@@ -26,7 +26,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             myInterface.MyIntValue = 4;
             myInterface.Stub(x => x.MyStringValue).Return("string");
 
-            Assert.Equal(4, myInterface.MyIntValue);
+            Assert.AreEqual(4, myInterface.MyIntValue);
         }
 	}
 

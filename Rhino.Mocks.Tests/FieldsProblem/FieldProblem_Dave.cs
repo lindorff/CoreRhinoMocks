@@ -1,12 +1,12 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Dave
     {
-        [Fact]
+        [Test]
         public void CallingMethodTwiceAndAssertingWasCalledOnce()
         {
             // IFormatProvider was the first thing that popped up, the type really doesn't matter here
@@ -22,7 +22,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mock.AssertWasCalled(x => x.GetFormat(typeof(string)));
         }
 
-        [Fact]
+        [Test]
         public void CallingMethodTwiceAndAssertingWasCalledTwice()
         {
             // IFormatProvider was the first thing that popped up, the type really doesn't matter here

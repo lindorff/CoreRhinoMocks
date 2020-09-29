@@ -31,6 +31,7 @@ using System;
 using System.Reflection;
 using Castle.DynamicProxy;
 using Rhino.Mocks.Impl;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Interfaces
 {

@@ -28,7 +28,7 @@
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using System;
-	using Xunit;
+	using NUnit.Framework;
 	using Rhino.Mocks.Constraints;
 
 	public class ClassWithFinalizer
@@ -42,7 +42,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Eric
 	{
-		[Fact]
+		[Test]
 		public void MockAClassWithFinalizer()
 		{
 			MockRepository mocks = new MockRepository();
@@ -58,7 +58,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		
 		public class Class1Test
 		{
-			[Fact]
+			[Test]
 			public void ThisWorks()
 			{
 				MockRepository mockery = new MockRepository();
@@ -68,7 +68,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 				{
 					Expect.Call(mockFoo.foo(ref junk)).
 						IgnoreArguments().
-						Constraints(Is.Anything()).
+						Constraints(Mocks.Constraints.Is.Anything()).
 						OutRef(3).
 						Repeat.Once().
 						Return(true);
@@ -76,11 +76,11 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 				using (mockery.Playback())
 				{
 					ClassUnderTest cut = new ClassUnderTest();
-					Assert.Equal(3, cut.doit(mockFoo));
+					Assert.AreEqual(3, cut.doit(mockFoo));
 				}
 			}
 
-			[Fact]
+			[Test]
 			public void ThisDoesnt()
 			{
 				MockRepository mockery = new MockRepository();
@@ -91,14 +91,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 					Expect.Call(mockFoo.foo(ref junk)).
 						IgnoreArguments().
 						OutRef(3).
-						Constraints(Is.Anything()).
+						Constraints(Mocks.Constraints.Is.Anything()).
 						Repeat.Once().
 						Return(true);
 				}
 				using (mockery.Playback())
 				{
 					ClassUnderTest cut = new ClassUnderTest();
-					Assert.Equal(3, cut.doit(mockFoo));
+					Assert.AreEqual(3, cut.doit(mockFoo));
 				}
 			}
 		}

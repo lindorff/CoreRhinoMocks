@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -49,7 +49,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         	}
         }
 
-        [Fact]
+        [Test]
         public void MockClassWithEquals()
         {
             MockRepository mocks = new MockRepository();

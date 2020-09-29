@@ -1,11 +1,11 @@
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_Eduardo
 	{
-		[Fact]
+		[Test]
 		public void CanSetExpectationOnReadWritePropertyUsingRecordPlaybackSyntax()
 		{
 			var mocks = new MockRepository();
@@ -22,7 +22,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void CanSetExpectationOnReadWritePropertyUsingAAASyntax()
 		{
 			var demo = MockRepository.GenerateMock<IDemo>();

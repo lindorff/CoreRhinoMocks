@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -44,7 +44,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			object SomeProperty { get; set; }
 		}
 
-		[Fact]
+		[Test]
 		public void NestedOrderedAndAtLeastOnce()
 		{
 			MockRepository mocks = new MockRepository();
@@ -70,7 +70,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void ShouldFailInNestedOrderringIfMethodWasNotCalled()
 		{
 			MockRepository mocks = new MockRepository();
@@ -88,12 +88,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			mocks.ReplayAll();
 			myObject.DoSomethingElse();
-			Assert.Throws<ExpectationViolationException>(
-				"IMyObject.DoSomething(); Expected #1, Actual #0.",
-				() => mocks.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mocks.VerifyAll(),
+                "IMyObject.DoSomething(); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void NestedInorderedAndAtLeastOnce()
 		{
 			MockRepository mocks = new MockRepository();
@@ -117,7 +117,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void UnorderedAndAtLeastOnce_CallingAnExtraMethod()
 		{
 			MockRepository mocks = new MockRepository();
@@ -134,13 +134,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.Null(myObject.SomeProperty);
 			Assert.Null(myObject.SomeProperty);
 			Assert.Null(myObject.SomeProperty);
-			
-			Assert.Throws<ExpectationViolationException>(
-				@"IMyObject.DoSomething(); Expected #0, Actual #1.",
-				() => myObject.DoSomething());
+
+            Assert.Throws<ExpectationViolationException> (
+                () => myObject.DoSomething(),
+                @"IMyObject.DoSomething(); Expected #0, Actual #1.");
 		}
 
-		[Fact]
+		[Test]
 		public void OrderedAndAtLeastOnce_CallingAnExtraMethod()
 		{
 			MockRepository mocks = new MockRepository();
@@ -157,10 +157,10 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.Null(myObject.SomeProperty);
 			Assert.Null(myObject.SomeProperty);
 			Assert.Null(myObject.SomeProperty);
-			
-			Assert.Throws<ExpectationViolationException>(
-				@"IMyObject.DoSomething(); Expected #0, Actual #1.",
-				() => myObject.DoSomething());
+
+            Assert.Throws<ExpectationViolationException> (
+                () => myObject.DoSomething(),
+                @"IMyObject.DoSomething(); Expected #0, Actual #1.");
 		}
 
 	}

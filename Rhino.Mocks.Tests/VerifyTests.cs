@@ -31,7 +31,7 @@ using Rhino.Mocks.Exceptions;
 namespace Rhino.Mocks.Tests
 {
 	using System;
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class VerifyTests : IDisposable
@@ -52,7 +52,7 @@ namespace Rhino.Mocks.Tests
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockParameterToStringShouldBeIgnoredIfItIsInVerifyState()
 		{
 			demo.VoidConcreteDemo(demoParam);

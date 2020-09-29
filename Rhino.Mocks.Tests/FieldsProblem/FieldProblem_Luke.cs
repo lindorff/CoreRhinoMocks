@@ -29,7 +29,7 @@
 
 using System;
 using System.Runtime.InteropServices;
-using Xunit;
+using NUnit.Framework;
 using MSHTML;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -37,7 +37,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Luke
 	{
-		[Fact]
+		[Test]
 		public void CanMockIE()
 		{
 			MockRepository mockRepository = new MockRepository();
@@ -45,7 +45,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.NotNull(mock);
 		}
 
-		[Fact]
+		[Test]
 		public void CanMockComInterface()
 		{
 			MockRepository mocks = new MockRepository();
@@ -54,14 +54,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.NotNull(serviceProvider);
 		}
 
-		[Fact] 
+		[Test] 
 		public void TryToMockClassWithProtectedInternalAbstractClass()
 		{
 			MockRepository mockRepository = new MockRepository();
 			mockRepository.StrictMock<SomeClassWithProtectedInternalAbstractClass>();
 		}
 
-		[Fact] 
+		[Test] 
 		public void TryToMockClassWithProtectedAbstractClass()
 		{
 			MockRepository mockRepository = new MockRepository();

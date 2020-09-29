@@ -30,7 +30,7 @@
 using System;
 using System.Reflection;
 using Castle.DynamicProxy;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
@@ -40,7 +40,7 @@ namespace Rhino.Mocks.Tests
 	
 	public class ExtendingRhinoMocks2
 	{
-		[Fact]
+		[Test]
 		public void DeleteThisTest()
 		{
 			MockRepository mockRepository = new MockRepository();

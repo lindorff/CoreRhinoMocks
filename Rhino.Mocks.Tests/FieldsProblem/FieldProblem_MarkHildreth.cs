@@ -4,12 +4,12 @@ using System.Text;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_MarkHildreth
 	{
-		[Fact]
+		[Test]
 		public void CanStubMyEntity()
 		{
 			MyEntity stub = MockRepository.GenerateStub<MyEntity>();

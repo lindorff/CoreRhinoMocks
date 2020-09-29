@@ -31,7 +31,7 @@ using System;
 using System.Text;
 using Rhino.Mocks;
 using System.Data;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
 namespace Rhino.Mocks.Tests
@@ -121,7 +121,7 @@ namespace Rhino.Mocks.Tests
 			m_objIMetric = Metric.GetByName(m_objIApplication, "Risk");
 			m_objMockRepository.VerifyAll();
 		}
-		[Fact]
+		[Test]
 		public void T001_SavingShouldNotInvalidateOtherCachedSingleObjects()
 		{
 			m_objMockRepository.BackToRecord(m_objIApplication);
@@ -146,12 +146,13 @@ namespace Rhino.Mocks.Tests
 			//missing expectations here. 
 
 			//cause a stack overflow error
-			
-			Assert.Throws<ExpectationViolationException>("IApplicationSession.get_IMetricBroker(); Expected #0, Actual #1.",
-			                                             () =>
-			                                             {
-															 IMetric objMetric = m_objIMetric.Numerator;
-			                                             });
+
+            Assert.Throws<ExpectationViolationException> (
+                () =>
+                {
+                    IMetric objMetric = m_objIMetric.Numerator;
+                },
+                "IApplicationSession.get_IMetricBroker(); Expected #0, Actual #1.");
 		}
 
 	}

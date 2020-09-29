@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -41,7 +41,7 @@ namespace Rhino.Mocks.Tests
             Scripting.FileSystemObject GetFileSystemObject();
         }
         
-        [Fact]
+        [Test]
         public void UsingScriptingFileSystem()
         {
             MockRepository mocks = new MockRepository();
@@ -50,7 +50,7 @@ namespace Rhino.Mocks.Tests
             IMockTest test = mocks.StrictMock(typeof(IMockTest)) as IMockTest;
             Expect.Call(test.GetFileSystemObject()).Return(fso);
             mocks.ReplayAll();
-            Assert.Same(fso, test.GetFileSystemObject());
+            Assert.AreSame(fso, test.GetFileSystemObject());
             mocks.VerifyAll();
 
         }

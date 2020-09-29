@@ -31,7 +31,7 @@ using System;
 using System.Collections;
 using System.Reflection;
 using Castle.DynamicProxy;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests
@@ -39,7 +39,7 @@ namespace Rhino.Mocks.Tests
 	
 	public class ExtendingRhinoMocksFixture
 	{
-		[Fact]
+		[Test]
 		public void CanUseCustomMocks()
 		{
 			CarRepository carRepository = new CarRepository();
@@ -49,7 +49,7 @@ namespace Rhino.Mocks.Tests
 			Presenter presenter = new Presenter(carRepository, view);
 			presenter.Render();
 			Car car = (Car)mocks.Query(view);
-			Assert.Equal("Volvo", car.Make);
+			Assert.AreEqual("Volvo", car.Make);
 		}
 	}
 

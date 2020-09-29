@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.ServiceModel;
 using System.ServiceModel.Description;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Will
     {
-        [Fact]
+        [Test]
         public void HostingMockedService()
         {
             MockRepository mocks = new MockRepository();

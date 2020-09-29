@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -11,13 +11,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         private IDaoFactory _daoFactory;
         private IBLFactory _blFactory;
 
-        [Fact]
+        [Test]
         public void Method1_CallWithMocks_Returns10()
         {
             int result = Problem.Method1();
             Mocks.ReplayAll();
             Mocks.VerifyAll();
-            Assert.Equal(10, result);
+            Assert.AreEqual(10, result);
 
         }
 

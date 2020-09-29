@@ -4,14 +4,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Joe
 	{
-		[Fact]
+		[Test]
 		public void MockingConcreteForm()
 		{
 			MockRepository mocks = new MockRepository();

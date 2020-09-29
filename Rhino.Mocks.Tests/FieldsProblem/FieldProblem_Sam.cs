@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -7,18 +7,18 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Sam
 	{
-		[Fact]
+		[Test]
 		public void Test()
 		{
 			MockRepository mocks = new MockRepository();
 			SimpleOperations myMock = mocks.StrictMock<SimpleOperations>();
 			Expect.Call(myMock.AddTwoValues(1, 2)).Return(3);
 			mocks.ReplayAll();
-			Assert.Equal(3, myMock.AddTwoValues(1, 2));
+			Assert.AreEqual(3, myMock.AddTwoValues(1, 2));
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void WillRememberExceptionInsideOrderRecorderEvenIfInsideCatchBlock()
 		{
 			MockRepository mockRepository = new MockRepository();
@@ -40,9 +40,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			catch { /* valid for code under test to catch all */ }
 			interfaceWithThreeMethods.C();
 
-			Assert.Throws<ExpectationViolationException>(
-				"Unordered method call! The expected call is: 'Ordered: { IInterfaceWithThreeMethods.C(); }' but was: 'IInterfaceWithThreeMethods.B();'",
-				() => mockRepository.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mockRepository.VerifyAll(),
+                "Unordered method call! The expected call is: 'Ordered: { IInterfaceWithThreeMethods.C(); }' but was: 'IInterfaceWithThreeMethods.B();'");
 		}
 	}
 

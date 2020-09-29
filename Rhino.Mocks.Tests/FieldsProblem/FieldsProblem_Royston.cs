@@ -30,7 +30,7 @@
 using System;
 using System.Text;
 
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -49,7 +49,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			int Property { get; }
 		}
 
-		[Fact]
+		[Test]
 		public void DuplicateTypeTest()
 		{
 			// Let's just create two mocks of the same type, based on
@@ -67,7 +67,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mMocks.VerifyAll();
 		}
 
-        [Fact]
+        [Test]
         public void TestVirtualEntrypoint()
         {
             IIntf1 i1 = CreateAndConfigureMock();
@@ -79,7 +79,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mMocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void TestNonVirtualEntrypoint()
         {
             IIntf1 i1 = CreateAndConfigureMock();
@@ -91,7 +91,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mMocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void BackToRecordProblem()
         {
             IIntf1 i1 = (IIntf1)mMocks.StrictMock(typeof(IIntf1));

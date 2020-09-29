@@ -1,12 +1,12 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem__Alex
     {
-        [Fact]
+        [Test]
         public void CanMockMethodWithEnvironmentPermissions()
         {
             var withInt = MockRepository.GenerateStub<IDoSomethingWith<int>>();

@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ADODB;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_dyowee
 	{
-		[Fact]
+		[Test]
 		public void MockingRecordSet()
 		{
 			MockRepository mr = new MockRepository();
@@ -17,7 +17,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.NotNull(mock);
 			Expect.Call(mock.ActiveConnection).Return("test");
 			mr.ReplayAll();
-			Assert.Equal("test", mock.ActiveConnection);
+			Assert.AreEqual("test", mock.ActiveConnection);
 			mr.VerifyAll();
 		}
 	}

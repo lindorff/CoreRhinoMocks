@@ -27,14 +27,14 @@
 #endregion
 
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Kythorn
 	{
-		[Fact]
+		[Test]
 		public void CallingAssertWasCalledOnAnObjectThatIsInRecordModeShouldResultInFailure()
 		{
 			var service = MockRepository.GenerateStub<IService>();
@@ -42,12 +42,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			service.Stub(x => x.GetString()).Return("Test");
 			var presenter = new Presenter(view, service);
 			presenter.OnViewLoaded();
-			Assert.Throws<InvalidOperationException>(
-				"Cannot assert on an object that is not in replay mode. Did you forget to call ReplayAll() ?",
-				() => view.AssertWasCalled(x => x.Message = "Test"));
+            Assert.Throws<InvalidOperationException> (
+                () => view.AssertWasCalled (x => x.Message = "Test"),
+                "Cannot assert on an object that is not in replay mode. Did you forget to call ReplayAll() ?");
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseStubSyntaxOnMocksInRecordMode()
 		{
 			MockRepository mocks = new MockRepository();
@@ -60,7 +60,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			view.AssertWasCalled(x => x.Message = "Test");
 		}
 
-		[Fact]
+		[Test]
 		public void Success()
 		{
 			var service = MockRepository.GenerateStub<IService>();

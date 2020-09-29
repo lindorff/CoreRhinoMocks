@@ -27,7 +27,7 @@
 #endregion
 
 
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -38,7 +38,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class InternalClassMockingFixture
 	{
-		[Fact]
+		[Test]
 		public void MockInternalClass()
 		{
 			MockRepository mocker = new MockRepository();

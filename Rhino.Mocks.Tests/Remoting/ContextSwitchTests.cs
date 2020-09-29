@@ -32,7 +32,7 @@ using System;
 using System.IO;
 using System.Reflection;
 using System.Security.Permissions;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 [assembly:EnvironmentPermission(SecurityAction.RequestMinimum)]
 
@@ -45,12 +45,13 @@ namespace Rhino.Mocks.Tests.Remoting
 	/// application domain.
 	/// </summary>
 	
-	public class ContextSwitchTests : IDisposable
+	public class ContextSwitchTests
 	{
 		private AppDomain otherDomain;
 		private ContextSwitcher contextSwitcher;
 
-		public ContextSwitchTests()
+		[SetUp]
+        public void SetUp()
 		{
 			FileInfo assemblyFile = new FileInfo(
 				Assembly.GetExecutingAssembly().Location);
@@ -64,14 +65,13 @@ namespace Rhino.Mocks.Tests.Remoting
 
 		}
 
-
-
-		public void Dispose()
+		[TearDown]
+		public void TearDown()
 		{
 			AppDomain.Unload(otherDomain);
 		}
 
-		[Fact(Skip = "Not supported in NET Core")]
+		[Test]
 		public void MockInterface()
 		{
 			MockRepository mocks = new MockRepository();
@@ -84,7 +84,7 @@ namespace Rhino.Mocks.Tests.Remoting
 		}
 
 	
-		[Fact(Skip = "Not supported in NET Core")]
+		[Test]
 		public void MockInterfaceWithSameName()
 		{
 			MockRepository mocks = new MockRepository();
@@ -99,21 +99,21 @@ namespace Rhino.Mocks.Tests.Remoting
 			mocks.VerifyAll();
 		}
 
-		[Fact(Skip = "Not supported in NET Core")]
+		[Test]
 		public void MockInterfaceExpectException()
 		{
 			MockRepository mocks = new MockRepository();
 			IDemo demo = (IDemo)mocks.StrictMock(typeof(IDemo));
 			Expect.Call(demo.ReturnIntNoArgs()).Throw(new InvalidOperationException("That was expected."));
 			mocks.ReplayAll();
-			Assert.Throws<InvalidOperationException>(
-				"That was expected.",
-				() => contextSwitcher.DoStuff(demo));
+            Assert.Throws<InvalidOperationException> (
+                () => contextSwitcher.DoStuff (demo),
+                "That was expected.");
 		}
 
 
 
-		[Fact(Skip = "Not supported in NET Core")]
+		[Test]
 		public void MockInterfaceUnexpectedCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -121,48 +121,47 @@ namespace Rhino.Mocks.Tests.Remoting
 			Expect.Call(demo.ReturnIntNoArgs()).Return(34);
 			demo.VoidStringArg("bang");
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				"IDemo.VoidStringArg(\"34\"); Expected #0, Actual #1.\r\nIDemo.VoidStringArg(\"bang\"); Expected #1, Actual #0.",
-				() => contextSwitcher.DoStuff(demo));
+            Assert.Throws<ExpectationViolationException> (
+                () => contextSwitcher.DoStuff (demo),
+                "IDemo.VoidStringArg(\"34\"); Expected #0, Actual #1.\r\nIDemo.VoidStringArg(\"bang\"); Expected #1, Actual #0.");
 		}
 
 
 
-		[Fact(Skip = "Not supported in NET Core")]
+		[Test]
 		public void MockClass()
 		{
 			MockRepository mocks = new MockRepository();
 			RemotableDemoClass demo = (RemotableDemoClass)mocks.StrictMock(typeof(RemotableDemoClass));
 			Expect.Call(demo.Two()).Return(44);
 			mocks.ReplayAll();
-			Assert.Equal(44, contextSwitcher.DoStuff(demo));
+			Assert.AreEqual(44, contextSwitcher.DoStuff(demo));
 			mocks.VerifyAll();
 		}
 
-
-
+		[Test]
 		public void MockClassExpectException()
 		{
 			MockRepository mocks = new MockRepository();
 			RemotableDemoClass demo = (RemotableDemoClass)mocks.StrictMock(typeof(RemotableDemoClass));
 			Expect.Call(demo.Two()).Throw(new InvalidOperationException("That was expected for class."));
 			mocks.ReplayAll();
-			Assert.Throws<InvalidOperationException>(
-				"That was expected for class.",
-				() => contextSwitcher.DoStuff(demo));
+            Assert.Throws<InvalidOperationException> (
+                () => contextSwitcher.DoStuff (demo),
+                "That was expected for class.");
 		}
 
 
-		[Fact(Skip = "Not supported in NET Core")]
+		[Test]
 		public void MockClassUnexpectedCall()
 		{
 			MockRepository mocks = new MockRepository();
 			RemotableDemoClass demo = (RemotableDemoClass)mocks.StrictMock(typeof(RemotableDemoClass));
 			Expect.Call(demo.Prop).Return(11);
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				"RemotableDemoClass.Two(); Expected #0, Actual #1.",
-				() => contextSwitcher.DoStuff(demo));
+            Assert.Throws<ExpectationViolationException> (
+                () => contextSwitcher.DoStuff (demo),
+                "RemotableDemoClass.Two(); Expected #0, Actual #1.");
 		}
 	}
 

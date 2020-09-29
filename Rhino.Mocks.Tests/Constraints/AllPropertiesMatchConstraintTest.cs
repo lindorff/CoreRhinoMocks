@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Text;
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 
 using Rhino.Mocks.Constraints;
 
@@ -109,22 +109,24 @@ namespace Rhino.Mocks.Tests.Constraints
 	using Rhino.Mocks.Tests.AllPropertiesMatchConstraint;
 
     
-    public class AllPropertiesMatchConstraintTest : IDisposable
+    public class AllPropertiesMatchConstraintTest
     {
     	private CultureInfo old;
 
-		public AllPropertiesMatchConstraintTest()
+        [SetUp]
+		public void SetUp()
     	{
     		old = Thread.CurrentThread.CurrentCulture;
     		Thread.CurrentThread.CurrentCulture = CultureInfo.InvariantCulture;
     	}
 
-    	public void Dispose()
+        [TearDown]
+    	public void TearDown()
     	{
     		Thread.CurrentThread.CurrentCulture = old;
     	}
 
-        [Fact]
+        [Test]
         public void SuccessTest()
         {
             Order order = new Order();
@@ -140,7 +142,7 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.True(sut.Eval(order));
         }
 
-        [Fact]
+        [Test]
         public void ValueTypePropertyNotEqual()
         {
             Order order = new Order();
@@ -154,10 +156,10 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expectedOrder);
 
             Assert.False(sut.Eval(order));
-            Assert.Equal("Expected value of Order.Quantity is '10', actual value is '4'", sut.Message);
+            Assert.AreEqual("Expected value of Order.Quantity is '10', actual value is '4'", sut.Message);
         }
         
-        [Fact]
+        [Test]
         public void NestedPropertyNotEqual()
         {
             Order order = new Order();
@@ -171,10 +173,10 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expectedOrder);
 
             Assert.False(sut.Eval(order));
-            Assert.Equal("Expected value of Order.Product.Price is '50', actual value is '61.05'", sut.Message);
+            Assert.AreEqual("Expected value of Order.Product.Price is '50', actual value is '61.05'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void ReferenceTypePropertyNullTest()
         {
             Order order = new Order();
@@ -190,7 +192,7 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.True(sut.Eval(order));
         }
 
-        [Fact]
+        [Test]
         public void ExpectedReferenceTypePropertyNullTest()
         {
             Order order = new Order();
@@ -204,10 +206,10 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expectedOrder);
 
             Assert.False(sut.Eval(order));
-            Assert.Equal("Expected value of Order.Product is null, actual value is 'Rhino.Mocks.Tests.AllPropertiesMatchConstraint.Product'", sut.Message);
+            Assert.AreEqual("Expected value of Order.Product is null, actual value is 'Rhino.Mocks.Tests.AllPropertiesMatchConstraint.Product'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void ActualReferenceTypePropertyNullTest()
         {
             Order order = new Order();
@@ -221,10 +223,10 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expectedOrder);
 
             Assert.False(sut.Eval(order));
-            Assert.Equal("Expected value of Order.Product is 'Rhino.Mocks.Tests.AllPropertiesMatchConstraint.Product', actual value is null", sut.Message);
+            Assert.AreEqual("Expected value of Order.Product is 'Rhino.Mocks.Tests.AllPropertiesMatchConstraint.Product', actual value is null", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void NullableTypeSetTest()
         {
             Order order = new Order();
@@ -239,10 +241,10 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expectedOrder);
 
             Assert.False(sut.Eval(order));
-            Assert.Equal("Expected value of Order.Product.Weight is null, actual value is '18'", sut.Message);
+            Assert.AreEqual("Expected value of Order.Product.Weight is null, actual value is '18'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void ExpectedDifferentTypeThanActual()
         {
             Order order = new Order();
@@ -255,10 +257,10 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expectedProduct);
 
             Assert.False(sut.Eval(order));
-            Assert.Equal("Expected type 'Product' doesn't match with actual type 'Order'", sut.Message);
+            Assert.AreEqual("Expected type 'Product' doesn't match with actual type 'Order'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void SimpleReferenceTypeSuccess()
         {
             string actual = "hello world.";
@@ -268,7 +270,7 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.True(sut.Eval(actual));
         }
 
-        [Fact]
+        [Test]
         public void SimpleReferenceTypeFail()
         {
             string actual = "hello world.";
@@ -276,10 +278,10 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-            Assert.Equal("Expected value of String is 'hello wonderfull world.', actual value is 'hello world.'", sut.Message);
+            Assert.AreEqual("Expected value of String is 'hello wonderfull world.', actual value is 'hello world.'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void CollectionPropertyTest()
         {
             ShippingList actual = new ShippingList();
@@ -292,10 +294,10 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-            Assert.Equal("Expected value of ShippingList.Products[1].Name is 'Uncharted - Drake's Fortune', actual value is 'Assassin's Creed'", sut.Message);
+            Assert.AreEqual("Expected value of ShippingList.Products[1].Name is 'Uncharted - Drake's Fortune', actual value is 'Assassin's Creed'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void CollectionPropertyCountTest()
         {
             ShippingList actual = new ShippingList();
@@ -307,10 +309,10 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-            Assert.Equal("expected number of items in collection ShippingList.Products is '2', actual is '1'", sut.Message);
+            Assert.AreEqual("expected number of items in collection ShippingList.Products is '2', actual is '1'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void CollectionActualCountTest()
         {
             List<Product> actual = new List<Product>();
@@ -322,10 +324,10 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-            Assert.Equal("expected number of items in collection List`1 is '2', actual is '1'", sut.Message);
+            Assert.AreEqual("expected number of items in collection List`1 is '2', actual is '1'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void CollectionExpectedCountTest()
         {
             List<Product> actual = new List<Product>();
@@ -338,10 +340,10 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-            Assert.Equal("expected number of items in collection List`1 is '1', actual is '2'", sut.Message);
+            Assert.AreEqual("expected number of items in collection List`1 is '1', actual is '2'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void PublicFieldTest()
         {
             ShippingList actual = new ShippingList();
@@ -352,10 +354,10 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-			Assert.Equal("Expected value of ShippingList._shippingDate is '09/27/1978 00:00:00', actual value is '09/27/2007 00:00:00'", sut.Message);
+			Assert.AreEqual("Expected value of ShippingList._shippingDate is '09/27/1978 00:00:00', actual value is '09/27/2007 00:00:00'", sut.Message);
         }
 
-        [Fact]
+        [Test]
         public void DictionaryPropertyTest()
         {
             Catalog actual = new Catalog();
@@ -368,7 +370,7 @@ namespace Rhino.Mocks.Tests.Constraints
 
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
             Assert.False(sut.Eval(actual));
-            Assert.Equal("Expected value of Catalog.Products[1].Value.Name is 'Uncharted - Drake's Fortune', actual value is 'Assassin's Creed'", sut.Message);
+            Assert.AreEqual("Expected value of Catalog.Products[1].Value.Name is 'Uncharted - Drake's Fortune', actual value is 'Assassin's Creed'", sut.Message);
         }
 
         /// <summary>
@@ -379,7 +381,7 @@ namespace Rhino.Mocks.Tests.Constraints
         /// It's better to check DataRow's with a seperate specialized constraint but we want to
         /// be sure our constraint won't break if someone used it with a DataRow.
         /// </remarks>
-        [Fact(Skip = "Needs investigation")]
+        [Test, Ignore("Needs investigation")]
         public void DataRowTest()
         {
             DataTable table = new DataTable();
@@ -397,7 +399,7 @@ namespace Rhino.Mocks.Tests.Constraints
             AbstractConstraint sut = Property.AllPropertiesMatch(expected);
 
             Assert.False(sut.Eval(actual));
-            Assert.Equal("Expected value of DataRow.ItemArray[0] is '2', actual value is '1'", sut.Message);
+            Assert.AreEqual("Expected value of DataRow.ItemArray[0] is '2', actual value is '1'", sut.Message);
         }
     }
 }

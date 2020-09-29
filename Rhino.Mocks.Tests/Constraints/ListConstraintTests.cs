@@ -27,35 +27,37 @@
 #endregion
 
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 using System.Collections.Generic;
 using System.Collections;
+using Is = Rhino.Mocks.Constraints.Is;
+using List = Rhino.Mocks.Constraints.List;
 
 namespace Rhino.Mocks.Tests.Constraints
 {
 	
 	public class ListConstraintTests
 	{
-		[Fact]
+		[Test]
 		public void InIs()
 		{
 			AbstractConstraint list = List.IsIn('a');
 			Assert.True(list.Eval("ayende"));
 			Assert.False(list.Eval("sheep"));
-			Assert.Equal("list contains [a]", list.Message);
+			Assert.AreEqual("list contains [a]", list.Message);
 		}
 
-		[Fact]
+		[Test]
 		public void OneOf()
 		{
 			AbstractConstraint list = List.OneOf(new string[] {"Ayende", "Rahien", "Hello", "World"});
 			Assert.True(list.Eval("Ayende"));
             Assert.False(list.Eval("sheep"));
-			Assert.Equal("one of [Ayende, Rahien, Hello, World]", list.Message);
+			Assert.AreEqual("one of [Ayende, Rahien, Hello, World]", list.Message);
 		}
         
-		[Fact]
+		[Test]
 		public void Equal()
 		{
 			AbstractConstraint list = List.Equal(new string[] {"Ayende", "Rahien", "Hello", "World"});
@@ -63,21 +65,21 @@ namespace Rhino.Mocks.Tests.Constraints
 			Assert.False(list.Eval(new string[] {"Ayende", "Rahien", "World", "Hello"}));
 			Assert.False(list.Eval(new string[] {"Ayende", "Rahien", "World"}));
 			Assert.False(list.Eval(5));
-			Assert.Equal("equal to collection [Ayende, Rahien, Hello, World]", list.Message);
+			Assert.AreEqual("equal to collection [Ayende, Rahien, Hello, World]", list.Message);
 
 		}
 
-        [Fact]
+        [Test]
         public void Count()
         {
             AbstractConstraint list = List.Count(Is.Equal(4));
             Assert.True(list.Eval(new string[] { "Ayende", "Rahien", "Hello", "World" }));
             Assert.False(list.Eval(new string[] { "Ayende", "Rahien", "World" }));
             Assert.False(list.Eval(5));
-            Assert.Equal("collection count equal to 4", list.Message);
+            Assert.AreEqual("collection count equal to 4", list.Message);
         }
 
-        [Fact]
+        [Test]
         public void Element()
         {
             AbstractConstraint list = List.Element(2, Is.Equal("Hello"));
@@ -85,20 +87,20 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.False(list.Eval(new string[] { "Ayende", "Rahien", "World", "Hello" }));
             Assert.False(list.Eval(new string[] { "Ayende", "Rahien" }));
             Assert.False(list.Eval(5));
-            Assert.Equal("element at index 2 equal to Hello", list.Message);
+            Assert.AreEqual("element at index 2 equal to Hello", list.Message);
         }
 
-        [Fact]
+        [Test]
         public void StringKeyedElement()
         {
             AbstractConstraint list = List.Element<string>("Color", Is.Equal("Red"));
             Assert.True(list.Eval(new Dictionary<string, string>() { { "Name", "Ayende" }, { "Color", "Red" } }));
             Assert.False(list.Eval(new Dictionary<string, string>() { { "Name", "Ayende" }, { "Color", "Blue" } }));
             Assert.False(list.Eval(new Dictionary<string, string>() { { "Name", "Ayende" } }));
-            Assert.Equal("element at key Color equal to Red", list.Message);
+            Assert.AreEqual("element at key Color equal to Red", list.Message);
         }
 
-        [Fact]
+        [Test]
         public void ContainsAll()
         {
             AbstractConstraint list = List.ContainsAll(new string[] {"Ayende", "Rahien", "Hello", "World"});
@@ -107,7 +109,7 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.False(list.Eval(5));
             list = List.ContainsAll(new string[] { "Ayende", "Rahien", "Hello", "World" });
             Assert.False(list.Eval(new string[] { "Ayende", "Rahien" }));
-            Assert.Equal("list missing [Hello, World]", list.Message);
+            Assert.AreEqual("list missing [Hello, World]", list.Message);
         }
 
         private class FailsOnEqual
@@ -123,7 +125,7 @@ namespace Rhino.Mocks.Tests.Constraints
             }
         }
 
-        [Fact]
+        [Test]
         public void Equal_BothListsAreICollectionWithDifferentSizes_DoesNotIterateOverCollections()
         {
             AbstractConstraint list = List.Equal(new FailsOnEqual[] {new FailsOnEqual(),
@@ -139,7 +141,7 @@ namespace Rhino.Mocks.Tests.Constraints
 
         }
 
-        [Fact]
+        [Test]
         public void Equal_ConstraintIsNotICollection_StillWorks()
         {
             AbstractConstraint list = List.Equal(NameList());
@@ -150,7 +152,7 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.False(list.Eval(new string[] { "doron", "hi" }));
             Assert.False(list.Eval(6));
 
-            Assert.Equal("equal to collection [doron, hi, there]", list.Message);
+            Assert.AreEqual("equal to collection [doron, hi, there]", list.Message);
         }
 	}
 }

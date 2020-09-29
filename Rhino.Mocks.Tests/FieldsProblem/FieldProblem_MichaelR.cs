@@ -27,7 +27,7 @@
 #endregion
 
 
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -39,7 +39,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class PropertyWithTypeParameterTest
 	{
-		[Fact]
+		[Test]
 		public void CreatedClosedGenericType()
 		{
 			MockRepository mocks = new MockRepository();
@@ -47,7 +47,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void UsingdoOnMethodWithGenericReturnValue()
 		{
 			MockRepository mocks = new MockRepository();
@@ -61,7 +61,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		/// for KB 957542.
 		/// There is a bug in .Net 3.5 SP1 that this test exposes.
 		/// </summary>
-		[Fact]
+		[Test]
 		public void DoubleGeneric()
 		{
 			string clrInstallationDir = Path.GetDirectoryName(typeof(object).Assembly.Location);

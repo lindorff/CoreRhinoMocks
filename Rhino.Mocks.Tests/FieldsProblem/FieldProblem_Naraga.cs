@@ -2,7 +2,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using System;
 	using System.Threading;
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_Naraga
@@ -12,7 +12,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			void Do(string msg);
 		}
 
-		[Fact]
+		[Test]
 		public void MultiThreadedReplay()
 		{
 			var mocks = new MockRepository();

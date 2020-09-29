@@ -27,12 +27,12 @@
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using Exceptions;
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_Mike
 	{
-		[Fact]
+		[Test]
 		public void Can_do_nested_virtual_calls()
 		{
 			var mocks = new MockRepository();
@@ -44,7 +44,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			subject.AssertWasCalled(it => it.NestedVirtualMethod());
 		}
 
-		[Fact]
+		[Test]
 		public void Can_do_nested_virtual_calls_when_not_called()
 		{
 			var mocks = new MockRepository();
@@ -52,9 +52,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 
-			Assert.Throws<ExpectationViolationException>(
-				"SUT.NestedVirtualMethod(); Expected #1, Actual #0.",
-				() => subject.AssertWasCalled(it => it.NestedVirtualMethod()));
+            Assert.Throws<ExpectationViolationException> (
+                () => subject.AssertWasCalled (it => it.NestedVirtualMethod()),
+                "SUT.NestedVirtualMethod(); Expected #1, Actual #0.");
 		}
 
 

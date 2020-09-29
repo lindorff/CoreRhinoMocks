@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -26,7 +26,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
                 return i;
             }
         }
-        [Fact]
+        [Test]
         public void TestMethod1()
         {
             MockRepository mock = new MockRepository();

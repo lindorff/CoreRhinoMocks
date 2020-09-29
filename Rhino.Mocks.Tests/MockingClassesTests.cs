@@ -30,7 +30,7 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests
@@ -41,54 +41,55 @@ namespace Rhino.Mocks.Tests
 		private MockRepository mocks;
 		private DemoClass demoClass;
 
-		public MockingClassesTests()
+        [SetUp]
+        public void SetUp()
 		{
 			mocks = new MockRepository();
 			demoClass = (DemoClass) mocks.StrictMock(typeof (DemoClass));
 		}
 
 
-		[Fact]
+		[Test]
 		public void MockAClass()
 		{
 			IMockedObject mockedObject = demoClass as IMockedObject;
-			Assert.Equal(mocks, mockedObject.Repository);
+			Assert.AreEqual(mocks, mockedObject.Repository);
 		}
 
-		[Fact]
+		[Test]
 		public void MockVirtualCall()
 		{
 			demoClass.Two();
 			LastCall.On(demoClass).Return(3);
 			mocks.Replay(demoClass);
-			Assert.Equal(3, demoClass.Two());
+			Assert.AreEqual(3, demoClass.Two());
 			mocks.Verify(demoClass);
 		}
 
-		[Fact]
+		[Test]
 		public void CantMockNonVirtualCall()
 		{
 			demoClass.One();
-			Assert.Throws<InvalidOperationException>(
-				"There is no matching last call on this object. Are you sure that the last call was a virtual or interface method call?",
-				() => LastCall.On(demoClass).Return(3));
+            Assert.Throws<InvalidOperationException> (
+                () => LastCall.On (demoClass).Return (3),
+                "There is no matching last call on this object. Are you sure that the last call was a virtual or interface method call?");
 
 		}
 
-		[Fact]
+		[Test]
 		public void MockClassWithParametrizedCtor()
 		{
 			ParametrizedCtor pc = mocks.StrictMock(typeof (ParametrizedCtor), 3, "Hello") as ParametrizedCtor;
-			Assert.Equal(3, pc.Int);
-			Assert.Equal("Hello", pc.String);
+			Assert.AreEqual(3, pc.Int);
+			Assert.AreEqual("Hello", pc.String);
 			pc.Add(0, 1);
 			LastCall.On(pc).Return(10);
 			mocks.Replay(pc);
-			Assert.Equal(10, pc.Add(0, 1));
+			Assert.AreEqual(10, pc.Add(0, 1));
 			mocks.Verify(pc);
 		}
 
-		[Fact]
+		[Test]
 		public void MockClassWithOverloadedCtor()
 		{
 			OverLoadedCtor oc = mocks.StrictMock(typeof (OverLoadedCtor), 1) as OverLoadedCtor;
@@ -99,7 +100,7 @@ namespace Rhino.Mocks.Tests
 			OverLoadCtorExercise(oc, 33, "Hello");
 		}
 
-		[Fact]
+		[Test]
 		public void BadParamsToCtor()
 		{
 		    try
@@ -110,35 +111,36 @@ namespace Rhino.Mocks.Tests
 		    }
 		    catch (ArgumentException argumentException)
 		    {
-                Assert.Contains(
+                StringAssert.Contains(
 					"Can not instantiate proxy of class: Rhino.Mocks.Tests.MockingClassesTests+OverLoadedCtor",
 					argumentException.Message);
 		    }			
 		}
 
 
-		[Fact]
+		[Test]
 		public void MockSealedClass()
 		{
 			MockRepository mocks = new MockRepository();
-			Assert.Throws<NotSupportedException>("Can't create mocks of sealed classes",
-			                                     () => mocks.StrictMock(typeof (File)));
+            Assert.Throws<NotSupportedException> (
+                () => mocks.StrictMock (typeof (File)),
+                "Can't create mocks of sealed classes");
 		}
 
-        [Fact]
+        [Test]
         public void CallNonVirtualMethodThatImplementsAnInterface()
         {
             ((IDisposable)demoClass).Dispose();
-        	Assert.Throws<InvalidOperationException>(
-        		"Invalid call, the last call has been used or no call has been made (make sure that you are calling a virtual (C#) / Overridable (VB) method).",
-        		() => LastCall.Repeat.Never());
+            Assert.Throws<InvalidOperationException> (
+                () => LastCall.Repeat.Never(),
+                "Invalid call, the last call has been used or no call has been made (make sure that you are calling a virtual (C#) / Overridable (VB) method).");
            
         }
     
 
 		#region Can call object's method without implementing them
 
-		[Fact]
+		[Test]
 		public void ToStringMocked()
 		{
             if (demoClass.ToString()=="")
@@ -147,19 +149,19 @@ namespace Rhino.Mocks.Tests
             }
 		}
 
-		[Fact]
+		[Test]
 		public void GetTypeMocked()
 		{
 			Assert.True(typeof (DemoClass).IsAssignableFrom(demoClass.GetType()));
 		}
 
-		[Fact]
+		[Test]
 		public void GetHashCodeMocked()
 		{
-			Assert.Equal(demoClass.GetHashCode(), demoClass.GetHashCode());
+			Assert.AreEqual(demoClass.GetHashCode(), demoClass.GetHashCode());
 		}
 
-		[Fact]
+		[Test]
 		public void EqualsMocked()
 		{
 			Assert.True(demoClass.Equals(demoClass));
@@ -298,12 +300,12 @@ namespace Rhino.Mocks.Tests
 
 		private void OverLoadCtorExercise(OverLoadedCtor oc, int i, string s)
 		{
-			Assert.Equal(i, oc.I);
-			Assert.Equal(s, oc.S);
+			Assert.AreEqual(i, oc.I);
+			Assert.AreEqual(s, oc.S);
 			oc.Concat("Ayende", "Rahien");
 			LastCall.On(oc).Return("Hello, World");
 			mocks.Replay(oc);
-			Assert.Equal("Hello, World", oc.Concat("Ayende", "Rahien"));
+			Assert.AreEqual("Hello, World", oc.Concat("Ayende", "Rahien"));
 			mocks.Verify(oc);
 		}
 

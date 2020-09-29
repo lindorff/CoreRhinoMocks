@@ -1,5 +1,5 @@
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -16,7 +16,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			int Foo { get; set;}
 		}
 
-		[Fact]
+		[Test]
 		public void StubGenericInterface_CanReadWriteProperties()
 		{
 			MockRepository mocks = new MockRepository();
@@ -25,12 +25,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			test.Foo = 10;
-			Assert.Equal(10, test.Foo);
+			Assert.AreEqual(10, test.Foo);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void StubInterface_CanReadWriteProperties()
 		{
 			MockRepository mocks = new MockRepository();
@@ -39,12 +39,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			test.Foo = 10;
-			Assert.Equal(10, test.Foo);
+			Assert.AreEqual(10, test.Foo);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockGenericInterface_CanSetProperties()
 		{
 			MockRepository mocks = new MockRepository();
@@ -55,12 +55,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			test.Foo = 10;
-			Assert.Equal(10, test.Foo);
+			Assert.AreEqual(10, test.Foo);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockNormalInterface_CanSetProperties()
 		{
 			MockRepository mocks = new MockRepository();
@@ -71,7 +71,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			test.Foo = 10;
-			Assert.Equal(10, test.Foo);
+			Assert.AreEqual(10, test.Foo);
 
 			mocks.VerifyAll();
 		}

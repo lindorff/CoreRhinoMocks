@@ -28,7 +28,7 @@
 
 using System;
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 using Rhino.Mocks.Exceptions;
 
@@ -37,23 +37,23 @@ namespace Rhino.Mocks.Tests
 	
 	public class RecordingMocks
 	{
-		[Fact]
+		[Test]
 		public void CanGetMockRepositoryForMock()
 		{
 			MockRepository repository = new MockRepository();
 			var foo = repository.StrictMock<IFoo54>();
-			Assert.Same(repository, foo.GetMockRepository());
+			Assert.AreSame(repository, foo.GetMockRepository());
 		}
 
-		[Fact]
+		[Test]
 		public void CanResetStubAndReuseIt()
 		{
 			var foo = MockRepository.GenerateStub<IFoo54>();
 
 			foo.Stub(x => x.bar()).Return("open");
 			// several calls to 'foo.bar()
-			Assert.Equal(foo.bar(), "open");
-			Assert.Equal(foo.bar(), "open");
+			Assert.AreEqual(foo.bar(), "open");
+			Assert.AreEqual(foo.bar(), "open");
 
 			foo.BackToRecord();
 
@@ -62,12 +62,12 @@ namespace Rhino.Mocks.Tests
 			foo.Replay();
 
 			// several calls to 'foo.bar()
-			Assert.Equal(foo.bar(), "closed");
-			Assert.Equal(foo.bar(), "closed");
+			Assert.AreEqual(foo.bar(), "closed");
+			Assert.AreEqual(foo.bar(), "closed");
 		}
 
 
-		[Fact]
+		[Test]
 		public void WhenStubbingWillAllowManyCallsOnTheSameExpectation()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
@@ -76,11 +76,11 @@ namespace Rhino.Mocks.Tests
 
 			for (int i = 0; i < 59; i++)
 			{
-				Assert.Equal(1, foo54.DoSomething());
+				Assert.AreEqual(1, foo54.DoSomething());
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void WhenStubbingCanSetNumberOfCallsThatWillBeMatched()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
@@ -88,97 +88,97 @@ namespace Rhino.Mocks.Tests
 			foo54.Stub(x => x.DoSomething()).Return(1).Repeat.Once();
 			foo54.Stub(x => x.DoSomething()).Return(2).Repeat.Once();
 
-			Assert.Equal(1, foo54.DoSomething());
-			Assert.Equal(2, foo54.DoSomething());
-			Assert.Equal(0, foo54.DoSomething());// unexpected
+			Assert.AreEqual(1, foo54.DoSomething());
+			Assert.AreEqual(2, foo54.DoSomething());
+			Assert.AreEqual(0, foo54.DoSomething());// unexpected
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertOnCountOfCallsMade()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.DoSomething()).Return(1);
 
-			Assert.Equal(1, foo54.DoSomething());
+			Assert.AreEqual(1, foo54.DoSomething());
 
 			foo54.AssertWasCalled(x => x.DoSomething());
-			Assert.Equal(1, foo54.GetArgumentsForCallsMadeOn(x => x.DoSomething()).Count);
+			Assert.AreEqual(1, foo54.GetArgumentsForCallsMadeOn(x => x.DoSomething()).Count);
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertMethodArgumentsNaturally()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.Bar("asd")).Return(1);
 
-			Assert.Equal(1, foo54.Bar("asd"));
+			Assert.AreEqual(1, foo54.Bar("asd"));
 
 			foo54.AssertWasCalled(x => x.Bar(Arg.Text.EndsWith("d")));
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertMethodArgumentsNaturally_WhenFailed()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.Bar("asdg")).Return(1);
 
-			Assert.Equal(1, foo54.Bar("asdg"));
+			Assert.AreEqual(1, foo54.Bar("asdg"));
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.Bar(ends with \"d\"); Expected #1, Actual #0.",
-				() => foo54.AssertWasCalled(x => x.Bar(Arg.Text.EndsWith("d"))));
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.AssertWasCalled (x => x.Bar (Arg.Text.EndsWith ("d"))),
+                "IFoo54.Bar(ends with \"d\"); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void WhenCallingMethodWithNoParameters_WillReturnZeroLengthArrayForEachCall()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.DoSomething()).Return(1);
 
-			Assert.Equal(1, foo54.DoSomething());
+			Assert.AreEqual(1, foo54.DoSomething());
 
 			foo54.AssertWasCalled(x => x.DoSomething());
 			IList<object[]> arguments = foo54.GetArgumentsForCallsMadeOn(x => x.DoSomething());
-			Assert.Equal(0, arguments[0].Length);
+			Assert.AreEqual(0, arguments[0].Length);
 		}
 
-		[Fact]
+		[Test]
 		public void WhenCallingMethodWithParameters_WillReturnArgumentsInResultingArray()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.Bar("foo")).Return(1);
 
-			Assert.Equal(1, foo54.Bar("foo"));
-			Assert.Equal(0, foo54.Bar("bar"));
+			Assert.AreEqual(1, foo54.Bar("foo"));
+			Assert.AreEqual(0, foo54.Bar("bar"));
 
 			IList<object[]> arguments = foo54.GetArgumentsForCallsMadeOn(x => x.Bar(Arg<string>.Matches((string s) => true)));
-			Assert.Equal(2, arguments.Count);
-			Assert.Equal("foo", arguments[0][0]);
-			Assert.Equal("bar", arguments[1][0]);
+			Assert.AreEqual(2, arguments.Count);
+			Assert.AreEqual("foo", arguments[0][0]);
+			Assert.AreEqual("bar", arguments[1][0]);
 		}
 
-		[Fact]
+		[Test]
 		public void WhenCallingMethodWithParameters_WillReturnArgumentsInResultingArray_UsingConstraints()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.Bar("foo")).Return(1);
 
-			Assert.Equal(1, foo54.Bar("foo"));
-			Assert.Equal(0, foo54.Bar("bar"));
+			Assert.AreEqual(1, foo54.Bar("foo"));
+			Assert.AreEqual(0, foo54.Bar("bar"));
 
 			IList<object[]> arguments = foo54.GetArgumentsForCallsMadeOn(x => x.Bar(null), o => o.IgnoreArguments());
-			Assert.Equal(2, arguments.Count);
-			Assert.Equal("foo", arguments[0][0]);
-			Assert.Equal("bar", arguments[1][0]);
+			Assert.AreEqual(2, arguments.Count);
+			Assert.AreEqual("foo", arguments[0][0]);
+			Assert.AreEqual("bar", arguments[1][0]);
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Expect()
 		{
 			MockRepository mocks = new MockRepository();
@@ -186,14 +186,14 @@ namespace Rhino.Mocks.Tests
 
 			demo.Expect(x => x.DoSomething()).Return(1).Repeat.Once();
 			mocks.Replay(demo);
-			Assert.Equal(1, demo.DoSomething());
+			Assert.AreEqual(1, demo.DoSomething());
             demo.Expect(x => x.DoSomething()).Return(15).Repeat.Once();
-			Assert.Equal(15, demo.DoSomething());
+			Assert.AreEqual(15, demo.DoSomething());
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Expect_OnVoidMethod()
 		{
 			MockRepository mocks = new MockRepository();
@@ -206,7 +206,7 @@ namespace Rhino.Mocks.Tests
 		}
 
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Expect_OnVoidMethod_WhenMethodNotcall_WillFailTest()
 		{
 			MockRepository mocks = new MockRepository();
@@ -215,13 +215,13 @@ namespace Rhino.Mocks.Tests
 			demo.Expect(x => x.DoSomethingElse());
 			mocks.Replay(demo);
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.DoSomethingElse(); Expected #1, Actual #0.",
-				() => mocks.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mocks.VerifyAll(),
+                "IFoo54.DoSomethingElse(); Expected #1, Actual #0.");
 		}
 
 
-		[Fact]
+		[Test]
 		public void UsingExpectWithoutSettingReturnValueThrows()
 		{
 			MockRepository mocks = new MockRepository();
@@ -229,12 +229,12 @@ namespace Rhino.Mocks.Tests
 
 			demo.Expect(x => x.DoSomething());
 			mocks.Replay(demo);
-			Assert.Throws<InvalidOperationException>(
-				"Method 'IFoo54.DoSomething();' requires a return value or an exception to throw.",
-				() => Assert.Equal(1, demo.DoSomething()));
+            Assert.Throws<InvalidOperationException> (
+                () => Assert.AreEqual (1, demo.DoSomething()),
+                "Method 'IFoo54.DoSomething();' requires a return value or an exception to throw.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Stub()
 		{
 			MockRepository mocks = new MockRepository();
@@ -243,22 +243,22 @@ namespace Rhino.Mocks.Tests
 			demo.Stub(x => x.DoSomething()).Return(1);
 
 			mocks.Replay(demo);
-			Assert.Equal(1, demo.DoSomething());
+			Assert.AreEqual(1, demo.DoSomething());
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseStubSyntax_WithoutExplicitMockRepository()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.DoSomething()).Return(1);
 
-			Assert.Equal(1, foo54.DoSomething());
+			Assert.AreEqual(1, foo54.DoSomething());
 
 			foo54.AssertWasCalled(x => x.DoSomething());
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseStubSyntax_WithoutExplicitMockRepository_VerifyMethodWasNotCalled()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
@@ -269,21 +269,21 @@ namespace Rhino.Mocks.Tests
 			foo54.AssertWasNotCalled(x => x.DoSomething());
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseStubSyntax_WithoutExplicitMockRepository_VerifyMethodWasNotCalled_WillThrowIfCalled()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.DoSomething()).Return(1);
 
-			Assert.Equal(1, foo54.DoSomething());
+			Assert.AreEqual(1, foo54.DoSomething());
 
-			Assert.Throws<ExpectationViolationException>(
-				"Expected that IFoo54.DoSomething(); would not be called, but it was found on the actual calls made on the mocked object.",
-				() => foo54.AssertWasNotCalled(x => x.DoSomething()));
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.AssertWasNotCalled (x => x.DoSomething()),
+                "Expected that IFoo54.DoSomething(); would not be called, but it was found on the actual calls made on the mocked object.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertOnMethodUsingDirectArgumentMatching()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
@@ -293,42 +293,42 @@ namespace Rhino.Mocks.Tests
 			foo54.AssertWasCalled(x => x.Bar("blah"));
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertOnMethodUsingDirectArgumentMatching_WhenWrongArumentPassed()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
 
 			foo54.Bar("blah");
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.Bar(\"blah1\"); Expected #1, Actual #0.",
-				() => foo54.AssertWasCalled(x => x.Bar("blah1")));
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.AssertWasCalled (x => x.Bar ("blah1")),
+                "IFoo54.Bar(\"blah1\"); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseExpectSyntax_WithoutExplicitMockRepository()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Expect(x => x.DoSomething()).Return(1);
 
-			Assert.Equal(1, foo54.DoSomething());
+			Assert.AreEqual(1, foo54.DoSomething());
 
 			foo54.VerifyAllExpectations();
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseExpectSyntax_WithoutExplicitMockRepository_UsingConsraints()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
 
 			foo54.Expect(x => x.Bar(null)).Constraints(Text.StartsWith("boo")).Return(1);
 
-			Assert.Equal(1, foo54.Bar("boo is a great language"));
+			Assert.AreEqual(1, foo54.Bar("boo is a great language"));
 
 			foo54.VerifyAllExpectations();
 		}
 
-		[Fact]
+		[Test]
 		public void CanExpectOnNumberOfCallsMade()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
@@ -341,7 +341,7 @@ namespace Rhino.Mocks.Tests
 			foo54.VerifyAllExpectations();
 		}
 
-		[Fact]
+		[Test]
 		public void CanExpectOnNumberOfCallsMade_WhenRepeatCountNotMet()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
@@ -350,12 +350,12 @@ namespace Rhino.Mocks.Tests
 
 			foo54.DoSomething();
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.DoSomething(); Expected #2, Actual #1.",
-				() => foo54.VerifyAllExpectations());
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.VerifyAllExpectations(),
+                "IFoo54.DoSomething(); Expected #2, Actual #1.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertOnNumberOfCallsMade()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
@@ -367,7 +367,7 @@ namespace Rhino.Mocks.Tests
 			foo54.AssertWasCalled(x => x.DoSomething(), o => o.Repeat.Twice());
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertOnNumberOfCallsMade_WhenRepeatCountNotMet()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
@@ -375,51 +375,52 @@ namespace Rhino.Mocks.Tests
 
 			foo54.DoSomething();
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.DoSomething(); Expected #2, Actual #1.",
-				() => foo54.AssertWasCalled(x => x.DoSomething(), o => o.Repeat.Twice()));
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.AssertWasCalled (x => x.DoSomething(), o => o.Repeat.Twice()),
+                "IFoo54.DoSomething(); Expected #2, Actual #1.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseExpectSyntax_WithoutExplicitMockRepository_UsingConsraints_WhenViolated()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
 
 			foo54.Expect(x => x.Bar(null)).Constraints(Text.StartsWith("boo")).Return(1);
 
-			Assert.Equal(0, foo54.Bar("great test"));
+			Assert.AreEqual(0, foo54.Bar("great test"));
 
-			Assert.Throws<ExpectationViolationException>(
-				@"IFoo54.Bar(starts with ""boo""); Expected #1, Actual #0.",
-				() => foo54.VerifyAllExpectations());
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.VerifyAllExpectations(),
+                @"IFoo54.Bar(starts with ""boo""); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseStubSyntax_WithoutExplicitMockRepository_UsingConsraints_WhenExpectationNotMatching()
 		{
 			var foo54 = MockRepository.GenerateStub<IFoo54>();
 
 			foo54.Stub(x => x.Bar(null)).Constraints(Text.StartsWith("boo")).Return(1);
 
-			Assert.Equal(0, foo54.Bar("great test"));
+			Assert.AreEqual(0, foo54.Bar("great test"));
 
 			foo54.VerifyAllExpectations();
 		}
 
 
-		[Fact]
+		[Test]
 		public void CanUseExpectSyntax_WithoutExplicitMockRepository_WhenCallIsNotBeingMade()
 		{
 			var foo54 = MockRepository.GenerateMock<IFoo54>();
 
 			foo54.Expect(x => x.DoSomething()).Return(1);
 
-			Assert.Throws<ExpectationViolationException>("IFoo54.DoSomething(); Expected #1, Actual #0.",
-			                                             () => foo54.VerifyAllExpectations());
+            Assert.Throws<ExpectationViolationException> (
+                () => foo54.VerifyAllExpectations(),
+                "IFoo54.DoSomething(); Expected #1, Actual #0.");
 		}
 
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Stub_OnVoidMethod()
 		{
 			MockRepository mocks = new MockRepository();
@@ -435,11 +436,11 @@ namespace Rhino.Mocks.Tests
 			}
 			catch (InvalidOperationException e)
 			{
-				Assert.Equal("foo", e.Message);
+				Assert.AreEqual("foo", e.Message);
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Stub_AndThenVerify()
 		{
 			MockRepository mocks = new MockRepository();
@@ -448,11 +449,11 @@ namespace Rhino.Mocks.Tests
 			demo.Stub(x => x.DoSomething()).Return(1);
 			mocks.Replay(demo);
 
-			Assert.Equal(1, demo.DoSomething());
+			Assert.AreEqual(1, demo.DoSomething());
 			demo.AssertWasCalled(x => x.DoSomething());
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Stub_AndThenVerify_WhenNotCalled_WillCauseError()
 		{
 			MockRepository mocks = new MockRepository();
@@ -461,12 +462,12 @@ namespace Rhino.Mocks.Tests
 			demo.Stub(x => x.DoSomething()).Return(1);
 			mocks.Replay(demo);
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.DoSomething(); Expected #1, Actual #0.",
-				() => demo.AssertWasCalled(x => x.DoSomething()));
+            Assert.Throws<ExpectationViolationException> (
+                () => demo.AssertWasCalled (x => x.DoSomething()),
+                "IFoo54.DoSomething(); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseNonRecordReplayModel_Stub_WillNotThrowIfExpectationIsNotMet()
 		{
 			MockRepository mocks = new MockRepository();
@@ -478,16 +479,16 @@ namespace Rhino.Mocks.Tests
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void WhenNoExpectationIsSetup_WillReturnDefaultValues()
 		{
 			MockRepository mocks = new MockRepository();
 			IFoo54 demo = mocks.DynamicMock<IFoo54>();
 
-			Assert.Equal(0, demo.DoSomething());
+			Assert.AreEqual(0, demo.DoSomething());
 		}
 
-		[Fact]
+		[Test]
 		public void CanAssertOnMethodCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -499,7 +500,7 @@ namespace Rhino.Mocks.Tests
 			demo.AssertWasCalled(x => x.DoSomething());
         }
 
-		[Fact]
+		[Test]
 		public void CanAssertOnMethodCallUsingConstraints()
 		{
 			MockRepository mocks = new MockRepository();
@@ -511,7 +512,7 @@ namespace Rhino.Mocks.Tests
 			demo.AssertWasCalled(x => x.Bar(Arg<string>.Matches((string a) => a.StartsWith("b") && a.Contains("ba"))));
 		}
 
-        [Fact]
+        [Test]
         public void CanAssertOnPropertyAccess()
         {
             MockRepository mocks = new MockRepository();
@@ -523,7 +524,7 @@ namespace Rhino.Mocks.Tests
             demo.AssertWasCalled(x => x.FooBar);
         }
 
-        [Fact]
+        [Test]
         public void CanAssertOnPropertyAccessWithConstraints()
         {
             MockRepository mocks = new MockRepository();
@@ -536,7 +537,7 @@ namespace Rhino.Mocks.Tests
             demo.AssertWasCalled(x => x.FooBar, o => o.Repeat.Twice());
         }
 
-        [Fact]
+        [Test]
         public void CanAssertNotCalledOnPropertyAccess()
         {
             MockRepository mocks = new MockRepository();
@@ -549,7 +550,7 @@ namespace Rhino.Mocks.Tests
         }
 
 #if !FOR_NET_2_0 // we can't get the structure from a delegate, as happens on 2.0, so ignore this
-		[Fact]
+		[Test]
 		public void CanAssertOnMethodCallUsingConstraints_WhenMethodNotFound()
 		{
 			MockRepository mocks = new MockRepository();
@@ -559,77 +560,76 @@ namespace Rhino.Mocks.Tests
 
 			demo.Bar("yoho");
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.Bar(a => (a.StartsWith(\"b\") && a.Contains(\"ba\"))); Expected #1, Actual #0."
-				, () => demo.AssertWasCalled(x => x.Bar(Arg<string>.Matches((string a) => a.StartsWith("b") && a.Contains("ba")))));
+            Assert.Throws<ExpectationViolationException> (() => demo.AssertWasCalled (x => x.Bar (Arg<string>.Matches ((string a) => a.StartsWith ("b") && a.Contains ("ba")))), "IFoo54.Bar(a => (a.StartsWith(\"b\") && a.Contains(\"ba\"))); Expected #1, Actual #0.");
 		}
 #endif
 
-		[Fact]
+		[Test]
 		public void CannotUseRepeatAny()
 		{
 			MockRepository mocks = new MockRepository();
 			IFoo54 demo = mocks.DynamicMock<IFoo54>();
 			mocks.ReplayAll();
-			Assert.Throws<InvalidOperationException>(
-				"The expectation was removed from the waiting expectations list, did you call Repeat.Any() ? This is not supported in AssertWasCalled()",
-				() => demo.AssertWasCalled(x => x.Bar("a"), o => o.Repeat.Any()));
+            Assert.Throws<InvalidOperationException> (
+                () => demo.AssertWasCalled (x => x.Bar ("a"), o => o.Repeat.Any()),
+                "The expectation was removed from the waiting expectations list, did you call Repeat.Any() ? This is not supported in AssertWasCalled()");
 		}
 
-		[Fact]
+		[Test]
 		public void WillFailVerificationsOfMethod_IfWereNotCalled()
 		{
 			MockRepository mocks = new MockRepository();
 			IFoo54 demo = mocks.DynamicMock<IFoo54>();
 			mocks.ReplayAll();
 
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.DoSomething(); Expected #1, Actual #0.",
-				() => demo.AssertWasCalled(x => x.DoSomething()));
-		}
+            Assert.Throws<ExpectationViolationException> (
+                () => demo.AssertWasCalled (x => x.DoSomething()),
+          "IFoo54.DoSomething(); Expected #1, Actual #0.");
+        }
 
-		[Fact]
+		[Test]
 		public void WillFailVerificationsOfMethod_IfWereNotCalled_OnVoidMethod()
 		{
 			MockRepository mocks = new MockRepository();
 			IFoo54 demo = mocks.DynamicMock<IFoo54>();
 
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				"IFoo54.DoSomethingElse(); Expected #1, Actual #0.",
-				() => demo.AssertWasCalled(x => x.DoSomethingElse()));
+            Assert.Throws<ExpectationViolationException> (
+                () => demo.AssertWasCalled (x => x.DoSomethingElse()),
+          "IFoo54.DoSomethingElse(); Expected #1, Actual #0.");
 		}
 
 
-		[Fact]
+		[Test]
 		public void CanOnlyPassSingleExpectationToVerify()
 		{
 			MockRepository mocks = new MockRepository();
 			IFoo54 demo = mocks.DynamicMock<IFoo54>();
 			mocks.Replay(demo);
 
-			Assert.Throws<InvalidOperationException>(
-				"You can only use a single expectation on AssertWasCalled(), use separate calls to AssertWasCalled() if you want to verify several expectations",
-				() => demo.AssertWasCalled(x =>
-				{
-					x.DoSomethingElse();
-					x.DoSomethingElse();
-				}));
+            Assert.Throws<InvalidOperationException> (
+                () => demo.AssertWasCalled (
+                    x =>
+                    {
+                        x.DoSomethingElse();
+                        x.DoSomethingElse();
+                    }),
+                "You can only use a single expectation on AssertWasCalled(), use separate calls to AssertWasCalled() if you want to verify several expectations");
 		}
 
-		[Fact]
+		[Test]
 		public void WillRaiseErrorIfNoExpectationWasSetup()
 		{
 			MockRepository mocks = new MockRepository();
 			IFoo54 demo = mocks.DynamicMock<IFoo54>();
 			mocks.Replay(demo);
 
-			Assert.Throws<InvalidOperationException>(
-				"No expectations were setup to be verified, ensure that the method call in the action is a virtual (C#) / overridable (VB.Net) method call",
-				() => demo.AssertWasCalled(x => { }));
+            Assert.Throws<InvalidOperationException> (
+                () => demo.AssertWasCalled (x => { }),
+                "No expectations were setup to be verified, ensure that the method call in the action is a virtual (C#) / overridable (VB.Net) method call");
 		}
 
-		[Fact]
+		[Test]
 		public void TypeShouldBeInferredFromMockNotReference()
 		{
 			MockRepository mocks = new MockRepository();
@@ -643,7 +643,7 @@ namespace Rhino.Mocks.Tests
 			demo.AssertWasCalled(x => x.DoSomethingElse());
 		}
 
-		[Fact]
+		[Test]
 		public void AssertShouldWorkWithoutStub()
 		{
 			var mocks = new MockRepository();

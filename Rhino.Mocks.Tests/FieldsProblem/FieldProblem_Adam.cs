@@ -1,6 +1,6 @@
 using System;
 using System.ComponentModel;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -14,7 +14,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         }
 
 
-        [Fact]
+        [Test]
         public void ShouldRaiseEventWhenEverPropIsSet()
         {
             var foo = MockRepository.GenerateMock<IFoo>();
@@ -32,7 +32,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             foo.Str = "3";
             foo.Str = "4";
 
-            Assert.Equal(4, calls);
+            Assert.AreEqual(4, calls);
         }
     }
 }

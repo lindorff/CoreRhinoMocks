@@ -1,6 +1,6 @@
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class GenericMethodWithOutDecimalParameterTest
@@ -10,7 +10,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			void GenericMethod<T>(out T parameter);
 		}
 
-		[Fact]
+		[Test]
 		public void GenericMethodWithOutDecimalParameter()
 		{
 			MockRepository mocks = new MockRepository();
@@ -28,7 +28,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			{
 				decimal outParameter;
 				mock.GenericMethod(out outParameter);
-				Assert.Equal(expectedOutParameter, outParameter);
+				Assert.AreEqual(expectedOutParameter, outParameter);
 			}
 		}
 

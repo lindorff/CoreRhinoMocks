@@ -27,7 +27,7 @@
 #endregion
 
 
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -47,7 +47,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			void Add(TKey key, TValue value);
 		}
 
-		[Fact]
+		[Test]
 		public void TestExpectCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -59,12 +59,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			int i = mockCache.GetValue("a");
-			Assert.Equal(1,i );
+			Assert.AreEqual(1,i );
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void TestLastCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -80,7 +80,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void TestExpectCallWithNonGenericDelegate()
 		{
 			MockRepository mocks = new MockRepository();
@@ -91,7 +91,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			int i = mockCache.GetValue("a");
 
-			Assert.Equal(2, i);
+			Assert.AreEqual(2, i);
 
 			mocks.VerifyAll();
 		}

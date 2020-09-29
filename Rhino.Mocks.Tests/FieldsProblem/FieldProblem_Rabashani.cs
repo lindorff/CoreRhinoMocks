@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Tests.Model;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -6,7 +6,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Rabashani
 	{
-		[Fact]
+		[Test]
 		public void CanMockInternalInterface()
 		{
 			MockRepository mocks = new MockRepository();
@@ -17,26 +17,26 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanMockInternalClass()
 		{
 			MockRepository mocks = new MockRepository();
 			Internal mock = mocks.StrictMock<Internal>();
 			Expect.Call(mock.Bar()).Return("blah");
 			mocks.ReplayAll();
-			Assert.Equal("blah", mock.Bar());
+			Assert.AreEqual("blah", mock.Bar());
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanPartialMockInternalClass()
 		{
 			MockRepository mocks = new MockRepository();
 			Internal mock = mocks.PartialMock<Internal>();
 			Expect.Call(mock.Foo()).Return("blah");
 			mocks.ReplayAll();
-			Assert.Equal("blah", mock.Foo());
-			Assert.Equal("abc", mock.Bar());
+			Assert.AreEqual("blah", mock.Foo());
+			Assert.AreEqual("abc", mock.Bar());
 			mocks.VerifyAll();
 		}
 	}

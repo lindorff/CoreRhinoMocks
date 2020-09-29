@@ -28,7 +28,7 @@
 
 
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -36,7 +36,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class InterfaceInheritance
     {
-        [Fact]
+        [Test]
         public void CreateObjectUsingInterfaceInheritance()
         {
             MockRepository mocks = new MockRepository();

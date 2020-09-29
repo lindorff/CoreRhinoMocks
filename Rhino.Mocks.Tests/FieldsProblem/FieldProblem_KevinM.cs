@@ -28,15 +28,16 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
+using List = Rhino.Mocks.Constraints.List;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_KevinM
 	{
-		[Fact]
+		[Test]
 		public void VerifyListPropertyIsSetToList_WithAssert()
 		{
 			var sHolder =
@@ -53,10 +54,10 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			new
 				PropertyCoordinator(sHolder, sManager).SetListProperty();
 
-			Assert.Equal(sHolder.MyList.ToArray(), mList.ToArray());
+			Assert.AreEqual(sHolder.MyList.ToArray(), mList.ToArray());
 		}
 
-		[Fact]
+		[Test]
 		public void
 			VerifyListPropertyIsSetToList_WithAssertWasCalled()
 		{

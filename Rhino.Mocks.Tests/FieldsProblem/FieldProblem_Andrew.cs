@@ -3,13 +3,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	using System;
 	using System.Data;
 	using Exceptions;
-	using Xunit;
+	using NUnit.Framework;
 	using Rhino.Mocks;
 
 	
 	public class FieldProblem_Andrew
 	{
-		[Fact]
+		[Test]
 		public void Will_get_unexpect_error()
 		{
 			var stubConnection = MockRepository.GenerateStub<IDbConnection>();
@@ -28,7 +28,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			{
 			}
 
-			Assert.Throws<ExpectationViolationException>("IDbCommand.set_Connection(null); Expected #1, Actual #0.", () => mockCommand.VerifyAllExpectations());
+            Assert.Throws<ExpectationViolationException> (() => mockCommand.VerifyAllExpectations(), "IDbCommand.set_Connection(null); Expected #1, Actual #0.");
 		}
 	}
 

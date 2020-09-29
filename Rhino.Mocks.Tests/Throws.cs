@@ -1,7 +1,7 @@
 namespace Rhino.Mocks.Tests
 {
 	using System;
-	using Xunit;
+	using NUnit.Framework;
 
 	public class Throws
 	{
@@ -28,7 +28,7 @@ namespace Rhino.Mocks.Tests
 			}
 			catch (TException e)
 			{
-				Assert.Equal(message, e.Message);
+				Assert.AreEqual(message, e.Message);
 			}
 		}
 	}

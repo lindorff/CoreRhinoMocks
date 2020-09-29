@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -8,7 +8,7 @@ namespace Rhino.Mocks.Tests
 	
 	public class DotNet35Tests
 	{
-		[Fact]
+		[Test]
 		public void NaturalSyntaxForCallingMethods()
 		{
 			MockRepository mocks = new MockRepository();
@@ -24,7 +24,7 @@ namespace Rhino.Mocks.Tests
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void NaturalSyntaxForCallingMethods_WithArguments()
 		{
 			MockRepository mocks = new MockRepository();
@@ -40,7 +40,7 @@ namespace Rhino.Mocks.Tests
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void NaturalSyntaxForCallingMethods_WithArguments_WhenNotCalled_WouldFailVerification()
 		{
 			MockRepository mocks = new MockRepository();
@@ -56,7 +56,7 @@ namespace Rhino.Mocks.Tests
 			});
 		}
 
-		[Fact]
+		[Test]
 		public void NaturalSyntaxForCallingMethods_WithArguments_WhenCalledWithDifferentArgument()
 		{
 			MockRepository mocks = new MockRepository();
@@ -73,7 +73,7 @@ IDemo.VoidStringArg(""blah""); Expected #1, Actual #0.",delegate
 			});
 		}
 
-		[Fact]
+		[Test]
 		public void CanCallMethodWithParameters_WithoutSpecifyingParameters_WillAcceptAnyParameter()
 		{
 			MockRepository mocks = new MockRepository();

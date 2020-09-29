@@ -26,18 +26,17 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
-using Xunit.Extensions;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Jodran
 	{
-		[Theory]
-        [InlineData(true)]
-		[InlineData(false)]
+		[Test]
+        [TestCase(true)]
+		[TestCase(false)]
 		public void CanUseExpectSyntax_OnStubWithOrderedExpectations(bool shouldSwitchToReplyImmediately)
 		{
 			MockRepository mocks = new MockRepository();
@@ -63,7 +62,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			foo54.DoSomethingElse();
 		}
 
-        [Theory, InlineData(true), InlineData(false)]
+        [Test]
+		[TestCase(true)]
+		[TestCase(false)]
         public void CanUseExpectSyntax_OnMockWithOrderedExpectations(bool shouldSwitchToReplyImmediately)
 		{
 			MockRepository mocks = new MockRepository();
@@ -91,9 +92,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			foo54.VerifyAllExpectations();
 		}
 
-        [Theory]
-		[InlineData(true)]
-		[InlineData(false)]
+        [Test]
+		[TestCase(true)]
+		[TestCase(false)]
         public void CanUseExpectSyntax_OnMockWithOrderedExpectations2(bool shouldSwitchToReplyImmediately)
 		{
 			MockRepository mocks = new MockRepository();
@@ -118,7 +119,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.Throws<ExpectationViolationException>(() => foo54.DoSomethingElse());
 		}
 
-        [Fact]
+        [Test]
         public void ExtensionMethodsTransistionStateCorrectly()
         {
             MockRepository mocks = new MockRepository();

@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -42,24 +42,24 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			int GetInt32();
 		}
 		
-		[Fact]
+		[Test]
 		public void TestChar()
 		{
 			MockRepository mocks = new MockRepository();
 			IProvider mockProvider = (IProvider)mocks.StrictMock(typeof(IProvider));
 			SetupResult.For(mockProvider.GetChar()).Return('X');
 			mocks.ReplayAll();
-			Assert.Equal('X', mockProvider.GetChar()); // actual is a random char
+			Assert.AreEqual('X', mockProvider.GetChar()); // actual is a random char
 		}
 
-		[Fact]
+		[Test]
 		public void TestInt32()
 		{
 			MockRepository mocks = new MockRepository();
 			IProvider mockProvider = (IProvider)mocks.StrictMock(typeof(IProvider));
 			SetupResult.For(mockProvider.GetInt32()).Return(100);
 			mocks.ReplayAll();
-			Assert.Equal(100, mockProvider.GetInt32()); // actual is 100
+			Assert.AreEqual(100, mockProvider.GetInt32()); // actual is 100
 		}
 
 	}
