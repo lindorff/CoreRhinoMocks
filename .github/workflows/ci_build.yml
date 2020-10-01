@@ -25,5 +25,5 @@ jobs:
       - name: Build the Solution
         run: msbuild Rhino.Mocks.sln
 
-      - name: Test run
-        run: exit (Start-Process -FilePath "$env:userprofile\.nuget\packages\xunit.runner.console\2.4.1\tools\net472\xunit.console.exe" -PassThru -NoNewWindow -Wait -ArgumentList ".\Rhino.Mocks.Tests\bin\debug\net45\Rhino.Mocks.Tests.dll").ExitCode
+      - name: .NET 3.5 Tests
+        run: exit (Start-Process -FilePath "$env:userprofile\.nuget\packages\nunit.consolerunner\3.11.1\tools\nunit3-console.exe" -PassThru -NoNewWindow -Wait -ArgumentList ".\Rhino.Mocks.Tests\bin\debug\net35\Rhino.Mocks.Tests.dll").ExitCode
