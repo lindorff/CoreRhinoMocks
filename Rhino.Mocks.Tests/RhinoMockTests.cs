@@ -26,8 +26,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#if NETFRAMEWORK
-
 using System;
 using System.Collections;
 using System.ServiceModel;
@@ -334,6 +332,7 @@ Message: Should be called only once");
 			mocks.VerifyAll();
 		}
 
+#if NETFRAMEWORK
 		[Test]
 		public void CallbackThatThrows()
 		{
@@ -343,6 +342,7 @@ Message: Should be called only once");
 			mocks.ReplayAll();
 			Assert.Throws<AddressAlreadyInUseException>(demo.VoidNoArgs);
 		}
+#endif
 
 		#region Private Methods
 
@@ -367,10 +367,12 @@ Message: Should be called only once");
 			return true;
 		}
 
+#if NETFRAMEWORK
 		private bool ThrowFromCallback()
 		{
 			throw new AddressAlreadyInUseException();
 		}
+#endif
 
 		public class ObjectThatOverrideToString
 		{
@@ -381,5 +383,3 @@ Message: Should be called only once");
 		}
 	}
 }
-
-#endif
