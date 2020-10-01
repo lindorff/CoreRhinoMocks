@@ -1,16 +1,18 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFrameworks>net35;netcoreapp3.1</TargetFrameworks>
-    <AssemblyTitle>Rhino.Mocks</AssemblyTitle>
-    <Company>$company</Company>
-    <Product>$product</Product>
-    <Description>$description</Description>
-    <Copyright>$copyright</Copyright>
-    <Version>3.6.0.0</Version>
-    <AssemblyVersion>3.6.0.0</AssemblyVersion>
-    <FileVersion>3.6.0.0</FileVersion>
+    <AssemblyTitle>RhinoMocks</AssemblyTitle>
+    <RepositoryType>git</RepositoryType>
+    <Version>3.6.1.0</Version>
+    <AssemblyVersion>3.6.1.0</AssemblyVersion>
+    <FileVersion>3.6.1.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+    <NuspecFile>Rhino.Mocks.nuspec</NuspecFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <FrameworkPathOverride Condition="'$(TargetFramework)' == 'net35'">$(MSBuildProgramFiles32)\Reference Assemblies\Microsoft\Framework\.NETFramework\v3.5\Profile\Client</FrameworkPathOverride>
   </PropertyGroup>
   <ItemGroup>
     <None Include="..\ayende-open-source.snk">

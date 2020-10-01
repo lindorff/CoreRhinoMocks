@@ -2,6 +2,7 @@ name: Release Build
 
 on:
   push:
+    branches: [ core/** ]
     tags:
       - '*'
 
@@ -28,3 +29,12 @@ jobs:
         run: |
           .\ilrepack.ps1 "Rhino.Mocks\bin\release\net35\"
           .\ilrepack.ps1 "Rhino.Mocks\bin\release\netcoreapp3.1\"
+
+      - name: Pack
+        run: dotnet pack --no-restore --no-build -o .\Rhino.Mocks\bin\release\ .\Rhino.Mocks\Rhino.Mocks.csproj
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: Rhino.Mocks
+          path: Rhino.Mocks\bin\release\*.nupkg
