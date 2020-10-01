@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -13,7 +13,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             event ChangeTestEvent ChangeTestProperty;
         }
 
-        [Fact]
+        [Test]
         public void TestSampleMatrixChanged()
         {
             var repository = new MockRepository();

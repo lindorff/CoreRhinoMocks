@@ -1,3 +1,5 @@
+#if NETFRAMEWORK
+
 using Castle.DynamicProxy;
 
 namespace Rhino.Mocks.Impl.RemotingMock
@@ -55,3 +57,5 @@ namespace Rhino.Mocks.Impl.RemotingMock
         }
     }
 }
+
+#endif

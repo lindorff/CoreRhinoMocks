@@ -1,6 +1,7 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
+using Is = Rhino.Mocks.Constraints.Is;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -12,7 +13,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			int? Foo { get; set; }
 		}
 
-		[Fact]
+		[Test]
 		public void IsMatching()
 		{
 			MockRepository mocks = new MockRepository();

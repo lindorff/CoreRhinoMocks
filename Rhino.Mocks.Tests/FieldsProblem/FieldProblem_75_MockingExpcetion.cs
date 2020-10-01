@@ -28,14 +28,14 @@
 
 
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_75_MockingExpcetion
 	{
-		[Fact]
+		[Test]
 		public void MockingException()
 		{
 			MockRepository mocks = new MockRepository();

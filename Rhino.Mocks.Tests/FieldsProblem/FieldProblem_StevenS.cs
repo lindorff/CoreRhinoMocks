@@ -1,6 +1,8 @@
+#if NETFRAMEWORK
+
 using System;
 using System.Web.Security;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -10,13 +12,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		private MockRepository mocks;
 		private MembershipProvider myMembershipProvider;
 
-		public FieldProblem_StevenS()
+        [SetUp]
+		public void SetUp()
 		{
 			mocks = new MockRepository();
 			myMembershipProvider = mocks.StrictMock<MembershipProvider>();
 		} 
 
-        [Fact]
+        [Test]
         public void LoadFromUserId()
         {
             SetupResult.For(myMembershipProvider.Name).Return("Foo");
@@ -28,7 +31,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         	myMembershipProvider.GetUser("foo", false);
         }
 
-		[Fact]
+		[Test]
 		public void LoadFromUserId_Object()
 		{
 			SetupResult.For(myMembershipProvider.Name).Return("Foo");
@@ -48,3 +51,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 	}
 }
+
+#endif

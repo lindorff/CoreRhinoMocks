@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -13,27 +13,27 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         private MockRepository _mocks;
         private ImageFinder _imageFinder;
 
-		public FieldProblem_Wendy()
+        [SetUp]
+		public void SetUp()
         {
             _mocks = new MockRepository();
             _searchPatternBuilder = _mocks.DynamicMock<ISearchPatternBuilder>();
             _imageFinder = new ImageFinder(_searchPatternBuilder);
         }
 
-        [Fact]
+        [Test]
         public void SendingNullParamsValueShouldNotThrowNullReferenceException()
         {
             Expect.Call(_searchPatternBuilder.CreateFromExtensions(ImageFinder.ImageExtensions))
                 .Return(null);
             _mocks.ReplayAll();
             _imageFinder.FindImagePath();
-        	Assert.Throws<ExpectationViolationException>(
-        		"ISearchPatternBuilder.CreateFromExtensions([\"png\", \"gif\", \"jpg\", \"bmp\"]); Expected #1, Actual #0.",
-        		() =>
-        		Verify(_searchPatternBuilder));
+            Assert.Throws<ExpectationViolationException> (
+                () => Verify (_searchPatternBuilder),
+                "ISearchPatternBuilder.CreateFromExtensions([\"png\", \"gif\", \"jpg\", \"bmp\"]); Expected #1, Actual #0.");
         }
 
-		[Fact]
+		[Test]
 		public void VerifyShouldFailIfDynamicMockWasCalledWithRepeatNever()
 		{
 			_searchPatternBuilder.CreateFromExtensions();
@@ -47,9 +47,10 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			{
 				
 			}
-			Assert.Throws<ExpectationViolationException>(
-				"ISearchPatternBuilder.CreateFromExtensions([]); Expected #0, Actual #1.",
-				() => Verify(_searchPatternBuilder));
+
+            Assert.Throws<ExpectationViolationException> (
+                () => Verify (_searchPatternBuilder),
+                "ISearchPatternBuilder.CreateFromExtensions([]); Expected #0, Actual #1.");
 		}
 
         private void Verify(ISearchPatternBuilder builder)

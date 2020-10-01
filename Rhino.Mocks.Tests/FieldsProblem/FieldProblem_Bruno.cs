@@ -26,10 +26,11 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+#if NETFRAMEWORK
 
 using System;
 using System.EnterpriseServices;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -41,7 +42,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class ReproFixture
     {
-        [Fact]
+        [Test]
         public void TestMethod1()
         {
             ServiceDomain.Enter(new ServiceConfig());
@@ -54,3 +55,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         }
     }
 }
+
+#endif

@@ -1,4 +1,4 @@
-﻿using Xunit;
+﻿using NUnit.Framework;
 using Microsoft.Practices.Unity;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -10,7 +10,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         /// From thread:
         /// http://groups.google.com/group/rhinomocks/browse_thread/thread/a22b18618be887ff?hl=en
         /// </summary>
-        [Fact]
+        [Test]
         public void Should_be_able_to_proxy_IUnityContainer()
         {
             var unity = MockRepository.GenerateMock<IUnityContainer>();

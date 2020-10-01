@@ -1,11 +1,11 @@
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Christian
     {
-        [Fact]
+        [Test]
         public void PropertiesWillBehaveLikeProperties()
         {
             MockRepository mocks = new MockRepository();
@@ -13,7 +13,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
             mocks.ReplayAll();
 
-            Assert.Equal(0, testObject.IntProperty);
+            Assert.AreEqual(0, testObject.IntProperty);
         }
     }
 

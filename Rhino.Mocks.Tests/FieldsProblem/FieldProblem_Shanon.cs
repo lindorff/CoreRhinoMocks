@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 using RhinoMocksCPPInterfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -6,7 +6,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Shanon
 	{
-		[Fact(Skip =  @"Updating the Castle and NH assmeblies causes this to fail.
+		[Test, Ignore(@"Updating the Castle and NH assmeblies causes this to fail.
 		
 		Message:Method 'StartLiveOnSlot' in type 'IHaveMethodWithModOptsProxye59cf24cdfbc4797af58984e3c4fdf3f' from assembly 'DynamicProxyGenAssembly2, Version=0.0.0.0, Culture=neutral, PublicKeyToken=a621a9e7e5c32e69' does not have an implementation.
 Source:mscorlib

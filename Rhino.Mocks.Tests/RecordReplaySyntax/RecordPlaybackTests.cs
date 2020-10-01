@@ -27,14 +27,14 @@
 #endregion
 
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.RecordPlaybackSyntax
 {
 	
 	public class RecordPlaybackTests
 	{
-		[Fact]
+		[Test]
 		public void CanRecordPlayback()
 		{
 			MockRepository mockRepository;
@@ -51,7 +51,7 @@ namespace Rhino.Mocks.Tests.RecordPlaybackSyntax
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void PlaybackThrowsOtherExceptionDoesntReport()
 		{
 			MockRepository mockRepository;
@@ -70,7 +70,7 @@ namespace Rhino.Mocks.Tests.RecordPlaybackSyntax
 			});
 		}
 
-		[Fact]
+		[Test]
 		public void RecordThrowsOtherExceptionDoesntReport()
 		{
 			MockRepository mockRepository;

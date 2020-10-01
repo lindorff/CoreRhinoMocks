@@ -27,7 +27,7 @@
 #endregion
 
 
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -35,7 +35,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Andreas
 	{
-		[Fact]
+		[Test]
 		public void BackToRecordAll_EraseAllRecordedExpectations()
 		{
 			MockRepository repository = new MockRepository();
@@ -51,7 +51,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 		}
 
-		[Fact]
+		[Test]
 		public void CanCallBackToRecordAllWhenRepositoryIsEmpty()
 		{
 			MockRepository mocks = new MockRepository();

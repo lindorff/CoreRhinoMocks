@@ -28,7 +28,7 @@
 
 
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -105,7 +105,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void TestEventInitialization()
 		{
 			viewMocks.Init += null; //also set expectation

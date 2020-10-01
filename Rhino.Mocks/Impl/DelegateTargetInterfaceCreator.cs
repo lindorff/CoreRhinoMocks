@@ -92,7 +92,12 @@ namespace Rhino.Mocks.Impl
             typeBuilder.DefineMethod("Invoke", MethodAttributes.Abstract | MethodAttributes.Virtual | MethodAttributes.Public,
                                      CallingConventions.HasThis, returnType, parameterTypes);
 
+#if NETFRAMEWORK
             type = typeBuilder.CreateType();
+#else
+            type = typeBuilder.CreateTypeInfo();
+#endif
+
             return type;
         }
     }

@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -22,7 +22,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
                 target.Stub(entry_model => entry_model.virtual_property_public_read_private_write).Return(DateTime.Now);
             }
 
-            [Fact]
+            [Test]
             public void should_not_throw_the_exception_suggesting_to_assign_the_property_value_directly()
             {
                 target.virtual_property_public_read_private_write.Equals(DateTime.Now);

@@ -1,7 +1,7 @@
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using System;
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_Lopez
@@ -12,7 +12,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void PropertyBehaviorForSinglePropertyTypeOfString()
 		{
 			MockRepository mocks = new MockRepository();
@@ -29,14 +29,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 				stringContainer.Item = newItem;
 
-				Assert.Equal(newItem, stringContainer.Item);
+				Assert.AreEqual(newItem, stringContainer.Item);
 			}
 
 			mocks.Verify(stringContainer);
 		}
 
 
-		[Fact]
+		[Test]
 		public void PropertyBehaviourForSinglePropertyTypeOfDateTime()
 		{
 			MockRepository mocks = new MockRepository();
@@ -53,14 +53,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 				dateTimeContainer.Item = date;
 
-				Assert.Equal(date, dateTimeContainer.Item);
+				Assert.AreEqual(date, dateTimeContainer.Item);
 			}
 
 			mocks.Verify(dateTimeContainer);
 		}
 
 
-		[Fact]
+		[Test]
 		public void PropertyBehaviourForSinglePropertyTypeOfInteger()
 		{
 			MockRepository mocks = new MockRepository();
@@ -75,7 +75,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			{
 				dateTimeContainer.Item = i;
 
-				Assert.Equal(i, dateTimeContainer.Item);
+				Assert.AreEqual(i, dateTimeContainer.Item);
 			}
 
 			mocks.Verify(dateTimeContainer);

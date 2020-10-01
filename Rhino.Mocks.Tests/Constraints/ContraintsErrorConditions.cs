@@ -28,8 +28,9 @@
 
 
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
+using Is = Rhino.Mocks.Constraints.Is;
 
 namespace Rhino.Mocks.Tests.Constraints
 {
@@ -37,13 +38,13 @@ namespace Rhino.Mocks.Tests.Constraints
 	
 	public class ContraintsErrorConditions
 	{
-		[Fact]
+		[Test]
 		public void ComparingConstraintsWhenParameterIsNotIComparable()
 		{
 			Assert.False(Is.GreaterThan(4).Eval(new object()));
 		}
 
-		[Fact]
+		[Test]
 		public void TextWhenParameterIsNotString()
 		{
 			Assert.False(Text.Contains("one").Eval(1));
@@ -53,7 +54,7 @@ namespace Rhino.Mocks.Tests.Constraints
 		}
 
 
-		[Fact]
+		[Test]
 		public void PropertyIsWhenParameterIsNull()
 		{
 			Assert.False(Property.Value("Capacity",500).Eval(null));

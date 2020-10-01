@@ -29,12 +29,13 @@
 
 using System;
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Expectations;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
 using Rhino.Mocks.Generated;
 using Rhino.Mocks.Tests.Expectations;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Tests.MethodRecorders
 {
@@ -47,7 +48,8 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 		protected IMethodRecorder recorder;
 		protected MethodInfo voidThreeArgs;
 
-		public IMethodRecorderTests()
+        [SetUp]
+        public void SetUp()
 		{
 			mocks = new MockRepository();
 			demo = this.mocks.StrictMock(typeof (IDemo)) as IDemo;
@@ -59,20 +61,20 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 			ChildSetup();
 		}
 
-		[Fact]
+		[Test]
 		public void HasExpectationsStartsEmpty()
 		{
 			Assert.False(recorder.HasExpectations);
 		}
 
-		[Fact]
+		[Test]
 		public void HasExpectationsAfterAddingExpectation()
 		{
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
 			Assert.True(recorder.HasExpectations);
 		}
 
-		[Fact]
+		[Test]
 		public void HasExpectationsAfterGettingRecordedExpectation()
 		{
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
@@ -80,7 +82,7 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 			Assert.False(recorder.HasExpectations);
 		}
 
-		[Fact]
+		[Test]
 		public void GetAllExpectationForProxyAndMethod()
 		{
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
@@ -88,34 +90,34 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
 
 			ExpectationsList expectations = recorder.GetAllExpectationsForProxyAndMethod(demo, voidNoArgs);
-			Assert.Equal(2, expectations.Count);
+			Assert.AreEqual(2, expectations.Count);
 			expectations = recorder.GetAllExpectationsForProxyAndMethod(demo, voidThreeArgs);
-			Assert.Equal(1, expectations.Count);
+			Assert.AreEqual(1, expectations.Count);
 		}
 
-		[Fact]
+		[Test]
 		public void GetAllExpectationsForProxy()
 		{
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
 			recorder.Record(this.demo, this.voidThreeArgs, expectationOne);
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
 			ExpectationsList expectations = recorder.GetAllExpectationsForProxy(demo);
-			Assert.Equal(3, expectations.Count);
+			Assert.AreEqual(3, expectations.Count);
 
 		}
 
 
-		[Fact]
+		[Test]
 		public void ReplaceExpectation()
 		{
 			recorder.Record(this.demo, this.voidNoArgs, expectationOne);
 			AnyArgsExpectation newExpectation = new AnyArgsExpectation(new FakeInvocation(voidNoArgs), new Range(1, 1));
 			recorder.ReplaceExpectation(demo, voidNoArgs, expectationOne, newExpectation);
 			ExpectationsList list = recorder.GetAllExpectationsForProxyAndMethod(demo, voidNoArgs);
-			Assert.Same(newExpectation, list[0]);
+			Assert.AreSame(newExpectation, list[0]);
 		}
 
-		[Fact]
+		[Test]
 		public void ReplaceExpectationWhenNestingOrdering()
 		{
 			recorder.AddRecorder(CreateRecorder());
@@ -124,73 +126,74 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 			AnyArgsExpectation newExpectation = new AnyArgsExpectation(new FakeInvocation(voidNoArgs), new Range(1, 1));
 			recorder.ReplaceExpectation(demo, voidNoArgs, expectationOne, newExpectation);
 			ExpectationsList list = recorder.GetAllExpectationsForProxyAndMethod(demo, voidNoArgs);
-			Assert.Same(newExpectation, list[0]);
+			Assert.AreSame(newExpectation, list[0]);
 		}
 
-		[Fact]
+		[Test]
 		public void RecordProxyNullThrows()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: proxy",
-				() => this.recorder.Record(null, voidNoArgs, expectationOne));
+            Assert.Throws<ArgumentNullException> (
+                () => this.recorder.Record (null, voidNoArgs, expectationOne),
+                "Value cannot be null.\r\nParameter name: proxy");
 		}
 
-		[Fact]
+		[Test]
 		public void RecordMethodNullThrows()
 		{
-			Assert.Throws<ArgumentNullException>("Value cannot be null.\r\nParameter name: method",
-			                                     () => recorder.Record(demo, null, expectationOne));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.Record (demo, null, expectationOne),
+                "Value cannot be null.\r\nParameter name: method");
 		}
 
-		[Fact]
+		[Test]
 		public void RecordArgsNullThrows()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: expectation",
-				() => recorder.Record(demo, voidNoArgs, null));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.Record (demo, voidNoArgs, null),
+                "Value cannot be null.\r\nParameter name: expectation");
 		}
 
-		[Fact]
+		[Test]
 		public void WasRecordedProxyNullThrows()
 		{
 			recorder.Record(demo, voidNoArgs, expectationOne);
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: proxy",
-				() => recorder.GetRecordedExpectation(new FakeInvocation(voidNoArgs), null, voidNoArgs, new object[0]));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.GetRecordedExpectation (new FakeInvocation (voidNoArgs), null, voidNoArgs, new object[0]),
+                "Value cannot be null.\r\nParameter name: proxy");
 		}
 
-		[Fact]
+		[Test]
 		public void WasRecordedMethodNullThrows()
 		{
 			recorder.Record(demo, voidNoArgs, expectationOne);
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: method",
-				() => recorder.GetRecordedExpectation(new FakeInvocation(null), demo, null, new object[0]));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.GetRecordedExpectation (new FakeInvocation (null), demo, null, new object[0]),
+                "Value cannot be null.\r\nParameter name: method");
 		}
 
-		[Fact]
+		[Test]
 		public void WasRecordedArgsNullThrows()
 		{
 			recorder.Record(demo, voidNoArgs, expectationOne);
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: args",
-				() => recorder.GetRecordedExpectation(new FakeInvocation(voidNoArgs), demo, voidNoArgs, null));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.GetRecordedExpectation (new FakeInvocation (voidNoArgs), demo, voidNoArgs, null),
+                "Value cannot be null.\r\nParameter name: args");
 		}
 
-		[Fact]
+		[Test]
 		public void GetAllExpectationsMethodNullThrows()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: method",
-				() => recorder.GetAllExpectationsForProxyAndMethod(demo, null));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.GetAllExpectationsForProxyAndMethod (demo, null),
+                "Value cannot be null.\r\nParameter name: method");
 		}
 
-		[Fact]
+		[Test]
 		public void GetAllExpectationsProxyNullThrows()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: proxy",
-				() => recorder.GetAllExpectationsForProxyAndMethod(null, voidNoArgs));
+            Assert.Throws<ArgumentNullException> (
+                () => recorder.GetAllExpectationsForProxyAndMethod (null, voidNoArgs),
+                "Value cannot be null.\r\nParameter name: proxy");
 
 		}
 

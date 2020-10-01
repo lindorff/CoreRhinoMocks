@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_DavidG
 	{
-		[Fact]
+		[Test]
 		public void GenericConstrainedMethod()
 		{
 			MockRepository mocks = new MockRepository();

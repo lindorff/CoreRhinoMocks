@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -62,7 +62,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	public class FieldProblem_Phil
 	{
 
-		[Fact]
+		[Test]
 		public void VerifyingThatEventWasAttached()
 		{
 			MockRepository mocks = new MockRepository();

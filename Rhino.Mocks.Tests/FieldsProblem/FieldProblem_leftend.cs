@@ -1,7 +1,8 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 using Rhino.Mocks.Interfaces;
+using Is = Rhino.Mocks.Constraints.Is;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -30,14 +31,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyAttachesToViewEvents()
 		{
 			mocks.ReplayAll();
 			new AddAlbumPresenter(viewMock);
 		}
 
-		[Fact]
+		[Test]
 		public void SaveEventShouldSetViewPropertiesCorrectly()
 		{
 			Expect.Call(viewMock.AlbumToSave).Return(albumMock);

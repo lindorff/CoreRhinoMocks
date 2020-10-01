@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Impl;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -37,7 +37,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class FieldProblem_Bruce
     {
-        [Fact]
+        [Test]
         public void CreateClassWithDefaultCtor()
         {
             MockRepository mocks = new MockRepository();
@@ -45,7 +45,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             Assert.NotNull(cwdc);
         }
 
-        [Fact]
+        [Test]
         public void HandlingArraysWithValueTypeArrays()
         {
             Assert.True(Validate.ArgsEqual(new object[] { new ushort[0] }, new object[] { new ushort[0] }));

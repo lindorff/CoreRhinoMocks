@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -74,7 +74,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
         }
 
-        [Fact]
+        [Test]
         public void SubmitDataToDB()
         {
             //Setup a mock view and ISumbition

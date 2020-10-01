@@ -1,12 +1,12 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
     
     public class CustomAttributesOnMocks
     {
-        [Fact]
+        [Test]
         public void Mock_will_have_Protect_attriute_defined_on_them()
         {
             var disposable = MockRepository.GenerateMock<IDisposable>();

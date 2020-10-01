@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.MethodProblems
 {
@@ -40,7 +40,7 @@ namespace Rhino.Mocks.Tests.MethodProblems
                 system_under_test.do_something(item);
             }
 
-            [Fact]
+            [Test]
             public void should_not_try_to_treat_it_as_an_event()
             {
                 dependency.AssertWasCalled(generic_parameter => generic_parameter.add_MethodThatShouldNotBeSeenAsAnEvent(item));

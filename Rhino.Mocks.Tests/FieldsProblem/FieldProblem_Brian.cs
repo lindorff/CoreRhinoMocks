@@ -30,14 +30,14 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Brian
 	{
-		[Fact]
+		[Test]
 		public void SetExpectationOnNullableValue()
 		{
 			MockRepository mocks = new MockRepository();
@@ -52,14 +52,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			Assert.True(foo.Id.HasValue);
-			Assert.Equal(2, foo.Id.Value);
+			Assert.AreEqual(2, foo.Id.Value);
 			Assert.False(foo.Id.HasValue);
-			Assert.Equal(1, foo.Id.Value);
+			Assert.AreEqual(1, foo.Id.Value);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockingInternalMetohdsAndPropertiesOfInternalClass()
 		{
 			
@@ -77,8 +77,8 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			mockRepository.ReplayAll();
 
-			Assert.Equal("MockTestMethod", mockTestClass.TestMethod());
-			Assert.Equal("MockTestProperty", mockTestClass.TestProperty);
+			Assert.AreEqual("MockTestMethod", mockTestClass.TestMethod());
+			Assert.AreEqual("MockTestProperty", mockTestClass.TestProperty);
 
 			mockRepository.VerifyAll();
 

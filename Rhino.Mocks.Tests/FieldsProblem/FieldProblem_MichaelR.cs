@@ -27,7 +27,7 @@
 #endregion
 
 
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -39,7 +39,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class PropertyWithTypeParameterTest
 	{
-		[Fact]
+		[Test]
 		public void CreatedClosedGenericType()
 		{
 			MockRepository mocks = new MockRepository();
@@ -47,7 +47,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void UsingdoOnMethodWithGenericReturnValue()
 		{
 			MockRepository mocks = new MockRepository();
@@ -56,12 +56,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			methodOptions.Do((MyDelegate)delegate { return new object(); });
 		}
 
+#if NETFRAMEWORK
+
 		/// <summary>
 		/// If this fails with Execution Engine Exception, you need to install the hotfix 
 		/// for KB 957542.
 		/// There is a bug in .Net 3.5 SP1 that this test exposes.
 		/// </summary>
-		[Fact]
+		[Test]
 		public void DoubleGeneric()
 		{
 			string clrInstallationDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
@@ -84,6 +86,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			IDoubleGeneric<int> mock = mocks.StrictMock<IDoubleGeneric<int>>();
 			Expect.Call(mock.Method<string>(1, ""));
 		}
+
+#endif
+
 	}
 
 	public interface IDoubleGeneric<One>

@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using System.IO;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -9,7 +9,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Chompers
 	{
-		[Fact]
+		[Test]
 		public void MockingPropertyThatReturnsStream()
 		{
 			MockRepository mocks = new MockRepository();
@@ -19,7 +19,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 			messagePart.Data.WriteByte(127);
 			stream.Seek(0, SeekOrigin.Begin);
-			Assert.Equal(127,  stream.ReadByte());
+			Assert.AreEqual(127,  stream.ReadByte());
 		}
 	}
 

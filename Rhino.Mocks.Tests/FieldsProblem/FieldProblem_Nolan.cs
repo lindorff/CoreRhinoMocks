@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -48,34 +48,34 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
         #region Tests
 
-        [Fact]
+        [Test]
         public void BaseStubSetsBasePropertiesCorrectly()
         {
             String str = "Base stub";
 
             _mockBase.BaseString = str;
 
-            Assert.Equal(str, _mockBase.BaseString);
+            Assert.AreEqual(str, _mockBase.BaseString);
         }
 
-        [Fact]
+        [Test]
         public void ChildStubSetsChildPropertiesCorrectly()
         {
             String str = "Child stub";
 
             _mockChild.ChildString = str;
 
-            Assert.Equal(str, _mockChild.ChildString);
+            Assert.AreEqual(str, _mockChild.ChildString);
         }
 
-        [Fact]
+        [Test]
         public void ChildStubSetsBasePropertiesCorrectly()
         {
             String str = "Child's base stub";
 
             _mockChild.BaseString = str;
 
-            Assert.Equal(str, _mockChild.BaseString);
+            Assert.AreEqual(str, _mockChild.BaseString);
         }
 
         #endregion

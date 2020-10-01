@@ -1,12 +1,12 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Sander
     {
-        [Fact]
+        [Test]
         public void CanUseOutIntPtr()
         {
             MockRepository mocks = new MockRepository();
@@ -15,8 +15,8 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mock.GetBar(out parameter);
             LastCall.IgnoreArguments().Return(5).OutRef(new IntPtr(3));
             mocks.ReplayAll();
-            Assert.Equal(5, mock.GetBar(out parameter));
-            Assert.Equal(new IntPtr(3), parameter);
+            Assert.AreEqual(5, mock.GetBar(out parameter));
+            Assert.AreEqual(new IntPtr(3), parameter);
             mocks.VerifyAll();
         }
     }

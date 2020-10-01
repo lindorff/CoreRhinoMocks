@@ -1,3 +1,5 @@
+#if NETFRAMEWORK
+
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -6,7 +8,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using System.Data.SqlClient;
 	using Exceptions;
-	using Xunit;
+	using NUnit.Framework;
 
 	public interface ITestInterface
 	{
@@ -24,7 +26,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Alexey
 	{
-		[Fact]
+		[Test]
 		public void MockInterfaceWithGenericMethodWithConstraints()
 		{
 			MockRepository mockery = new MockRepository();
@@ -39,7 +41,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mockery.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockInterfaceWithGenericMethodWithConstraints_WhenNotValid()
 		{
 			MockRepository mockery = new MockRepository();
@@ -49,12 +51,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			LastCall.Return(mockObj);
 			mockery.ReplayAll();
 
-			Assert.Throws<ExpectationViolationException>(
-				"ITestInterface.AddService<System.IDisposable, System.Data.SqlClient.SqlConnection>(); Expected #1, Actual #0.",
-				() => mockery.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mockery.VerifyAll(),
+                "ITestInterface.AddService<System.IDisposable, System.Data.SqlClient.SqlConnection>(); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void MockInterfaceWithGenericMethodWithConstraints_WhenNotValid_UsingDynamicMock()
 		{
 			MockRepository mockery = new MockRepository();
@@ -64,12 +66,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			LastCall.Return(mockObj);
 			mockery.ReplayAll();
 
-			Assert.Throws<ExpectationViolationException>(
-				"ITestInterface.AddService<System.IDisposable, System.Data.SqlClient.SqlConnection>(); Expected #1, Actual #0.",
-				() => mockery.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mockery.VerifyAll(),
+                "ITestInterface.AddService<System.IDisposable, System.Data.SqlClient.SqlConnection>(); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void MockInterfaceWithGenericMethodWithConstraints_UsingDynamicMock()
 		{
 			MockRepository mockery = new MockRepository();
@@ -83,3 +85,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 	}
 }
+
+#endif

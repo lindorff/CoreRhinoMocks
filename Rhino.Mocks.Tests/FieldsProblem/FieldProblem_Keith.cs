@@ -2,7 +2,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using System;
 	using Interfaces;
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_Keith
@@ -45,7 +45,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void Test_View_Events_WiredUp()
 		{
 			MockRepository mocks = new MockRepository();

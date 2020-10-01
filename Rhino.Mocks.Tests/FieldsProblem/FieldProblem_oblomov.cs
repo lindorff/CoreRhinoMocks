@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
-	using Xunit;
+	using NUnit.Framework;
 
 	public interface IMyService
 	{
@@ -14,21 +14,25 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	}
 
 	
-	public class FieldProblem_oblomov : IDisposable
+	public class FieldProblem_oblomov
 	{
 		MockRepository mocks;
 		IMyService service;
 
-		public FieldProblem_oblomov()
+		[SetUp]
+		public void SetUp()
 		{
 			mocks = new MockRepository();
 			service = mocks.StrictMock<IMyService>();
 		}
-		public void Dispose()
+
+		[TearDown]
+		public void TearDown()
 		{
 			mocks.VerifyAll();
 		}
-		[Fact]
+
+		[Test]
 		public void TestWorks()
 		{
 			using (mocks.Ordered())
@@ -47,7 +51,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			service.Func3();
 		}
 
-		[Fact]
+		[Test]
 		public void TestDoesnotWork()
 		{
 			using (mocks.Ordered())
@@ -66,7 +70,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			service.Func3();
 		}
 
-		[Fact]
+		[Test]
 		public void TestDoesnotWork2()
 		{
 			using (mocks.Ordered())

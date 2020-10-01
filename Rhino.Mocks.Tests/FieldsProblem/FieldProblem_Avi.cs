@@ -29,14 +29,14 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Avi
     {
-        [Fact]
+        [Test]
         public void CallNonThrowingProtectedCtor()
         {
             MockRepository mocks = new MockRepository();
@@ -67,7 +67,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class RhinoDynamicMockOfGeneric
     {
-        [Fact]
+        [Test]
         public void createDynamicMockOfGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -76,7 +76,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mocks.Replay(mockA);
         }
 
-        [Fact]
+        [Test]
         public void TestMockOnGenericWithDifferentTypes()
         {
             MockRepository mocks = new MockRepository();
@@ -84,7 +84,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             IComparable<bool> mock2 = mocks.StrictMock<IComparable<bool>>();
         }
 
-        [Fact]
+        [Test]
         public void createDynamicMockOfGenericAgain()
         {
             MockRepository mocks = new MockRepository();

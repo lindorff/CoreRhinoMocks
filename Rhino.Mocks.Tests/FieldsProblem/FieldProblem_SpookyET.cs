@@ -31,7 +31,7 @@ using System;
 using System.IO;
 using System.Net;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -50,7 +50,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void MockHttpRequesteRsponse()
         {
             byte[] responseData = Encoding.UTF8.GetBytes("200 OK");
@@ -64,25 +64,25 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
             Stream returnedStream = GetResponseStream(request);
 
-            Assert.Same(stream, returnedStream);
+            Assert.AreSame(stream, returnedStream);
             string returnedString = new StreamReader(returnedStream).ReadToEnd();
-            Assert.Equal("200 OK", returnedString);
+            Assert.AreEqual("200 OK", returnedString);
         }
 
         /// <summary>
         /// Notice the ordering: First we've a Return and then IgnoreArguments, that
         /// broke because I didn't copy the returnValueSet in the expectation swapping.
         /// </summary>
-        [Fact]
+        [Test]
         public void UsingReturnAndThenIgnoreArgs()
         {
             IDemo demo = (IDemo)mocks.StrictMock(typeof(IDemo));
             Expect.On(demo).Call(demo.StringArgString(null)).Return("ayende").IgnoreArguments();
             mocks.ReplayAll();
-            Assert.Equal("ayende", demo.StringArgString("rahien"));
+            Assert.AreEqual("ayende", demo.StringArgString("rahien"));
         }
 
-        [Fact]
+        [Test]
         public void WebRequestWhenDisposing()
         {
             MockRepository mockRepository;

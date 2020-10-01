@@ -28,7 +28,7 @@
 
 
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Impl;
 
 namespace Rhino.Mocks.Tests.Impl
@@ -39,28 +39,29 @@ namespace Rhino.Mocks.Tests.Impl
 		MockRepository mocks;
 		IDemo one, two;
 
-		public MockedObjectsComparerTests()
+        [SetUp]
+        public void SetUp()
 		{
 			mocks = new MockRepository();
 			one = (IDemo)mocks.StrictMock(typeof(IDemo));
 			two = (IDemo)mocks.StrictMock(typeof(IDemo));
 		}
 
-		[Fact]
+		[Test]
 		public void FalseForDifferenceMocks()
 		{
             bool condition = MockedObjectsEquality.Instance.Compare(one, two) == 0;
 			Assert.False(condition);
 		}
 
-		[Fact]
+		[Test]
 		public void TrueForSameObject()
 		{
             bool condition = MockedObjectsEquality.Instance.Compare(one, one) == 0;
 			Assert.True(condition);
 		}
 
-		[Fact]
+		[Test]
 		public void FalseForOneMockAndOneNull()
 		{
             bool condition = MockedObjectsEquality.Instance.Compare(one, null) == 0;
@@ -69,14 +70,14 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.False(condition);
 		}
 
-		[Fact]
+		[Test]
 		public void TrueForBothNulls()
 		{
             bool condition = MockedObjectsEquality.Instance.Compare(null, null) == 0;
 			Assert.True(condition);
 		}
 
-		[Fact]
+		[Test]
 		public void FalseForOneMockAndOneNot()
 		{
             bool condition = MockedObjectsEquality.Instance.Compare(one, new object()) == 0;

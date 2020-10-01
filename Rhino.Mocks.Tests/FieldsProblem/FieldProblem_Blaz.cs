@@ -27,21 +27,21 @@
 #endregion
 
 
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Blaz
     {
-        [Fact]
+        [Test]
         public void SameNameInterface()
         {
             MockRepository mocks = new MockRepository();
             IDemo demo1 = (IDemo)mocks.StrictMock(typeof(IDemo));
             Other.IDemo demo2 = (Other.IDemo)mocks.StrictMock(typeof(Other.IDemo));
             
-            Assert.NotEqual(demo1.GetType(), demo2.GetType());
+            Assert.AreNotEqual(demo1.GetType(), demo2.GetType());
         }
     }
     namespace Other

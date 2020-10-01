@@ -29,11 +29,12 @@
 
 using System;
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Tests.Expectations;
 using Rhino.Mocks.Tests.Utilities;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Tests.Impl
 {
@@ -46,7 +47,8 @@ namespace Rhino.Mocks.Tests.Impl
 		private ReplayMockState replay;
 		private ProxyInstance proxy;
 
-		public ReplayMockStateTests()
+        [SetUp]
+        public void SetUp()
 		{
 			mocks = new MockRepository();
 			proxy = new ProxyInstance(mocks);
@@ -57,32 +59,32 @@ namespace Rhino.Mocks.Tests.Impl
 		}
 
 
-		[Fact]
+		[Test]
 		public void CreatingReplayMockStateFromRecordMockStateCopiesTheExpectationList()
 		{
-			Assert.Equal(1, Get.Recorder(mocks).GetAllExpectationsForProxy(proxy).Count);
+			Assert.AreEqual(1, Get.Recorder(mocks).GetAllExpectationsForProxy(proxy).Count);
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectedMethodCallOnReplay()
 		{
 			ReplayMockState replay = new ReplayMockState(record);
-			Assert.Throws<ExpectationViolationException>(
-				"String.StartsWith(\"2\"); Expected #1, Actual #0.",
-				() => replay.Verify());
+            Assert.Throws<ExpectationViolationException> (
+                () => replay.Verify(),
+                "String.StartsWith(\"2\"); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void UnexpectedMethodCallOnReplayThrows()
 		{
 			MethodInfo endsWith = MethodCallTests.GetMethodInfo("EndsWith", "2");
 
-			Assert.Throws<ExpectationViolationException>(
-				"String.EndsWith(\"2\"); Expected #0, Actual #1.",
-				() => replay.MethodCall(new FakeInvocation(endsWith), endsWith, "2"));
+            Assert.Throws<ExpectationViolationException> (
+                () => replay.MethodCall (new FakeInvocation (endsWith), endsWith, "2"),
+                "String.EndsWith(\"2\"); Expected #0, Actual #1.");
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyWhenAllExpectedCallsWereCalled()
 		{
 			MethodInfo methodInfo = CreateMethodInfo();
@@ -91,25 +93,25 @@ namespace Rhino.Mocks.Tests.Impl
 			this.replay.Verify();
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyWhenNotAllExpectedCallsWereCalled()
 		{
 			ReplayMockState replay = new ReplayMockState(record);
-			Assert.Throws<ExpectationViolationException>(
-				"String.StartsWith(\"2\"); Expected #1, Actual #0.",
-				() => replay.Verify());
+            Assert.Throws<ExpectationViolationException> (
+                () => replay.Verify(),
+                "String.StartsWith(\"2\"); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyWhenMismatchArgsContainsNull()
 		{
 			MethodInfo endsWith = MethodCallTests.GetMethodInfo("EndsWith", "2");
-			Assert.Throws<ExpectationViolationException>(
-				"String.EndsWith(null); Expected #0, Actual #1.",
-				() => replay.MethodCall(new FakeInvocation(endsWith), endsWith, new object[1] {null}));
+            Assert.Throws<ExpectationViolationException> (
+                () => replay.MethodCall (new FakeInvocation (endsWith), endsWith, new object[1] { null }),
+                "String.EndsWith(null); Expected #0, Actual #1.");
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyReportsAllMissingExpectationsWhenCalled()
 		{
 			record.LastExpectation.ReturnValue = true;
@@ -129,11 +131,11 @@ namespace Rhino.Mocks.Tests.Impl
 				string message = "String.StartsWith(\"2\"); Expected #1, Actual #0.\r\n" +
 					"String.StartsWith(\"r\"); Expected #1, Actual #0.\r\n" +
 					"String.StartsWith(\"y\"); Expected #2, Actual #0.";
-				Assert.Equal(message, e.Message);
+				Assert.AreEqual(message, e.Message);
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyReportsAllMissingExpectationWhenCalledOnOrdered()
 		{
 			using (mocks.Ordered())
@@ -156,7 +158,7 @@ namespace Rhino.Mocks.Tests.Impl
 				string message = "String.StartsWith(\"2\"); Expected #1, Actual #0.\r\n" +
 					"String.StartsWith(\"r\"); Expected #1, Actual #0.\r\n" +
 					"String.StartsWith(\"y\"); Expected #2, Actual #0.";
-				Assert.Equal(message, e.Message);
+				Assert.AreEqual(message, e.Message);
 			}
 		}
 

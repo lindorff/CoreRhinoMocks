@@ -30,7 +30,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -71,7 +71,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             }
         }
 
-        [Fact]
+        [Test]
         public void ClearedModelSetsItemsOnView()
         {
             MockRepository mocks = new MockRepository();

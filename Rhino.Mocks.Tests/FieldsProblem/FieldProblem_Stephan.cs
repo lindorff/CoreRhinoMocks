@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -15,7 +15,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		// It has nothing to do with ordering or not -> but if you do not use an ordered mock recorder, then the error msg is not helpful.
 
 
-		[Fact]
+		[Test]
 		public void ShouldIgnoreArgumentsOnGenericCallWhenTypeIsStruct()
 		{
 			// setup
@@ -51,20 +51,20 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			sut = null;
 		}
 
-		[Fact]
+		[Test]
 		public void UnexpectedCallToGenericMethod()
 		{
 			MockRepository mocks = new MockRepository();
 			ISomeService m_SomeServiceMock = mocks.StrictMock<ISomeService>();
 			m_SomeServiceMock.DoSomething<string>(null, "foo");
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				@"ISomeService.DoSomething<System.Int32>(null, 5); Expected #0, Actual #1.
-ISomeService.DoSomething<System.String>(null, ""foo""); Expected #1, Actual #0.",
-				() => m_SomeServiceMock.DoSomething<int>(null, 5));
+            Assert.Throws<ExpectationViolationException> (
+                () => m_SomeServiceMock.DoSomething<int> (null, 5),
+                @"ISomeService.DoSomething<System.Int32>(null, 5); Expected #0, Actual #1.
+ISomeService.DoSomething<System.String>(null, ""foo""); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void IgnoreArgumentsAfterDo()
 		{
 			MockRepository mocks = new MockRepository();

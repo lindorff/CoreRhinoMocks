@@ -29,7 +29,7 @@
 
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -39,22 +39,23 @@ namespace Rhino.Mocks.Tests
         MockRepository mocks;
         IDemo demo;
 
-		public DoHanlderTests()
+        [SetUp]
+        public void SetUp()
         {
             mocks = new MockRepository();
             demo = (IDemo)mocks.StrictMock(typeof(IDemo));
         }
 
-        [Fact]
+        [Test]
         public void CanModifyReturnValue()
         {
             Expect.Call(demo.EnumNoArgs()).Do(new GetDay(GetSunday));
             mocks.ReplayAll();
-            Assert.Equal(DayOfWeek.Sunday, demo.EnumNoArgs());
+            Assert.AreEqual(DayOfWeek.Sunday, demo.EnumNoArgs());
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void SayHelloWorld()
         {
             INameSource nameSource = (INameSource)mocks.StrictMock(typeof(INameSource));
@@ -63,7 +64,7 @@ namespace Rhino.Mocks.Tests
             mocks.ReplayAll();
             string expected = "Hi, my name is Ayende Rahien";
             string actual = new Speaker("Ayende", "Rahien", nameSource).Introduce();
-            Assert.Equal(expected, actual);
+            Assert.AreEqual(expected, actual);
         }
 
         delegate string NameSourceDelegate(string first, string suranme);
@@ -99,7 +100,7 @@ namespace Rhino.Mocks.Tests
             string CreateName(string firstName, string surname);
         }
         
-        [Fact]
+        [Test]
         public void CanThrow()
         {
             Expect.Call(demo.EnumNoArgs()).Do(new GetDay(ThrowDay));
@@ -110,34 +111,34 @@ namespace Rhino.Mocks.Tests
             }
             catch (ArgumentException e)
             {
-                Assert.Equal("Not a day", e.Message);
+                Assert.AreEqual("Not a day", e.Message);
             }
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void InvalidReturnValueThrows()
         {
-        	Assert.Throws<InvalidOperationException>(
-        		"The delegate return value should be assignable from System.Int32",
-        		() => Expect.Call(demo.ReturnIntNoArgs()).Do(new GetDay(GetSunday)));
+            Assert.Throws<InvalidOperationException> (
+                () => Expect.Call (demo.ReturnIntNoArgs()).Do (new GetDay (GetSunday)),
+                "The delegate return value should be assignable from System.Int32");
             
         }
 
-        [Fact]
+        [Test]
         public void InvalidDelegateThrows()
         {
-        	Assert.Throws<InvalidOperationException>("Callback arguments didn't match the method arguments",
-        	                                         () =>
-        	                                         Expect.Call(demo.ReturnIntNoArgs()).Do(new IntDelegate(IntMethod)));
+            Assert.Throws<InvalidOperationException> (
+                () => Expect.Call (demo.ReturnIntNoArgs()).Do (new IntDelegate (IntMethod)),
+                "Callback arguments didn't match the method arguments");
         }
 
-        [Fact]
+        [Test]
         public void CanOnlySpecifyOnce()
         {
-        	Assert.Throws<InvalidOperationException>(
-        		"Can set only a single return value or exception to throw or delegate to execute on the same method call.",
-        		() => Expect.Call(demo.EnumNoArgs()).Do(new GetDay(ThrowDay)).Return(DayOfWeek.Saturday));
+            Assert.Throws<InvalidOperationException> (
+                () => Expect.Call (demo.EnumNoArgs()).Do (new GetDay (ThrowDay)).Return (DayOfWeek.Saturday),
+                "Can set only a single return value or exception to throw or delegate to execute on the same method call.");
         }
 
         public delegate DayOfWeek GetDay();

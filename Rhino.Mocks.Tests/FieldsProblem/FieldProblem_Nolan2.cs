@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem.FieldProblem_Nolan2
 {
@@ -42,34 +42,34 @@ namespace Rhino.Mocks.Tests.FieldsProblem.FieldProblem_Nolan2
             SetValuesOnMock();
         }
 
-        [Fact]
+        [Test]
         public void Should_mock_value_int_property()
         {
-            Assert.Equal(_newInt, _demo.SomeInt);
+            Assert.AreEqual(_newInt, _demo.SomeInt);
         }
 
-        [Fact]
+        [Test]
         public void Should_mock_value_date_property()
         {
-            Assert.Equal(_newDate, _demo.SomeDate);
+            Assert.AreEqual(_newDate, _demo.SomeDate);
         }
 
-        [Fact]
+        [Test]
         public void Should_mock_nullable_value_date_property()
         {
-            Assert.Equal(_newNullableDate, _demo.SomeNullableDate);
+            Assert.AreEqual(_newNullableDate, _demo.SomeNullableDate);
         }
 
-        [Fact]
+        [Test]
         public void Should_mock_nulled_value_date_property()
         {
-            Assert.Equal(_newNulledDate, _demo.SomeNulledDate);
+            Assert.AreEqual(_newNulledDate, _demo.SomeNulledDate);
         }
 
-        [Fact]
+        [Test]
         public void Should_mock_reference_property()
         {
-            Assert.Equal(_newObject, _demo.SomeObject);
+            Assert.AreEqual(_newObject, _demo.SomeObject);
         }
     }
 

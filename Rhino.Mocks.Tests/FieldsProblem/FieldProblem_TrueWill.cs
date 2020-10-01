@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -7,26 +7,26 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class FieldProblem_TrueWill
     {
-        [Fact]
+        [Test]
         public void ReadWritePropertyBug1()
         {
             ISomeThing thing = MockRepository.GenerateStub<ISomeThing>();
             thing.Number = 21;
             thing.Stub(x => x.Name).Return("Bob");
-            Assert.Equal(thing.Number, 21);
+            Assert.AreEqual(thing.Number, 21);
             // Fails - calling Stub on anything after
             // setting property resets property to default.
         }
 
-        [Fact]
+        [Test]
         public void ReadWritePropertyBug2()
         {
             ISomeThing thing = MockRepository.GenerateStub<ISomeThing>();
-        	Assert.Throws<InvalidOperationException>(
-        		@"You are trying to set an expectation on a property that was defined to use PropertyBehavior.
+            Assert.Throws<InvalidOperationException> (
+                () => thing.Stub (x => x.Number).Return (21),
+                @"You are trying to set an expectation on a property that was defined to use PropertyBehavior.
 Instead of writing code such as this: mockObject.Stub(x => x.SomeProperty).Return(42);
-You can use the property directly to achieve the same result: mockObject.SomeProperty = 42;",
-        		() => thing.Stub(x => x.Number).Return(21));
+You can use the property directly to achieve the same result: mockObject.SomeProperty = 42;");
             // InvalidOperationException :
             // Invalid call, the last call has been used...
             // This broke a test on a real project when a

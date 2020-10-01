@@ -1,12 +1,14 @@
+#if NETFRAMEWORK
+
 using System.Security.Permissions;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem__Sean
 	{
-		[Fact(Skip = "Not sure what the problem is, and don't know enough about CAS to try to figure it out")]
+		[Test, Ignore("Not sure what the problem is, and don't know enough about CAS to try to figure it out")]
 		public void CanMockMethodWithEnvironmentPermissions()
 		{
 			MockRepository mocks = new MockRepository();
@@ -22,7 +24,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			using(mocks.Playback())
 			{
 				IEmployee actual = employeeRepository.GetEmployeeDetails("ayende");
-				Assert.Equal(employee, actual);
+				Assert.AreEqual(employee, actual);
 			}
 		}
 
@@ -38,3 +40,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	{
 	}
 }
+
+#endif

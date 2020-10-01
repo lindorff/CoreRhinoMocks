@@ -1,5 +1,5 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -15,7 +15,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             demo = mocks.StrictMock(typeof (IDemo)) as IDemo;
         }
 
-        [Fact]
+        [Test]
         public void ExpectTwoCallsReturningMarshalByRef()
         {
             MarshalByRefToReturn res1 = new MarshalByRefToReturn();

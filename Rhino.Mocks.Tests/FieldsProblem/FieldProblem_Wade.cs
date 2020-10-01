@@ -28,14 +28,14 @@
 
 
 using System.Runtime.InteropServices;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Wade
 	{
-		[Fact]
+		[Test]
 		public void CanMockClassWithCoClass()
 		{
 			MockRepository mocks = new MockRepository();
@@ -58,7 +58,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	}
 
 	[Guid("1D606603-02F0-4443-8A54-9AE4EDB5EEFA")]
-	[TypeLibType(4304)]
+#if NETFRAMEWORK
+  [TypeLibType(4304)]
+#endif
 	public interface _clsDBRecordSet
 	{
 		[DispId(1745027080)]

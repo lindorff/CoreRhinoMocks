@@ -1,4 +1,4 @@
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Interfaces;
 
@@ -12,7 +12,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			void RedrawDisplay(object something);
 		}
 
-		[Fact]
+		[Test]
 		public void CorrectResultForExpectedWhenUsingTimes()
 		{
 			MockRepository mocks = new MockRepository();
@@ -22,21 +22,23 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 				view.RedrawDisplay(null);
 				LastCall.Repeat.Times(4).IgnoreArguments();
 			}
-			Assert.Throws<ExpectationViolationException>("IView.RedrawDisplay(\"blah\"); Expected #4, Actual #5.",
-			                                             () =>
-			                                             {
-			                                             	using (mocks.Playback())
-			                                             	{
-			                                             		for (int i = 0; i < 5; i++)
-			                                             		{
-			                                             			view.RedrawDisplay("blah");
-			                                             		}
-			                                             	}
-			                                             });
+
+            Assert.Throws<ExpectationViolationException> (
+                () =>
+                {
+                    using (mocks.Playback())
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            view.RedrawDisplay ("blah");
+                        }
+                    }
+                },
+                "IView.RedrawDisplay(\"blah\"); Expected #4, Actual #5.");
 			
 		}
 
-		[Fact]
+		[Test]
 		public void CorrectResultForExpectedWhenUsingTimesWithRange()
 		{
 			MockRepository mocks = new MockRepository();
@@ -46,17 +48,19 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 				view.RedrawDisplay(null);
 				LastCall.Repeat.Times(3,4).IgnoreArguments();
 			}
-			Assert.Throws<ExpectationViolationException>("IView.RedrawDisplay(\"blah\"); Expected #3 - 4, Actual #5.",
-			                                             () =>
-			                                             {
-			                                             	using (mocks.Playback())
-			                                             	{
-			                                             		for (int i = 0; i < 5; i++)
-			                                             		{
-			                                             			view.RedrawDisplay("blah");
-			                                             		}
-			                                             	}
-			                                             });
+
+            Assert.Throws<ExpectationViolationException> (
+                () =>
+                {
+                    using (mocks.Playback())
+                    {
+                        for (int i = 0; i < 5; i++)
+                        {
+                            view.RedrawDisplay ("blah");
+                        }
+                    }
+                },
+                "IView.RedrawDisplay(\"blah\"); Expected #3 - 4, Actual #5.");
 			
 		}
 	}

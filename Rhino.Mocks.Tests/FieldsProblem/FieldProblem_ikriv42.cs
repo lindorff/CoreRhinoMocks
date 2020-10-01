@@ -1,5 +1,7 @@
 using System;
-using Xunit;
+using NUnit.Framework;
+
+#if NETFRAMEWORK
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -13,16 +15,18 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             }
         }
 
-       [Fact]
+       [Test]
        public void GenerateMock_Works_With_MarshalByRef()
        {
            MockRepository.GenerateMock<D>();
        }
 
-        [Fact]
+        [Test]
         public void GenerateStub_Works_With_MarshalByRef()
         {
             MockRepository.GenerateStub<D>();
         }
     }
 }
+
+#endif

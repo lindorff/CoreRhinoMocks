@@ -1,12 +1,12 @@
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Chad
 	{
-		[Fact]
+		[Test]
 		public void SetupResult_For_writeable_property_on_stub_should_be_ignored()
 		{
 			MockRepository mocks = new MockRepository();
@@ -18,7 +18,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 Instead of writing code such as this: mockObject.Stub(x => x.SomeProperty).Return(42);
 You can use the property directly to achieve the same result: mockObject.SomeProperty = 42;";
 
-			Assert.Throws<InvalidOperationException>(expected, () => SetupResult.For(test.ReadWrite).PropertyBehavior());
+            Assert.Throws<InvalidOperationException> (() => SetupResult.For (test.ReadWrite).PropertyBehavior(), expected);
 		}
 		public class TestClass
 		{
