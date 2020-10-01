@@ -1,6 +1,8 @@
 using System;
 using NUnit.Framework;
 
+#if NETFRAMEWORK
+
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
@@ -26,3 +28,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         }
     }
 }
+
+#endif

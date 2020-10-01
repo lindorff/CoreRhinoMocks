@@ -29,6 +29,8 @@ using System;
 using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
+#if NETFRAMEWORK
+
 namespace Rhino.Mocks.Tests
 {
     
@@ -388,3 +390,5 @@ TestClass.GenericMethod<System.String>(""foo""); Expected #1, Actual #0.");
         }
     }
 }
+
+#endif

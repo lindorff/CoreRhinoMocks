@@ -28,7 +28,6 @@
 
 
 using System;
-using System.Text;
 using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
@@ -92,6 +91,7 @@ namespace Rhino.Mocks.Tests
 			Assert.AreEqual(5, i);
 		}
 
+#if NETFRAMEWORK
 
 		[Test]
 		public void RemotingRefString()
@@ -136,6 +136,8 @@ namespace Rhino.Mocks.Tests
 			remotingTarget.RefInt(ref i);
 			Assert.AreEqual(5, i);
 		}
+
+#endif
 
 		private void RefFive(ref int i)
 		{

@@ -56,6 +56,8 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			methodOptions.Do((MyDelegate)delegate { return new object(); });
 		}
 
+#if NETFRAMEWORK
+
 		/// <summary>
 		/// If this fails with Execution Engine Exception, you need to install the hotfix 
 		/// for KB 957542.
@@ -84,6 +86,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			IDoubleGeneric<int> mock = mocks.StrictMock<IDoubleGeneric<int>>();
 			Expect.Call(mock.Method<string>(1, ""));
 		}
+
+#endif
+
 	}
 
 	public interface IDoubleGeneric<One>
