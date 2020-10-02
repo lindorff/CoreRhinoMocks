@@ -1,0 +1,30 @@
+name: Release Build
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
+
+      - name: Restore NuGet packages
+        run: nuget restore Rhino.Mocks.sln
+
+      - name: Build the Solution
+        run: msbuild Rhino.Mocks.sln -p:Configuration=Release
+
+      - name: ILRepack assemblies
+        run: |
+          .\ilrepack.ps1 "Rhino.Mocks\bin\release\net35\"
+          .\ilrepack.ps1 "Rhino.Mocks\bin\release\netcoreapp3.1\"
