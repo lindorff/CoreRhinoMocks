@@ -87,11 +87,13 @@ namespace Rhino.Mocks
 			Type t = Type.GetType("Mono.Runtime");
 			if (t == null)
 			{
+#pragma warning disable CS0618
 				// Probably running the .NET Framework
 				if (Marshal.GetExceptionCode() != 0)
 				{
 					return true;
 				}
+#pragma warning restore CS0618
 			}
 			return false;
 		}
