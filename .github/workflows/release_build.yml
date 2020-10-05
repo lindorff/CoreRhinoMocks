@@ -23,7 +23,9 @@ jobs:
         run: nuget restore Rhino.Mocks.sln
 
       - name: Build the Solution
-        run: msbuild Rhino.Mocks.sln -p:Configuration=Release
+        run: |
+          $tag = ${env:GITHUB_REF} -replace 'refs/tags/v',''
+          msbuild Rhino.Mocks.sln /p:Configuration=Release /p:Version=${tag} /p:AssemblyVersion=${tag} /p:FileVersion=${tag}
 
       - name: ILRepack assemblies
         run: |
@@ -31,7 +33,9 @@ jobs:
           .\ilrepack.ps1 "Rhino.Mocks\bin\release\netcoreapp3.1\"
 
       - name: Pack
-        run: dotnet pack --no-restore --no-build -o .\Rhino.Mocks\bin\release\ .\Rhino.Mocks\Rhino.Mocks.csproj
+        run: |
+          $tag = ${env:GITHUB_REF} -replace 'refs/tags/v',''
+          dotnet pack --no-restore --no-build /p:Version=${tag} -o .\Rhino.Mocks\bin\release\ .\Rhino.Mocks\Rhino.Mocks.csproj
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2

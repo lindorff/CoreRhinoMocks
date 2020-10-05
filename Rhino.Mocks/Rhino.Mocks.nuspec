@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
   <metadata>
     <id>CoreRhinoMocks</id>
-    <version>3.6.1.0</version>
+    <version>$version$</version>
     <description>
       This is a fork of Rhino Mocks for usage in .NET Core.
       Rhino Mocks is using Castle Dynamic Proxy (http://www.castleproject.org/dynamicproxy/index.html) to handle proxying the types it needs to mock.
