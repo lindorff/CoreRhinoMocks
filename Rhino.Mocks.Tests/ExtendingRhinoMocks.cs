@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,14 +27,11 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Collections;
 using System.Reflection;
-using Castle.Core.Interceptor;
-using Xunit;
-using Rhino.Mocks.Exceptions;
-using Rhino.Mocks.Impl;
+using Castle.DynamicProxy;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests
@@ -41,7 +39,7 @@ namespace Rhino.Mocks.Tests
 	
 	public class ExtendingRhinoMocksFixture
 	{
-		[Fact]
+		[Test]
 		public void CanUseCustomMocks()
 		{
 			CarRepository carRepository = new CarRepository();
@@ -51,7 +49,7 @@ namespace Rhino.Mocks.Tests
 			Presenter presenter = new Presenter(carRepository, view);
 			presenter.Render();
 			Car car = (Car)mocks.Query(view);
-			Assert.Equal("Volvo", car.Make);
+			Assert.AreEqual("Volvo", car.Make);
 		}
 	}
 

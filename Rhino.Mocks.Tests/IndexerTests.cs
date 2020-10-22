@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,8 +27,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -40,14 +40,14 @@ namespace Rhino.Mocks.Tests
 			string this[int id] { get; }
 		}
 
-		[Fact]
+		[Test]
 		public void SettingExpectationOnIndexer()
 		{
 			MockRepository mocks = new MockRepository();
 			IndexerInterface indexer = (IndexerInterface) mocks.StrictMock(typeof (IndexerInterface));
 			Expect.On(indexer).Call(indexer["1"]).Return("First");
 			mocks.ReplayAll();
-			Assert.Equal("First", indexer["1"]);
+			Assert.AreEqual("First", indexer["1"]);
 			mocks.VerifyAll();
 		}
 	}

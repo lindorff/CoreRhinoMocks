@@ -1,5 +1,34 @@
+#region license
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
+// All rights reserved.
+// 
+// Redistribution and use in source and binary forms, with or without modification,
+// are permitted provided that the following conditions are met:
+// 
+//     * Redistributions of source code must retain the above copyright notice,
+//     this list of conditions and the following disclaimer.
+//     * Redistributions in binary form must reproduce the above copyright notice,
+//     this list of conditions and the following disclaimer in the documentation
+//     and/or other materials provided with the distribution.
+//     * Neither the name of Ayende Rahien nor the names of its
+//     contributors may be used to endorse or promote products derived from this
+//     software without specific prior written permission.
+// 
+// THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
+// ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+// WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+// DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE
+// FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+// DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+// SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+// OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
+// THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+#endregion
+
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -7,7 +36,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class FieldProblem_Roy
     {
-        [Fact]
+        [Test]
         public void StubNeverFailsTheTest()
         {
             MockRepository repository = new MockRepository();
@@ -19,11 +48,11 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             }
 
             int result = resultGetter.GetSomeNumber("b");
-            Assert.Equal(0, result);
+            Assert.AreEqual(0, result);
             repository.VerifyAll(); //<- should not fail the test methinks
         }
 
-        [Fact]
+        [Test]
         public void CanGetSetupResultFromStub()
         {
             MockRepository repository = new MockRepository();
@@ -35,26 +64,26 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             }
 
             int result = resultGetter.GetSomeNumber("a");
-            Assert.Equal(1, result);
+            Assert.AreEqual(1, result);
             repository.VerifyAll(); 
         }
 
-        [Fact]
+        [Test]
         public void CannotCallLastCallConstraintsMoreThanOnce()
         {
             MockRepository repository = new MockRepository();
             IGetResults resultGetter = repository.Stub<IGetResults>();
-        	Assert.Throws<InvalidOperationException>(
-        		"You have already specified constraints for this method. (IGetResults.GetSomeNumber(contains \"b\");)",
-        		() =>
-        		{
-        			using (repository.Record())
-        			{
-        				resultGetter.GetSomeNumber("a");
-        				LastCall.Constraints(Text.Contains("b"));
-        				LastCall.Constraints(Text.Contains("a"));
-        			}
-        		});
+            Assert.Throws<InvalidOperationException> (
+                () =>
+                {
+                    using (repository.Record())
+                    {
+                        resultGetter.GetSomeNumber ("a");
+                        LastCall.Constraints (Text.Contains ("b"));
+                        LastCall.Constraints (Text.Contains ("a"));
+                    }
+                },
+                "You have already specified constraints for this method. (IGetResults.GetSomeNumber(contains \"b\");)");
         }
     }
 

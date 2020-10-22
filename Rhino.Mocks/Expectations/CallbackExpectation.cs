@@ -1,4 +1,5 @@
 ﻿#region license
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
 // Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
@@ -30,9 +31,10 @@
 using System;
 using System.Reflection;
 using System.Text;
-using Castle.Core.Interceptor;
+using Castle.DynamicProxy;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Expectations
 {

@@ -1,0 +1,32 @@
+name: CI Build
+
+on:
+  push:
+    branches: [ core/** ]
+  pull_request:
+    branches: [ core/develop ]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Add msbuild to PATH
+        uses: microsoft/setup-msbuild@v1.0.1
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.2
+
+      - name: Restore NuGet packages
+        run: nuget restore Rhino.Mocks.sln
+
+      - name: Build the Solution
+        run: msbuild Rhino.Mocks.sln
+
+      - name: .NET 3.5 Tests
+        run: exit (Start-Process -FilePath "$env:userprofile\.nuget\packages\nunit.consolerunner\3.11.1\tools\nunit3-console.exe" -PassThru -NoNewWindow -Wait -ArgumentList ".\Rhino.Mocks.Tests\bin\debug\net35\Rhino.Mocks.Tests.dll").ExitCode
+
+      - name: netcoreapp3.1 Tests
+        run: dotnet test .\Rhino.Mocks.Tests\Rhino.Mocks.Tests.csproj --framework netcoreapp3.1 --no-build

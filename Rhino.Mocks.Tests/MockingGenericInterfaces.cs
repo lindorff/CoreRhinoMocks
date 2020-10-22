@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,11 +27,10 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -49,24 +49,24 @@ namespace Rhino.Mocks.Tests
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void MockAGenericInterface()
         {
             IList<int> list = mocks.StrictMock<IList<int>>();
             Assert.NotNull(list);
             Expect.Call(list.Count).Return(5);
             mocks.ReplayAll();
-            Assert.Equal(5, list.Count);
+            Assert.AreEqual(5, list.Count);
         }
 
-        [Fact]
+        [Test]
         public void DynamicMockOfGeneric()
         {
             IList<int> list = mocks.DynamicMock<IList<int>>();
             Assert.NotNull(list);
             Expect.Call(list.Count).Return(5);
             mocks.ReplayAll();
-            Assert.Equal(5, list.Count);
+            Assert.AreEqual(5, list.Count);
             list.Add(4);
         }
     }

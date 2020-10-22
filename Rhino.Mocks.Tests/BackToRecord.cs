@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,10 +27,9 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Interfaces;
 using Rhino.Mocks.Tests.FieldsProblem;
@@ -39,22 +39,22 @@ namespace Rhino.Mocks.Tests
     
     public class BackToRecord
     {
-        [Fact]
+        [Test]
         public void CanMoveToRecordAndThenReplay()
         {
             MockRepository mocks = new MockRepository();
             IDemo demo = (IDemo)mocks.StrictMock(typeof(IDemo));
             Expect.Call(demo.Prop).Return("ayende");
             mocks.Replay(demo);
-            Assert.Equal("ayende", demo.Prop);
+            Assert.AreEqual("ayende", demo.Prop);
             mocks.BackToRecord(demo);
             Expect.Call(demo.Prop).Return("rahien");
             mocks.Replay(demo);
-            Assert.Equal("rahien", demo.Prop);
+            Assert.AreEqual("rahien", demo.Prop);
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void CanMoveToRecordFromVerified()
         {
             MockRepository mocks = new MockRepository();
@@ -62,18 +62,18 @@ namespace Rhino.Mocks.Tests
             Expect.Call(demo.Prop).Return("ayende");
             
             mocks.Replay(demo);
-            Assert.Equal("ayende", demo.Prop);
+            Assert.AreEqual("ayende", demo.Prop);
             mocks.VerifyAll();
 
             mocks.BackToRecord(demo);
 
             Expect.Call(demo.Prop).Return("rahien");
             mocks.Replay(demo);
-            Assert.Equal("rahien", demo.Prop);
+            Assert.AreEqual("rahien", demo.Prop);
             mocks.VerifyAll();
         }
     
-        [Fact]
+        [Test]
         public void CanSpecifyClearOnlyEvents()
         {
             MockRepository mocks = new MockRepository();
@@ -88,7 +88,7 @@ namespace Rhino.Mocks.Tests
             Assert.False(called);
         }
 
-        [Fact]
+        [Test]
         public void CanClearOnlyOriginalMethodCalls()
         {
             MockRepository mocks = new MockRepository();
@@ -97,12 +97,12 @@ namespace Rhino.Mocks.Tests
             mocks.BackToRecord(abstractClass, BackToRecordOptions.OriginalMethodsToCall);
             mocks.ReplayAll();
 
-        	Assert.Throws<ExpectationViolationException>(
-        		"AbstractClass.Add(5); Expected #0, Actual #1.",
-        		() => abstractClass.Add(5));
+            Assert.Throws<ExpectationViolationException> (
+                    () => abstractClass.Add (5),
+                    "AbstractClass.Add(5); Expected #0, Actual #1.");
         }
 
-        [Fact]
+        [Test]
         public void CanClearOnlyPropertyBehavior()
         {
             MockRepository mocks = new MockRepository();
@@ -113,13 +113,15 @@ namespace Rhino.Mocks.Tests
 
             mocks.ReplayAll();
 
-        	Assert.Throws<ExpectationViolationException>("IDemo.get_Prop(); Expected #0, Actual #1.", delegate
-        	{
-        		string prop = mock.Prop;
-        	});
+            Assert.Throws<ExpectationViolationException> (
+                delegate
+                {
+                    string prop = mock.Prop;
+                },
+                "IDemo.get_Prop(); Expected #0, Actual #1.");
         }
 
-        [Fact]
+        [Test]
         public void CanMoveToRecordFromReplyWithoutClearingExpectations()
         {
             MockRepository mocks = new MockRepository();
@@ -135,12 +137,12 @@ namespace Rhino.Mocks.Tests
 
             mock.VoidNoArgs();
 
-        	Assert.Throws<ExpectationViolationException>(
-        		"IDemo.VoidNoArgs(); Expected #1, Actual #0.",
-        		() => mocks.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mocks.VerifyAll(),
+                "IDemo.VoidNoArgs(); Expected #1, Actual #0.");
         }
 
-        [Fact]
+        [Test]
         public void CanMoveToRecordFromVerifiedWithoutClearingExpectations()
         {
             MockRepository mocks = new MockRepository();

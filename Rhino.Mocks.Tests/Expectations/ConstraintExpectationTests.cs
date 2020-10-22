@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,14 +27,15 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 using Rhino.Mocks.Expectations;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
+using Is = Rhino.Mocks.Constraints.Is;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Tests.Expectations
 {
@@ -50,7 +52,8 @@ namespace Rhino.Mocks.Tests.Expectations
 			return expectation;
 		}
 
-		public ConstraintExpectationTests()
+		[SetUp]
+		public void SetUp()
 		{
 			method = typeof (IDemo).GetMethod("VoidThreeArgs");
 			expectation = new ConstraintsExpectation(new FakeInvocation(this.method), new AbstractConstraint[]
@@ -61,74 +64,60 @@ namespace Rhino.Mocks.Tests.Expectations
 				}, new Range(1, 1));
 		}
 
-		[Fact]
+		[Test]
 		public void PassingNullConstraintsThrows()
 		{
-			Assert.Throws<InvalidOperationException>(
-				"The constraint at index 1 is null! Use Is.Null() to represent null parameters.",
-				() =>
-				expectation = new ConstraintsExpectation(new FakeInvocation(this.method), new AbstractConstraint[]
-				{
-					Is.Anything(),
-					null,
-					Is.Equal(3.14f),
-				}, new Range(1, 1)));
+            Assert.Throws<InvalidOperationException> (
+                () => expectation = new ConstraintsExpectation (new FakeInvocation (this.method), new AbstractConstraint[] { Is.Anything(), null, Is.Equal (3.14f), }, new Range (1, 1)),
+                "The constraint at index 1 is null! Use Is.Null() to represent null parameters.");
 		}
 
-		[Fact]
+		[Test]
 		public void NullConstraints()
 		{
-			Assert.Throws<ArgumentNullException>("Value cannot be null.\r\nParameter name: constraints",
-			                                     () =>
-			                                     new ConstraintsExpectation(new FakeInvocation(this.method), null,
-			                                                                new Range(1, 1)));
+            Assert.Throws<ArgumentNullException> (
+                () => new ConstraintsExpectation (
+                    new FakeInvocation (this.method),
+                    null,
+                    new Range (1, 1)),
+                "Value cannot be null.\r\nParameter name: constraints");
 		}
 
-		[Fact]
+		[Test]
 		public void NullConstraintsFromPrevExpectation()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: constraints",
-				() => new ConstraintsExpectation(expectation, null));
+            Assert.Throws<ArgumentNullException> (
+                () => new ConstraintsExpectation (expectation, null),
+                "Value cannot be null.\r\nParameter name: constraints");
 		}
 
 
-		[Fact]
+		[Test]
 		public void NullEvaluation()
 		{
-			Assert.Throws<ArgumentNullException>("Value cannot be null.\r\nParameter name: args",
-			                                     () => expectation.IsExpected(null));
+            Assert.Throws<ArgumentNullException> (
+                () => expectation.IsExpected (null),
+                "Value cannot be null.\r\nParameter name: args");
 		}
 
-		[Fact]
+		[Test]
 		public void TooFewConstraints()
 		{
-			Assert.Throws<InvalidOperationException>(
-				"The number of constraints is not the same as the number of the method's parameters!",
-				() => new ConstraintsExpectation(new FakeInvocation(this.method), new AbstractConstraint[]
-				{
-					Is.Anything(),
-					Is.Null()
-				}, new Range(1, 1)));
+            Assert.Throws<InvalidOperationException> (
+                () => new ConstraintsExpectation (new FakeInvocation (this.method), new AbstractConstraint[] { Is.Anything(), Is.Null() }, new Range (1, 1)),
+                "The number of constraints is not the same as the number of the method's parameters!");
 		}
 
-		[Fact]
+		[Test]
 		public void TooManyConstraints()
 		{
-			Assert.Throws<InvalidOperationException>(
-				"The number of constraints is not the same as the number of the method's parameters!",
-				() =>
-				new ConstraintsExpectation(new FakeInvocation(this.method), new AbstractConstraint[]
-				{
-					Is.Anything(),
-					Is.Null(),
-					Is.NotNull(),
-					Text.Like("Song")
-				}, new Range(1, 1)));
+            Assert.Throws<InvalidOperationException> (
+                () => new ConstraintsExpectation (new FakeInvocation (this.method), new AbstractConstraint[] { Is.Anything(), Is.Null(), Is.NotNull(), Text.Like ("Song") }, new Range (1, 1)),
+                "The number of constraints is not the same as the number of the method's parameters!");
 
 		}
 
-		[Fact]
+		[Test]
 		public void CreateErrorMessageForConstraints()
 		{
 			ConstraintsExpectation expectation = new ConstraintsExpectation(new FakeInvocation(this.method), new AbstractConstraint[]
@@ -138,29 +127,29 @@ namespace Rhino.Mocks.Tests.Expectations
 					Text.Like(@"[\w\d]+1234")
 				}, new Range(1, 1));
 			string message = "IDemo.VoidThreeArgs(anything, equal to null, like \"[\\w\\d]+1234\");";
-			Assert.Equal(message, expectation.ErrorMessage);
+			Assert.AreEqual(message, expectation.ErrorMessage);
 		}
 
 		
 
-		[Fact]
+		[Test]
 		public void ValidateConstraint()
 		{
 			Assert.True(this.expectation.IsExpected(new object[] {32, "Ayende", 3.14f}));
 		}
 
-		[Fact]
+		[Test]
 		public void FailToValidateConstraint()
 		{
 			Assert.False(this.expectation.IsExpected(new object[] {32, "Ayende", 4.13f}));
 		}
 
-		[Fact]
+		[Test]
 		public void TooFewArgs()
 		{
-			Assert.Throws<InvalidOperationException>(
-				"Number of argument doesn't match the number of parameters!",
-				() => this.expectation.IsExpected(new object[] {32, "Ayende"}));
+            Assert.Throws<InvalidOperationException> (
+                () => this.expectation.IsExpected (new object[] { 32, "Ayende" }),
+                "Number of argument doesn't match the number of parameters!");
 		}
 	}
 }

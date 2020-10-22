@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,15 +27,14 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Reflection;
-using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Expectations;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Tests.Expectations
 {
@@ -53,45 +53,46 @@ namespace Rhino.Mocks.Tests.Expectations
 		}
 
 
-		public AnyArgsExpectationTests()
+        [SetUp]
+        public void SetUp()
 		{
             method = typeof(int).GetMethod("CompareTo", new Type[] { typeof(object) });
 			equal = new ArgsEqualExpectation(new FakeInvocation(this.method), new object[] {1}, new Range(1, 1));
 			any = new AnyArgsExpectation(this.equal);
 		}
 
-		[Fact]
+		[Test]
 		public void AnyArgsExpectationReturnTrueForDifferentArgs()
 		{
 			Assert.False(equal.IsExpected(new object[0]));
 			Assert.True(any.IsExpected(new object[0]));
 		}
 
-		[Fact]
+		[Test]
 		public void ErrorMessageContainsAnyForParameters()
 		{
 			string IsExpected = "Int32.CompareTo(any);";
-			Assert.Equal(IsExpected, any.ErrorMessage);
+			Assert.AreEqual(IsExpected, any.ErrorMessage);
 		}
 
-		[Fact]
+		[Test]
 		public void AnyArgsIsNotEqualsToNonAnyArgsExpectation()
 		{
 			IExpectation other = new ArgsEqualExpectation(new FakeInvocation(method), new object[0], new Range(1, 1));
-			Assert.NotEqual(any, other );
+			Assert.AreNotEqual(any, other );
 		}
 
-		[Fact]
+		[Test]
 		public void AnyArgsEqualToAnyOtherAnyArgs()
 		{
-			Assert.Equal(any, new AnyArgsExpectation(new FakeInvocation(method), new Range(1, 1)));
+			Assert.AreEqual(any, new AnyArgsExpectation(new FakeInvocation(method), new Range(1, 1)));
 		}
 	}
 
 	internal class FakeInvocation : AbstractInvocation
 	{
 		public FakeInvocation(MethodInfo targetMethod) 
-			: base(null, null, null, null, targetMethod, null, new object[0])
+			: base(null, null, targetMethod, new object[0])
 		{
 		}
 
@@ -99,5 +100,9 @@ namespace Rhino.Mocks.Tests.Expectations
 		{
 			throw new NotImplementedException();
 		}
+
+		public override object InvocationTarget => throw new NotImplementedException();
+		public override Type TargetType => throw new NotImplementedException();
+		public override MethodInfo MethodInvocationTarget => throw new NotImplementedException();
 	}
 }

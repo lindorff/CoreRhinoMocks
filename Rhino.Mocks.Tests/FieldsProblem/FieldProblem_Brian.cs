@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,18 +27,17 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Brian
 	{
-		[Fact]
+		[Test]
 		public void SetExpectationOnNullableValue()
 		{
 			MockRepository mocks = new MockRepository();
@@ -52,14 +52,14 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			Assert.True(foo.Id.HasValue);
-			Assert.Equal(2, foo.Id.Value);
+			Assert.AreEqual(2, foo.Id.Value);
 			Assert.False(foo.Id.HasValue);
-			Assert.Equal(1, foo.Id.Value);
+			Assert.AreEqual(1, foo.Id.Value);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockingInternalMetohdsAndPropertiesOfInternalClass()
 		{
 			
@@ -77,8 +77,8 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			mockRepository.ReplayAll();
 
-			Assert.Equal("MockTestMethod", mockTestClass.TestMethod());
-			Assert.Equal("MockTestProperty", mockTestClass.TestProperty);
+			Assert.AreEqual("MockTestMethod", mockTestClass.TestMethod());
+			Assert.AreEqual("MockTestProperty", mockTestClass.TestProperty);
 
 			mockRepository.VerifyAll();
 

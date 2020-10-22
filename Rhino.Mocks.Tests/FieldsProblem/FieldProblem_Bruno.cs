@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,10 +27,11 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
+#if NETFRAMEWORK
 
 using System;
 using System.EnterpriseServices;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -41,7 +43,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class ReproFixture
     {
-        [Fact]
+        [Test]
         public void TestMethod1()
         {
             ServiceDomain.Enter(new ServiceConfig());
@@ -54,3 +56,5 @@ namespace Rhino.Mocks.Tests.FieldsProblem
         }
     }
 }
+
+#endif

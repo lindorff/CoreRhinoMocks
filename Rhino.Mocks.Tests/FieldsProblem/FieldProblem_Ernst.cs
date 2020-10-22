@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,18 +27,18 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
 using Rhino.Mocks.Interfaces;
+using Is = Rhino.Mocks.Constraints.Is;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Ernst
 	{
-		[Fact]
+		[Test]
 		public void CallOriginalMethodProblem2()
 		{
 			MockRepository mockRepository = new MockRepository();
@@ -54,7 +55,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mockRepository.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseBackToRecordOnMethodsThatCallToCallOriginalMethod()
 		{
 			MockRepository repository = new MockRepository();
@@ -87,7 +88,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void CanUseBackToRecordOnMethodsThatCallPropertyBehavior()
 		{
 			MockRepository repository = new MockRepository();
@@ -98,7 +99,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			repository.ReplayAll();
 			mock.Id = 4;
 			int d = mock.Id;
-			Assert.Equal(4,d );
+			Assert.AreEqual(4,d );
 			repository.VerifyAll();
 
 			repository.BackToRecordAll();
@@ -107,7 +108,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			repository.ReplayAll();
 
-			Assert.Equal(5, mock.Id);
+			Assert.AreEqual(5, mock.Id);
 
 			repository.VerifyAll();
 		}

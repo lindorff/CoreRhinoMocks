@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,8 +27,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -47,7 +47,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			void Add(TKey key, TValue value);
 		}
 
-		[Fact]
+		[Test]
 		public void TestExpectCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -59,12 +59,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 			int i = mockCache.GetValue("a");
-			Assert.Equal(1,i );
+			Assert.AreEqual(1,i );
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void TestLastCall()
 		{
 			MockRepository mocks = new MockRepository();
@@ -80,7 +80,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void TestExpectCallWithNonGenericDelegate()
 		{
 			MockRepository mocks = new MockRepository();
@@ -91,7 +91,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			int i = mockCache.GetValue("a");
 
-			Assert.Equal(2, i);
+			Assert.AreEqual(2, i);
 
 			mocks.VerifyAll();
 		}

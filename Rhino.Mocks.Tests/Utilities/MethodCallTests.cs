@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,10 +27,9 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Utilities;
 
 namespace Rhino.Mocks.Tests.Utilities
@@ -37,41 +37,42 @@ namespace Rhino.Mocks.Tests.Utilities
 	
 	public class MethodCallTests
 	{
-		[Fact]
+		[Test]
 		public void MethodCallToString()
 		{
 			string actual = MethodCallUtil.StringPresentation(null, GetMethodInfo("StartsWith", ""), new object[] {"abcd"});
-			Assert.Equal("String.StartsWith(\"abcd\");", actual);
+			Assert.AreEqual("String.StartsWith(\"abcd\");", actual);
 		}
 
-		[Fact]
+		[Test]
 		public void MethodCallToStringWithSeveralArguments()
 		{
 			string actual = MethodCallUtil.StringPresentation(null,GetMethodInfo("IndexOf", "abcd", 4), new object[] {"abcd", 4});
-			Assert.Equal("String.IndexOf(\"abcd\", 4);", actual);
+			Assert.AreEqual("String.IndexOf(\"abcd\", 4);", actual);
 		}
 
-		[Fact]
+		[Test]
 		public void MethodCallCtorWontAcceptNullMethod()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: method",
-				() => MethodCallUtil.StringPresentation(null, null, null));
+            Assert.Throws<ArgumentNullException> (
+                () => MethodCallUtil.StringPresentation (null, null, null),
+                "Value cannot be null.\r\nParameter name: method");
 		}
 
-		[Fact]
+		[Test]
 		public void MethodCallCtorWontAcceptNullArgs()
 		{
             MethodInfo method = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
-			Assert.Throws<ArgumentNullException>("Value cannot be null.\r\nParameter name: args",
-			                                     () => MethodCallUtil.StringPresentation(null, method, null));
+            Assert.Throws<ArgumentNullException> (
+                () => MethodCallUtil.StringPresentation (null, method, null),
+                "Value cannot be null.\r\nParameter name: args");
 		}
 
-		[Fact]
+		[Test]
 		public void MethodCallWithArgumentsMissing()
 		{
             MethodInfo method = typeof(string).GetMethod("StartsWith", new Type[] { typeof(string) });
-            Assert.Equal("String.StartsWith(missing parameter);", MethodCallUtil.StringPresentation(null,method, new object[0]));
+            Assert.AreEqual("String.StartsWith(missing parameter);", MethodCallUtil.StringPresentation(null,method, new object[0]));
 
 		}
 

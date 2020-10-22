@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,7 +27,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Collections;
 using System.ComponentModel;
@@ -34,7 +34,7 @@ using System.IO;
 using System.Text;
 using System.Xml;
 
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Interfaces;
 
@@ -44,7 +44,7 @@ namespace Rhino.Mocks.Tests
     public class MultiMocks
     {
         #region CanCreateAStrictMultiMockFromTwoInterfaces
-        [Fact]
+        [Test]
         public void CanCreateAStrictMultiMockFromTwoInterfacesNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -52,7 +52,7 @@ namespace Rhino.Mocks.Tests
             CanCreateAStrictMultiMockFromTwoInterfacesCommon(mocks, demo);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateAStrictMultiMockFromTwoInterfacesGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -71,7 +71,7 @@ namespace Rhino.Mocks.Tests
 
             mocks.ReplayAll();
 
-            Assert.Equal(1, demo.ReturnIntNoArgs());
+            Assert.AreEqual(1, demo.ReturnIntNoArgs());
             disposable.Dispose();
 
             mocks.VerifyAll();
@@ -79,7 +79,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region ClearStrictCollectionAndDisposesIt
-        [Fact]
+        [Test]
         public void ClearStrictCollectionAndDisposesItNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -88,7 +88,7 @@ namespace Rhino.Mocks.Tests
             ClearStrictCollectionAndDisposesItCommon(mocks, collection);
         }
 
-        [Fact]
+        [Test]
         public void ClearStrictCollectionAndDisposesItGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -116,7 +116,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region CanCreateAStrictMultiMockFromClassAndTwoInterfacesNonGeneric
-        [Fact]
+        [Test]
         public void CanCreateAStrictMultiMockFromClassAndTwoInterfacesNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -125,7 +125,7 @@ namespace Rhino.Mocks.Tests
             CanCreateAStrictMultiMockFromClassAndTwoInterfacesCommon(mocks, reader);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateAStrictMultiMockFromClassAndTwoInterfacesGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -151,17 +151,17 @@ namespace Rhino.Mocks.Tests
 
             mocks.ReplayAll();
 
-            Assert.Equal( 3, reader.AttributeCount );
-            Assert.Equal( node, hasXmlNode.GetNode() );
+            Assert.AreEqual( 3, reader.AttributeCount );
+            Assert.AreEqual( node, hasXmlNode.GetNode() );
 
-            Assert.Same( cloneable, cloneable.Clone() );
+            Assert.AreSame( cloneable, cloneable.Clone() );
 
             mocks.VerifyAll();
         }
         #endregion
 
         #region CanCreateAStrictMultiMockWithConstructorArgs
-        [Fact]
+        [Test]
         public void CanCreateAStrictMultiMockWithConstructorArgsNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -179,7 +179,7 @@ namespace Rhino.Mocks.Tests
             CommonConstructorArgsTest(mocks, stringBuilder, formatProvider, mockedWriter, MockType.Strict);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateAStrictMultiMockWithConstructorArgsGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -199,7 +199,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region CanCreateADynamicMultiMockFromTwoInterfacesNonGeneric
-        [Fact]
+        [Test]
         public void CanCreateADynamicMultiMockFromTwoInterfacesNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -211,7 +211,7 @@ namespace Rhino.Mocks.Tests
             CanCreateADynamicMultiMockFromTwoInterfacesCommon(mocks, demo, editable);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateADynamicMultiMockFromTwoInterfacesGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -235,7 +235,7 @@ namespace Rhino.Mocks.Tests
 
             // Drive two members on each interface to check dynamic nature
 
-            Assert.Equal("foo", demo.ReadOnly);
+            Assert.AreEqual("foo", demo.ReadOnly);
             demo.VoidNoArgs();
 
             editable.BeginEdit();
@@ -246,7 +246,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region CanCreateADynamicMultiMockWithConstructorArgs
-        [Fact]
+        [Test]
         public void CanCreateADynamicMultiMockWithConstructorArgsNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -263,7 +263,7 @@ namespace Rhino.Mocks.Tests
             CommonConstructorArgsTest(mocks, stringBuilder, formatProvider, mockedWriter, MockType.Dynamic);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateADynamicMultiMockWithConstructorArgsGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -282,7 +282,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region CanCreateAPartialMultiMockFromClassAndTwoInterfacesNonGeneric
-        [Fact]
+        [Test]
         public void CanCreateAPartialMultiMockFromClassAndTwoInterfacesNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -291,7 +291,7 @@ namespace Rhino.Mocks.Tests
             CanCreateAPartialMultiMockFromClassAndTwoInterfacesCommon(mocks, reader);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateAPartialMultiMockFromClassAndTwoInterfacesGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -317,17 +317,17 @@ namespace Rhino.Mocks.Tests
 
             mocks.ReplayAll();
 
-            Assert.Equal(3, reader.AttributeCount);
-            Assert.Equal(node, hasXmlNode.GetNode());
+            Assert.AreEqual(3, reader.AttributeCount);
+            Assert.AreEqual(node, hasXmlNode.GetNode());
 
-            Assert.Same(cloneable, cloneable.Clone());
+            Assert.AreSame(cloneable, cloneable.Clone());
 
             mocks.VerifyAll();
         }
         #endregion
 
         #region CanConstructAPartialMultiMockWithConstructorArgs
-        [Fact]
+        [Test]
         public void CanCreateAPartialMultiMockWithConstructorArgsNonGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -345,7 +345,7 @@ namespace Rhino.Mocks.Tests
             CommonConstructorArgsTest(mocks, stringBuilder, formatProvider, mockedWriter, MockType.Partial);
         }
 
-        [Fact]
+        [Test]
         public void CanCreateAPartialMultiMockWithConstructorArgsGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -364,7 +364,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region Check cannot create multi mocks using extra classes
-        [Fact]
+        [Test]
         public void CannotMultiMockUsingClassesAsExtras()
         {
             MockRepository mocks = new MockRepository();
@@ -390,7 +390,7 @@ namespace Rhino.Mocks.Tests
             void ExtraMethod();
         }
 
-        [Fact]
+        [Test]
         public void RepeatedInterfaceMultiMocks()
         {
             MockRepository mocks = new MockRepository();
@@ -435,7 +435,7 @@ namespace Rhino.Mocks.Tests
 
             // Ensure that arguments arrived okay
             // Is the format provider correct
-            Assert.Same(formatProvider, mockedWriter.FormatProvider);
+            Assert.AreSame(formatProvider, mockedWriter.FormatProvider);
             // Does writing to the writer forward to our stringbuilder from the constructor?
             mockedWriter.Write(stringToWrite);
             mockedWriter.Flush();
@@ -452,7 +452,7 @@ namespace Rhino.Mocks.Tests
             catch (ExpectationViolationException)
             {
                 // We're operating strictly.
-                Assert.Equal(MockType.Strict, mockType);
+                Assert.AreEqual(MockType.Strict, mockType);
             }
 
             string expectedStringBuilderContents = null;
@@ -469,12 +469,12 @@ namespace Rhino.Mocks.Tests
                     break;
             }
 
-            Assert.Equal(expectedStringBuilderContents, stringBuilder.ToString());
+            Assert.AreEqual(expectedStringBuilderContents, stringBuilder.ToString());
 
             // Satisfy expectations.
             mockedWriter.Close();
             Assert.Null(errorInfo.Error);
-            Assert.Equal("error!!!", errorInfo.Error);
+            Assert.AreEqual("error!!!", errorInfo.Error);
 
         	if(MockType.Strict != mockType)
 				mocks.VerifyAll();

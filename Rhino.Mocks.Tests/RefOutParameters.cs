@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,10 +27,9 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -44,7 +44,7 @@ namespace Rhino.Mocks.Tests
             }
         }
 
-        [Fact]
+        [Test]
         public void UseTheOutMethodToSpecifyOutputAndRefParameters()
         {
             MockRepository mocks = new MockRepository();
@@ -59,12 +59,12 @@ namespace Rhino.Mocks.Tests
             
             mocks.VerifyAll();
             
-            Assert.Equal(100, i);
-            Assert.Equal("s", s);
-            Assert.Equal("b", s2);
+            Assert.AreEqual(100, i);
+            Assert.AreEqual("s", s);
+            Assert.AreEqual("b", s2);
         }
 
-		[Fact]
+		[Test]
 		public void UseTheOutMethodToSpecifyOutputAndRefParameters_CanOnlyBeCalledOnce()
         {
             MockRepository mocks = new MockRepository();
@@ -72,12 +72,12 @@ namespace Rhino.Mocks.Tests
             int i;
             string s = null, s2;
             myClass.MyMethod(out i, ref s, 1, out s2);
-			Assert.Throws<InvalidOperationException>(
-				"Output and ref parameters has already been set for this expectation",
-				() => LastCall.OutRef(100, "s", "b").OutRef(100, "s", "b"));
+            Assert.Throws<InvalidOperationException> (
+                () => LastCall.OutRef (100, "s", "b").OutRef (100, "s", "b"),
+                "Output and ref parameters has already been set for this expectation");
         }
 
-    	[Fact]
+    	[Test]
     	public void GivingLessParametersThanWhatIsInTheMethodWillNotThrow()
     	{
     		   MockRepository mocks = new MockRepository();
@@ -92,7 +92,7 @@ namespace Rhino.Mocks.Tests
             
             mocks.VerifyAll();
             
-            Assert.Equal(100, i);
+            Assert.AreEqual(100, i);
             Assert.Null(s);
             Assert.Null(s2);
     	}

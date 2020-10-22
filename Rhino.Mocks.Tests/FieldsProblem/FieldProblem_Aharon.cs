@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,10 +27,9 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Runtime.InteropServices;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -37,7 +37,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class FieldProblem_Aharon
 	{
-		[Fact]
+		[Test]
 		public void CanCreateInterfaceWithGuid()
 		{
 			MockRepository mocks = new MockRepository();
@@ -46,7 +46,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void MockingDataset()
 		{
 			MockRepository mocks = new MockRepository();
@@ -54,15 +54,15 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Assert.NotNull(controller);
 		}
 
-		[Fact]
+		[Test]
 		public void PassingMockToMock_WhenErrorOccurs()
 		{
 			MockRepository mocks = new MockRepository();
 			Accepter accepter = mocks.StrictMock<Accepter>();
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				"Accepter.Accept(Rhino.Mocks.Tests.FieldsProblem.Accepter); Expected #0, Actual #1.",
-				() => accepter.Accept(accepter));
+            Assert.Throws<ExpectationViolationException> (
+                () => accepter.Accept (accepter),
+                "Accepter.Accept(Rhino.Mocks.Tests.FieldsProblem.Accepter); Expected #0, Actual #1.");
 
 		}
 	}

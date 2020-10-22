@@ -1,4 +1,6 @@
-// Copyright (c) 2005 - 2008 Ayende Rahien (ayende@ayende.com)
+#region license
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -23,16 +25,17 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-#if DOTNET35
+#endregion
+
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	using Exceptions;
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class FieldProblem_Mike
 	{
-		[Fact]
+		[Test]
 		public void Can_do_nested_virtual_calls()
 		{
 			var mocks = new MockRepository();
@@ -44,7 +47,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			subject.AssertWasCalled(it => it.NestedVirtualMethod());
 		}
 
-		[Fact]
+		[Test]
 		public void Can_do_nested_virtual_calls_when_not_called()
 		{
 			var mocks = new MockRepository();
@@ -52,9 +55,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.ReplayAll();
 
 
-			Assert.Throws<ExpectationViolationException>(
-				"SUT.NestedVirtualMethod(); Expected #1, Actual #0.",
-				() => subject.AssertWasCalled(it => it.NestedVirtualMethod()));
+            Assert.Throws<ExpectationViolationException> (
+                () => subject.AssertWasCalled (it => it.NestedVirtualMethod()),
+                "SUT.NestedVirtualMethod(); Expected #1, Actual #0.");
 		}
 
 
@@ -75,4 +78,3 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		#endregion
 	}
 }
-#endif

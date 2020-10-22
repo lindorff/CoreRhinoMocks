@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,8 +27,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
@@ -39,7 +39,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	
 	public class PropertyWithTypeParameterTest
 	{
-		[Fact]
+		[Test]
 		public void CreatedClosedGenericType()
 		{
 			MockRepository mocks = new MockRepository();
@@ -47,7 +47,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 		}
 
 
-		[Fact]
+		[Test]
 		public void UsingdoOnMethodWithGenericReturnValue()
 		{
 			MockRepository mocks = new MockRepository();
@@ -56,17 +56,19 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			methodOptions.Do((MyDelegate)delegate { return new object(); });
 		}
 
+#if NETFRAMEWORK
+
 		/// <summary>
 		/// If this fails with Execution Engine Exception, you need to install the hotfix 
 		/// for KB 957542.
 		/// There is a bug in .Net 3.5 SP1 that this test exposes.
 		/// </summary>
-		[Fact]
+		[Test]
 		public void DoubleGeneric()
 		{
 			string clrInstallationDir = Path.GetDirectoryName(typeof(object).Assembly.Location);
-			string mscorwksFilename = Path.Combine(clrInstallationDir, "mscorwks.dll");
-			FileVersionInfo clrVersion = FileVersionInfo.GetVersionInfo(mscorwksFilename);
+			string mscordacwksFilename = Path.Combine(clrInstallationDir, "mscordacwks.dll");
+			FileVersionInfo clrVersion = FileVersionInfo.GetVersionInfo(mscordacwksFilename);
 			if(clrVersion.ProductMajorPart == 2 && 
 				clrVersion.ProductMinorPart == 0 &&
 				clrVersion.ProductBuildPart == 50727)
@@ -84,6 +86,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			IDoubleGeneric<int> mock = mocks.StrictMock<IDoubleGeneric<int>>();
 			Expect.Call(mock.Method<string>(1, ""));
 		}
+
+#endif
+
 	}
 
 	public interface IDoubleGeneric<One>

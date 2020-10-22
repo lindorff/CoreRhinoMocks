@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,9 +27,8 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
@@ -40,12 +40,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 	{
 		MockRepository mocks;
 
-		public UsingEvents()
+		[SetUp]
+		public void SetUp()
 		{
 			mocks = new MockRepository();
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyingThatEventWasAttached()
 		{
 			IWithEvents events = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
@@ -61,7 +62,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			events.Blah += new EventHandler(events_Blah);
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyingThatAnEventWasFired()
 		{
 			IEventSubscriber subscriber = (IEventSubscriber)mocks.StrictMock(typeof(IEventSubscriber));
@@ -75,7 +76,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyingThatAnEventWasFiredThrowsForDifferentArgument()
 		{
 			MockRepository mocks = new MockRepository();
@@ -86,13 +87,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			events.Blah += new EventHandler(subscriber.Hanlder);
 			subscriber.Hanlder(events, new EventArgs());
 			mocks.ReplayAll();
-			
-			Assert.Throws<ExpectationViolationException>(
-				"IEventSubscriber.Hanlder(Rhino.Mocks.Tests.FieldsProblem.WithEvents, System.EventArgs); Expected #0, Actual #1.\r\nIEventSubscriber.Hanlder(Rhino.Mocks.Tests.FieldsProblem.WithEvents, System.EventArgs); Expected #1, Actual #0.",
-				() => events.RaiseEvent());
+
+            Assert.Throws<ExpectationViolationException> (
+                () => events.RaiseEvent(),
+                "IEventSubscriber.Hanlder(Rhino.Mocks.Tests.FieldsProblem.WithEvents, System.EventArgs); Expected #0, Actual #1.\r\nIEventSubscriber.Hanlder(Rhino.Mocks.Tests.FieldsProblem.WithEvents, System.EventArgs); Expected #1, Actual #0.");
 		}
 
-		[Fact]
+		[Test]
 		public void CanSetExpectationToUnsubscribeFromEvent()
 		{
 			IWithEvents events = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
@@ -104,18 +105,19 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyingExceptionIfEventIsNotAttached()
 		{
 			IWithEvents events = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
 			events.Blah += new EventHandler(events_Blah);
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>("IWithEvents.add_Blah(System.EventHandler); Expected #1, Actual #0.",
-			                                             () => mocks.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mocks.VerifyAll(),
+                "IWithEvents.add_Blah(System.EventHandler); Expected #1, Actual #0.");
 
 		}
 
-		[Fact]
+		[Test]
 		public void VerifyingThatCanAttackOtherEvent()
 		{
 			IWithEvents events = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
@@ -127,7 +129,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 		}
 
-		[Fact]
+		[Test]
 		public void BetterErrorMessageOnIncorrectParametersCount()
 		{
 			IWithEvents events = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
@@ -135,13 +137,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			raiser = LastCall.IgnoreArguments().GetEventRaiser();
 			mocks.ReplayAll();
 			events.Blah += delegate { };
-			
-			Assert.Throws<InvalidOperationException>(
-				"You have called the event raiser with the wrong number of parameters. Expected 2 but was 0",
-				() => raiser.Raise(null));
+
+            Assert.Throws<InvalidOperationException> (
+                () => raiser.Raise (null),
+                "You have called the event raiser with the wrong number of parameters. Expected 2 but was 0");
 		}
 
-		[Fact]
+		[Test]
 		public void BetterErrorMessageOnIncorrectParameters()
 		{
 			IWithEvents events = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
@@ -149,9 +151,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			raiser = LastCall.IgnoreArguments().GetEventRaiser();
 			mocks.ReplayAll();
 			events.Blah += delegate { };
-			Assert.Throws<InvalidOperationException>(
-				"Parameter #2 is System.Int32 but should be System.EventArgs",
-				() => raiser.Raise("", 1));
+            Assert.Throws<InvalidOperationException> (
+                () => raiser.Raise ("", 1),
+                "Parameter #2 is System.Int32 but should be System.EventArgs");
 		}
 
 		private void events_Blah_Other(object sender, EventArgs e)
@@ -164,7 +166,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 		IEventRaiser raiser;
 
-		[Fact]
+		[Test]
 		public void RaiseEvent()
 		{
 			IWithEvents eventHolder = (IWithEvents)mocks.StrictMock(typeof(IWithEvents));
@@ -185,7 +187,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void UsingEventRaiserCreate()
 		{
 			IWithEvents eventHolder = (IWithEvents)mocks.Stub(typeof(IWithEvents));
@@ -210,9 +212,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			raiser.Raise(this, EventArgs.Empty);
 		}
 
-#if DOTNET35
-		
-        [Fact]
+        [Test]
         public void RaiseEventUsingExtensionMethod() 
         {
             IWithEvents eventHolder = (IWithEvents)mocks.Stub(typeof(IWithEvents));
@@ -226,7 +226,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             Assert.True(called);
         }
 
-        [Fact]
+        [Test]
         public void UsingEventRaiserFromExtensionMethod() 
         {
             IWithEvents eventHolder = (IWithEvents)mocks.Stub(typeof(IWithEvents));
@@ -246,8 +246,6 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
             Assert.True(called);
 		}
-#endif
-
 	}
 
 	public interface IWithEvents

@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,8 +27,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Expectations;
 using Rhino.Mocks.Generated;
@@ -41,7 +41,7 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 	
 	public class UnorderedMethodRecorderTests : IMethodRecorderTests
 	{
-		[Fact]
+		[Test]
 		public void CanRecordMethodsAndVerifyThem()
 		{
 			UnorderedMethodRecorder recorder = new UnorderedMethodRecorder(new ProxyMethodExpectationsDictionary());
@@ -53,7 +53,7 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 		}
 
 
-		[Fact]
+		[Test]
 		public void ReplayUnrecordedMethods()
 		{
 			UnorderedMethodRecorder recorder = new UnorderedMethodRecorder(new ProxyMethodExpectationsDictionary());
@@ -63,10 +63,13 @@ namespace Rhino.Mocks.Tests.MethodRecorders
 			Assert.NotNull(recorder.GetRecordedExpectation(new FakeInvocation(voidThreeArgs),demo, voidThreeArgs, new object[0]));
 			Assert.NotNull(recorder.GetRecordedExpectation(new FakeInvocation(voidNoArgs),demo, voidNoArgs, new object[0]));
 
-			Assert.Throws<ExpectationViolationException>("IDemo.VoidNoArgs(); Expected #1, Actual #2.",
-			                                             () =>
-			                                             recorder.GetRecordedExpectation(new FakeInvocation(voidNoArgs), demo,
-			                                                                             voidNoArgs, new object[0]));
+            Assert.Throws<ExpectationViolationException> (
+                () => recorder.GetRecordedExpectation (
+                    new FakeInvocation (voidNoArgs),
+                    demo,
+                    voidNoArgs,
+                    new object[0]),
+                "IDemo.VoidNoArgs(); Expected #1, Actual #2.");
 		}
 
 		protected override IMethodRecorder CreateRecorder()

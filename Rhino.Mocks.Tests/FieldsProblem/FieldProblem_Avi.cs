@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,17 +27,16 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Avi
     {
-        [Fact]
+        [Test]
         public void CallNonThrowingProtectedCtor()
         {
             MockRepository mocks = new MockRepository();
@@ -67,7 +67,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
     
     public class RhinoDynamicMockOfGeneric
     {
-        [Fact]
+        [Test]
         public void createDynamicMockOfGeneric()
         {
             MockRepository mocks = new MockRepository();
@@ -76,7 +76,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mocks.Replay(mockA);
         }
 
-        [Fact]
+        [Test]
         public void TestMockOnGenericWithDifferentTypes()
         {
             MockRepository mocks = new MockRepository();
@@ -84,7 +84,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             IComparable<bool> mock2 = mocks.StrictMock<IComparable<bool>>();
         }
 
-        [Fact]
+        [Test]
         public void createDynamicMockOfGenericAgain()
         {
             MockRepository mocks = new MockRepository();

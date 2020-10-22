@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,38 +27,37 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	 
-	public class FieldProblem_Derek : IDisposable
+	public class FieldProblem_Derek
 	{
 		private MockRepository mockRepository;
 
-
-		public FieldProblem_Derek()
+		[SetUp]
+		public void SetUp()
 		{
 			mockRepository = new MockRepository();
 		}
 
 
-		public void Dispose()
-
-		{
+        [TearDown]
+        public void TearDown()
+        {
 			mockRepository.VerifyAll();
 		}
 
 
-		[Fact]
+		[Test]
 		public void TestInvalidValue()
 		{
 			IMockInterface mockedInterface = mockRepository.StrictMock<IMockInterface>();
 			Expect.Call(mockedInterface.InvalidValue).Return(100UL);
 			mockRepository.ReplayAll();
-			Assert.Equal(100UL, mockedInterface.InvalidValue);
+			Assert.AreEqual(100UL, mockedInterface.InvalidValue);
 		}
 	}
 

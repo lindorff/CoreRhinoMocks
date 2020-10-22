@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,19 +27,16 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests
 {
-    using Xunit;
-
-    
     public class CallOriginalMethodTests
     {
 
-        [Fact]
+        [Test]
         public void CallOriginalMethodOnPropGetAndSet()
         {
             MockRepository mocks = new MockRepository();
@@ -53,29 +51,29 @@ namespace Rhino.Mocks.Tests
             for (int i = 0; i < 10; i++)
             {
                 demo.Prop = i;
-                Assert.Equal(i, demo.Prop);
+                Assert.AreEqual(i, demo.Prop);
             }
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void CantCallOriginalMethodOnInterface()
         {
             MockRepository mocks = new MockRepository();
             IDemo demo = (IDemo)mocks.StrictMock(typeof(IDemo));
-        	Assert.Throws<InvalidOperationException>(
-        		"Can't use CallOriginalMethod on method ReturnIntNoArgs because the method is abstract.",
-        		() => SetupResult.For(demo.ReturnIntNoArgs()).CallOriginalMethod(OriginalCallOptions.CreateExpectation));
+            Assert.Throws<InvalidOperationException> (
+                () => SetupResult.For (demo.ReturnIntNoArgs()).CallOriginalMethod (OriginalCallOptions.CreateExpectation),
+                "Can't use CallOriginalMethod on method ReturnIntNoArgs because the method is abstract.");
         }
 
-        [Fact]
+        [Test]
         public void CantCallOriginalMethodOnAbstractMethod()
         {
             MockRepository mocks = new MockRepository();
             MockingClassesTests.AbstractDemo demo = (MockingClassesTests.AbstractDemo)mocks.StrictMock(typeof(MockingClassesTests.AbstractDemo));
-        	Assert.Throws<InvalidOperationException>(
-        		"Can't use CallOriginalMethod on method Six because the method is abstract.",
-        		() => SetupResult.For(demo.Six()).CallOriginalMethod(OriginalCallOptions.CreateExpectation));
+            Assert.Throws<InvalidOperationException> (
+                () => SetupResult.For (demo.Six()).CallOriginalMethod (OriginalCallOptions.CreateExpectation),
+                "Can't use CallOriginalMethod on method Six because the method is abstract.");
         }
 
     }

@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,9 +27,8 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Impl;
 using System.Collections;
 
@@ -37,27 +37,27 @@ namespace Rhino.Mocks.Tests.Impl
 	
 	public class ValidateTests
 	{
-		[Fact]
+		[Test]
 		public void IsNotNullWhenNotNull()
 		{
 			Validate.IsNotNull(new object(), "test");
 		}
 
-		[Fact]
+		[Test]
 		public void IsNotNullWhenNullThrows()
 		{
-			Assert.Throws<ArgumentNullException>(
-				"Value cannot be null.\r\nParameter name: test",
-				() => Validate.IsNotNull(null, "test"));
+            Assert.Throws<ArgumentNullException> (
+                () => Validate.IsNotNull (null, "test"),
+                "Value cannot be null.\r\nParameter name: test");
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWhenNoArgs()
 		{
 			Assert.True(Validate.ArgsEqual(new object[0], new object[0]));
 		}
 
-		[Fact]
+		[Test]
 		public void HandlingArraysWithNull()
 		{
 			Assert.False(Validate.ArgsEqual(new object[] {1, null}, new object[] {1, "43"}));
@@ -66,32 +66,32 @@ namespace Rhino.Mocks.Tests.Impl
 	
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithDifferentNumberOfParameters()
 		{
 			Assert.False(Validate.ArgsEqual(new object[] {1, "43", 5.2f}, new object[] {1, "43"}));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWhenArgsMatch()
 		{
 			Assert.True(Validate.ArgsEqual(new object[] {1, "43", 5.2f}, new object[] {1, "43", 5.2f}));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWhenArgsMismatch()
 		{
 			Assert.False(Validate.ArgsEqual(new object[] {1, "43", 5.1f}, new object[] {1, "43", 6.4f}));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithArrayReferenceEqual()
 		{
 			object[] arr = new object[3] {"1", 2, 4.5f};
 			Assert.True(Validate.ArgsEqual(new object[] {1, arr}, new object[] {1, arr}));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithArrayContentEqual()
 		{
 			object[] arr1 = new object[3] {"1", 2, 4.5f},
@@ -99,7 +99,7 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.True(Validate.ArgsEqual(new object[] {1, arr2}, new object[] {1, arr1}));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithArrayContentDifferent()
 		{
 			object[] arr1 = new object[3] {"1", 2, 4.5f},
@@ -108,7 +108,7 @@ namespace Rhino.Mocks.Tests.Impl
 
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithArrayContentLengthDifferent()
 		{
 			object[] arr1 = new object[3] {"1", 2, 4.5f},
@@ -116,7 +116,7 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.False(Validate.ArgsEqual(new object[] {1, arr1}, new object[] {1, arr2}));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithStringArray()
 		{
 			string[] str1 = new string[] {"", "1", "1234"},
@@ -124,7 +124,7 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.False(Validate.ArgsEqual(str1, str2));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithCollectionReferenceEqual()
 		{
 			Queue queue = new Queue(3);
@@ -134,7 +134,7 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.True(Validate.ArgsEqual(new object[] { 1, queue }, new object[] { 1, queue }));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithCollectionContentEqual()
 		{
 			Queue queue1 = new Queue(3);
@@ -148,7 +148,7 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.True(Validate.ArgsEqual(new object[] { 1, queue1 }, new object[] { 1, queue2 }));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithCollectionContentDifferent()
 		{
 			Queue queue1 = new Queue(3);
@@ -162,7 +162,7 @@ namespace Rhino.Mocks.Tests.Impl
 			Assert.False(Validate.ArgsEqual(new object[] { 1, queue1 }, new object[] { 1, queue2 }));
 		}
 
-		[Fact]
+		[Test]
 		public void ArgsEqualWithCollectionContentLengthDifferent()
 		{
 			Queue queue1 = new Queue(3);

@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,87 +27,87 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Constraints;
+using Is = Rhino.Mocks.Constraints.Is;
 
 namespace Rhino.Mocks.Tests.Constraints
 {
 	
 	public class ComparableConstraintsTests
 	{
-		[Fact]
+		[Test]
 		public void GreaterThan()
 		{
 			Assert.True(Is.GreaterThan(1).Eval(3));
 			Assert.False(Is.GreaterThan(1.5).Eval(1.0));
-			Assert.Equal("greater than 5", Is.GreaterThan(5).Message);
+			Assert.AreEqual("greater than 5", Is.GreaterThan(5).Message);
 		}
 
-		[Fact]
+		[Test]
 		public void LessThan()
 		{
 			Assert.False(Is.LessThan(1).Eval(3));
 			Assert.True(Is.LessThan(1.5).Eval(1.0));
-			Assert.Equal("less than 5", Is.LessThan(5).Message);
+			Assert.AreEqual("less than 5", Is.LessThan(5).Message);
 		}
 
-		[Fact]
+		[Test]
 		public void LessThanOrEqual()
 		{
 			Assert.False(Is.LessThanOrEqual(1).Eval(3));
 			Assert.True(Is.LessThanOrEqual(4.5f).Eval(4.5f));
 			Assert.True(Is.LessThanOrEqual(1.5).Eval(1.0));
-			Assert.Equal("less than or equal to 5", Is.LessThanOrEqual(5).Message);
+			Assert.AreEqual("less than or equal to 5", Is.LessThanOrEqual(5).Message);
 		}
 
-		[Fact]
+		[Test]
 		public void GreaterThanOrEqual()
 		{
 			Assert.True(Is.GreaterThanOrEqual(1).Eval(3));
 			Assert.True(Is.GreaterThanOrEqual(3L).Eval(3L));
 			Assert.False(Is.GreaterThanOrEqual(1.5).Eval(1.0));
-			Assert.Equal("greater than or equal to 5", Is.GreaterThanOrEqual(5).Message);
+			Assert.AreEqual("greater than or equal to 5", Is.GreaterThanOrEqual(5).Message);
 		}
 
-		[Fact]
+		[Test]
 		public void Equal()
 		{
 			Assert.False(Is.Equal(1).Eval(3));
 			Assert.True(Is.Equal(3L).Eval(3L));
 			Assert.False(Is.Equal("Hi").Eval("Bye"));
 			Assert.True(Is.Equal("Bye").Eval("Bye"));
-			Assert.Equal("equal to Rahien", Is.Equal("Rahien").Message);
+			Assert.AreEqual("equal to Rahien", Is.Equal("Rahien").Message);
 		}
 
-		[Fact]
+		[Test]
 		public void NotEqual()
 		{
 			Assert.True(Is.NotEqual(1).Eval(3));
 			Assert.False(Is.NotEqual(3L).Eval(3L));
 			Assert.True(Is.NotEqual("Hi").Eval("Bye"));
 			Assert.False(Is.NotEqual("Bye").Eval("Bye"));
-			Assert.Equal("not equal to Rahien", Is.NotEqual("Rahien").Message);
+			Assert.AreEqual("not equal to Rahien", Is.NotEqual("Rahien").Message);
 		}
 
-		[Fact]
+		[Test]
 		public void IsNull()
 		{
 			Assert.True(Is.Null().Eval(null));
 			Assert.False(Is.Null().Eval(""));
-			Assert.Equal("equal to null", Is.Null().Message);
+			Assert.AreEqual("equal to null", Is.Null().Message);
 		}
 
-		[Fact]
+		[Test]
 		public void IsNotNull()
 		{
 			Assert.False(Is.NotNull().Eval(null));
 			Assert.True(Is.NotNull().Eval(""));
-			Assert.Equal("not equal to null", Is.NotNull().Message);
+			Assert.AreEqual("not equal to null", Is.NotNull().Message);
 		}
 	    
-	     [Fact]
+	     [Test]
         public void Same()
         {
             object o1 = new object();
@@ -122,10 +123,10 @@ namespace Rhino.Mocks.Tests.Constraints
             Assert.True(Is.Same(o1).Eval(o1));
             Assert.False(Is.Same(o1).Eval(o2));
 
-            Assert.Equal("same as FooBar", Is.Same("FooBar").Message);
+            Assert.AreEqual("same as FooBar", Is.Same("FooBar").Message);
         }
 
-        [Fact]
+        [Test]
         public void NotSame()
         {
             object o1 = new object();

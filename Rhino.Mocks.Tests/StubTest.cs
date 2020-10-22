@@ -1,5 +1,6 @@
 #region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -27,7 +28,7 @@
 #endregion
 
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Interfaces;
 
 namespace Rhino.Mocks.Tests
@@ -35,31 +36,31 @@ namespace Rhino.Mocks.Tests
 	
 	public class StubTest
 	{
-		[Fact]
+		[Test]
 		public void StaticAccessorForStub()
 		{
 			IAnimal animal = MockRepository.GenerateStub<IAnimal>();
 			animal.Eyes = 2;
-			Assert.Equal(2, animal.Eyes );
+			Assert.AreEqual(2, animal.Eyes );
 		}
 
-		[Fact]
+		[Test]
 		public void StubHasPropertyBehaviorForAllProperties()
 		{
 			MockRepository mocks = new MockRepository();
 			IAnimal animal = mocks.Stub<IAnimal>();
 			animal.Legs = 4;
-			Assert.Equal(4, animal.Legs);
+			Assert.AreEqual(4, animal.Legs);
 
 			animal.Name = "Rose";
-			Assert.Equal("Rose", animal.Name);
+			Assert.AreEqual("Rose", animal.Name);
 
 			Assert.Null(animal.Species);
 			animal.Species = "Caucasusian Shepherd";
-			Assert.Equal("Caucasusian Shepherd", animal.Species);
+			Assert.AreEqual("Caucasusian Shepherd", animal.Species);
 		}
 
-		[Fact]
+		[Test]
 		public void CanRegisterToEventsAndRaiseThem()
 		{
 			MockRepository mocks = new MockRepository();
@@ -77,7 +78,7 @@ namespace Rhino.Mocks.Tests
 			Assert.True(raised);
 		}
 
-		[Fact]
+		[Test]
 		public void CallingMethodOnStubsDoesNotCreateExpectations()
 		{
 			MockRepository mocks = new MockRepository();
@@ -92,20 +93,20 @@ namespace Rhino.Mocks.Tests
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void DemoLegsProperty()
 		{
 			IAnimal animalStub = MockRepository.GenerateStub<IAnimal>();
 
 			animalStub.Legs = 0;
-			Assert.Equal(0, animalStub.Legs);
+			Assert.AreEqual(0, animalStub.Legs);
 
 			SomeClass instance = new SomeClass(animalStub);
 			instance.SetLegs(10);
-			Assert.Equal(10, animalStub.Legs);
+			Assert.AreEqual(10, animalStub.Legs);
 		}
 
-		[Fact]
+		[Test]
 		public void CanCreateExpectationOnMethod()
 		{
 			MockRepository mocks = new MockRepository();
@@ -118,7 +119,7 @@ namespace Rhino.Mocks.Tests
 				animal.GetMood();
 				LastCall.Return("Happy");
 			}
-			Assert.Equal("Happy", animal.GetMood());
+			Assert.AreEqual("Happy", animal.GetMood());
 			mocks.VerifyAll();
 		}
 	}

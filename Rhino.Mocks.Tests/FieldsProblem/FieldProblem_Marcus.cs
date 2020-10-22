@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,9 +27,8 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
@@ -47,13 +47,13 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             mocks.VerifyAll();
         }
 
-        [Fact]
+        [Test]
         public void RepositoryWithoutMocks_ReturnWithoutException()
         {
             //nothing here, it works all in the setup/teardown		
         }
 
-        [Fact]
+        [Test]
         public void ConstructorThatThrowsInMock()
         {
 
@@ -67,7 +67,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             {
                 string expectedExceptionStartsWith = @"Exception in constructor: System.Exception: I'm a ctor that throws";
                 string actualExceptionStartString = e.Message.Substring(0,expectedExceptionStartsWith.Length);
-                Assert.Equal(expectedExceptionStartsWith, actualExceptionStartString);
+                Assert.AreEqual(expectedExceptionStartsWith, actualExceptionStartString);
 
             }
         }

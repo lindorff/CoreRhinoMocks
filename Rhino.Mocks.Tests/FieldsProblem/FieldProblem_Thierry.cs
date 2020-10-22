@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,16 +27,15 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	
 	public class FieldProblem_Thierry
 	{
-		[Fact]
+		[Test]
 		public void ReproducedWithOutArraysContainingMockedObject2()
 		{
 			MockRepository mocks = new MockRepository();
@@ -54,11 +54,11 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 
 			pluginMng.GetPlugins(out allPlugins);
 
-			Assert.Equal(1, allPlugins.Length);
-			Assert.Same(plugin, allPlugins[0]);
+			Assert.AreEqual(1, allPlugins.Length);
+			Assert.AreSame(plugin, allPlugins[0]);
 		}
 
-		[Fact]
+		[Test]
 		public void MockGenericMethod1()
 		{
 			MockRepository mocks = new MockRepository();
@@ -70,12 +70,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Expect.Call(stubbed.DoNothing<byte>(myValue)).Return(returnedValue);
 			mocks.ReplayAll();
 			int x = stubbed.DoNothing<byte>(myValue);
-			Assert.Equal(myValue, x);
+			Assert.AreEqual(myValue, x);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockGenericMethod2()
 		{
 			MockRepository mocks = new MockRepository();
@@ -85,12 +85,12 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Expect.Call(stubbed.DoNothing<byte>(myValue)).Return(myValue);
 			mocks.ReplayAll();
 			byte x = stubbed.DoNothing<byte>(myValue);
-			Assert.Equal(myValue, x);
+			Assert.AreEqual(myValue, x);
 
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanMockComplexReturnType()
 		{
 			MockRepository mocks = new MockRepository();
@@ -102,7 +102,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			Expect.Call(stubbed.DoNothing<IList<byte>>(null)).Return(bytes);
 			mocks.ReplayAll();
 			IList<byte> bytesResult = stubbed.DoNothing<IList<byte>>(null);
-			Assert.Equal(bytes, bytesResult);
+			Assert.AreEqual(bytes, bytesResult);
 
 			mocks.VerifyAll();
 		}

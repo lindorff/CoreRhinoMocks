@@ -1,11 +1,11 @@
 ﻿#region license
-
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
 // Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
-// 
+//
 // Redistribution and use in source and binary forms, with or without modification,
 // are permitted provided that the following conditions are met:
-// 
+//
 //     * Redistributions of source code must retain the above copyright notice,
 //     this list of conditions and the following disclaimer.
 //     * Redistributions in binary form must reproduce the above copyright notice,
@@ -14,7 +14,7 @@
 //     * Neither the name of Ayende Rahien nor the names of its
 //     contributors may be used to endorse or promote products derived from this
 //     software without specific prior written permission.
-// 
+//
 // THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND
 // ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
 // WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
@@ -25,7 +25,6 @@
 // CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 // OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
 #endregion
 
 using System;
@@ -34,15 +33,16 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Reflection;
 using System.Text;
-using Castle.Core.Interceptor;
 using Castle.DynamicProxy;
 using Rhino.Mocks.Exceptions;
 using Rhino.Mocks.Generated;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Impl.Invocation;
-using Rhino.Mocks.Impl.RemotingMock;
 using Rhino.Mocks.Interfaces;
 using Rhino.Mocks.MethodRecorders;
+#if NETFRAMEWORK
+using Rhino.Mocks.Impl.RemotingMock;
+#endif
 
 namespace Rhino.Mocks
 {
@@ -211,9 +211,9 @@ namespace Rhino.Mocks
         {
             proxyGenerationOptions = new ProxyGenerationOptions
             {
-                AttributesToAddToGeneratedTypes = 
+                AdditionalAttributes =
                     {
-                        new __ProtectAttribute()
+                        CustomAttributeInfo.FromExpression(() => new __ProtectAttribute()),
                     }
             };
             recorders = new Stack();
@@ -342,8 +342,10 @@ namespace Rhino.Mocks
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
         public object StrictMock(Type type, params object[] argumentsForConstructor)
         {
+#if NETFRAMEWORK
             if (ShouldUseRemotingProxy(type, argumentsForConstructor))
                 return RemotingMock(type, CreateRecordState);
+#endif
             return StrictMultiMock(type, new Type[0], argumentsForConstructor);
         }
 
@@ -363,10 +365,18 @@ namespace Rhino.Mocks
         /// </summary>
         /// <param name="type">Type.</param>
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+#if NETFRAMEWORK
         public object StrictMockWithRemoting(Type type, params object[] argumentsForConstructor)
         {
             return RemotingMock(type, CreateRecordState);
         }
+#else
+        [Obsolete("Remoting is not supported in .NET Core.", true)]
+        public object StrictMockWithRemoting(Type type, params object[] argumentsForConstructor)
+        {
+            throw new NotSupportedException("Remoting is not supported in .NET Core.");
+        }
+#endif
 
         /// <summary>
         /// Creates a remoting mock for the specified type.
@@ -374,11 +384,19 @@ namespace Rhino.Mocks
         /// <typeparam name="T"></typeparam>
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
         /// <returns></returns>
+#if NETFRAMEWORK
         [Obsolete("Use StrictMockWithRemoting instead")]
         public T CreateMockWithRemoting<T>(params object[] argumentsForConstructor)
         {
             return StrictMockWithRemoting<T>(argumentsForConstructor);
         }
+#else
+        [Obsolete("Remoting is not supported in .NET Core.", true)]
+        public T CreateMockWithRemoting<T>(params object[] argumentsForConstructor)
+        {
+            throw new NotSupportedException("Remoting is not supported in .NET Core.");
+        }
+#endif
 
         /// <summary>
         /// Creates a strict remoting mock for the specified type.
@@ -386,10 +404,18 @@ namespace Rhino.Mocks
         /// <typeparam name="T"></typeparam>
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
         /// <returns></returns>
+#if NETFRAMEWORK
         public T StrictMockWithRemoting<T>(params object[] argumentsForConstructor)
         {
             return (T)RemotingMock(typeof(T), CreateRecordState);
         }
+#else
+        [Obsolete("Remoting is not supported in .NET Core.", true)]
+        public T StrictMockWithRemoting<T>(params object[] argumentsForConstructor)
+        {
+            throw new NotSupportedException("Remoting is not supported in .NET Core.");
+        }
+#endif
 
         /// <summary>
         /// Creates a mock from several types, with strict semantics.
@@ -471,29 +497,47 @@ namespace Rhino.Mocks
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
         public object DynamicMock(Type type, params object[] argumentsForConstructor)
         {
+#if NETFRAMEWORK
             if (ShouldUseRemotingProxy(type, argumentsForConstructor))
                 return RemotingMock(type, CreateDynamicRecordState);
+#endif
             return DynamicMultiMock(type, new Type[0], argumentsForConstructor);
         }
 
         /// <summary>Creates a dynamic mock for the specified type.</summary>
         /// <param name="type">Type.</param>
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
+#if NETFRAMEWORK
         public object DynamicMockWithRemoting(Type type, params object[] argumentsForConstructor)
         {
             return RemotingMock(type, CreateDynamicRecordState);
         }
+#else
+        [Obsolete("Remoting is not supported in .NET Core.", true)]
+        public object DynamicMockWithRemoting(Type type, params object[] argumentsForConstructor)
+        {
+            throw new NotSupportedException("Remoting is not supported in .NET Core.");
+        }
+#endif
 
         /// <summary>Creates a dynamic mock for the specified type.</summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
         /// <returns></returns>
+#if NETFRAMEWORK
         public T DynamicMockWithRemoting<T>(params object[] argumentsForConstructor)
         {
             return (T)RemotingMock(typeof(T), CreateDynamicRecordState);
         }
+#else
+        [Obsolete("Remoting is not supported in .NET Core.", true)]
+        public T DynamicMockWithRemoting<T>(params object[] argumentsForConstructor)
+        {
+            throw new NotSupportedException("Remoting is not supported in .NET Core.");
+        }
+#endif
 
-        /// <summary>Creates a mock object that defaults to calling the class methods if no expectation is set on the method.</summary>
+      /// <summary>Creates a mock object that defaults to calling the class methods if no expectation is set on the method.</summary>
         /// <param name="type">Type.</param>
         /// <param name="argumentsForConstructor">Arguments for the class' constructor.</param>
         public object PartialMock(Type type, params object[] argumentsForConstructor)
@@ -522,6 +566,7 @@ namespace Rhino.Mocks
             return CreateMockObject(type, CreatePartialRecordState, extraTypesWithMarker.ToArray(), argumentsForConstructor);
         }
 
+#if NETFRAMEWORK
         /// <summary>Creates a mock object using remoting proxies</summary>
         /// <param name="type">Type to mock - must be MarshalByRefObject</param>
         /// <returns>Mock object</returns>
@@ -536,6 +581,7 @@ namespace Rhino.Mocks
             proxies.Add(transparentProxy, value);
             return transparentProxy;
         }
+#endif
 
         /// <summary>
         /// Cause the mock state to change to replay, any further call is compared to the 
@@ -794,7 +840,7 @@ namespace Rhino.Mocks
                 delegateTargetInterface,
                 types, proxyGenerationOptions, interceptor);
 
-            proxy = Delegate.CreateDelegate(type, target, delegateTargetInterface.Name+ ".Invoke");
+            proxy = Delegate.CreateDelegate(type, target, "Invoke");
             delegateProxies.Add(target, proxy);
 
             IMockState value = mockStateFactory(GetMockedObject(proxy));
@@ -883,10 +929,12 @@ namespace Rhino.Mocks
                 return (IMockedObject)mockedInstance;
             }
 
+#if NETFRAMEWORK
             if (RemotingMockGenerator.IsRemotingProxy(mockedInstance))
             {
                 return RemotingMockGenerator.GetMockedObjectFromProxy(mockedInstance);
             }
+#endif
 
             return null;
         }
@@ -1090,9 +1138,12 @@ namespace Rhino.Mocks
         /// <param name="argumentsForConstructor">Arguments for the class' constructor, if mocking a concrete class</param>
         public T StrictMock<T>(params object[] argumentsForConstructor)
         {
+#if NETFRAMEWORK
             if (ShouldUseRemotingProxy(typeof(T), argumentsForConstructor))
                 return (T)RemotingMock(typeof(T), CreateRecordState);
-            return (T)CreateMockObject(typeof(T), CreateRecordState, new Type[0], argumentsForConstructor);
+#endif
+
+          return (T)CreateMockObject(typeof(T), CreateRecordState, new Type[0], argumentsForConstructor);
         }
 
         private static bool ShouldUseRemotingProxy(Type type, object[] argumentsForConstructor)
@@ -1115,8 +1166,11 @@ namespace Rhino.Mocks
         public T DynamicMock<T>(params object[] argumentsForConstructor)
             where T : class
         {
+#if NETFRAMEWORK
             if (ShouldUseRemotingProxy(typeof(T), argumentsForConstructor))
                 return (T)RemotingMock(typeof(T), CreateDynamicRecordState);
+#endif
+
             return (T)CreateMockObject(typeof(T), CreateDynamicRecordState, new Type[0], argumentsForConstructor);
         }
 
@@ -1233,8 +1287,10 @@ namespace Rhino.Mocks
         public object Stub(Type type, params object[] argumentsForConstructor)
         {
             CreateMockState createStub = mockedObject => new StubRecordMockState(mockedObject, this);
+#if NETFRAMEWORK
             if (ShouldUseRemotingProxy(type, argumentsForConstructor))
                 return RemotingMock(type, createStub);
+#endif
             return CreateMockObject(type, createStub, new Type[0], argumentsForConstructor);
         }
 

@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,16 +27,15 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Reflection;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Expectations;
 using Rhino.Mocks.Impl;
 using Rhino.Mocks.Interfaces;
 using Rhino.Mocks.MethodRecorders;
 using Rhino.Mocks.Tests.Expectations;
-using Rhino.Mocks.Tests.MethodRecorders;
+using Range = Rhino.Mocks.Impl.Range;
 
 namespace Rhino.Mocks.Tests
 {
@@ -50,7 +50,8 @@ namespace Rhino.Mocks.Tests
 		private IExpectation expectation;
 		private object[] args;
 
-		public ComplexOrderingTests()
+		[SetUp]
+		public void SetUp()
 		{
 			recorder = new UnorderedMethodRecorder(new ProxyMethodExpectationsDictionary());
 			nestedRecorder = new UnorderedMethodRecorder(new ProxyMethodExpectationsDictionary());
@@ -62,12 +63,12 @@ namespace Rhino.Mocks.Tests
 			args = new object[0];
 		}
 
-		[Fact]
+		[Test]
 		public void ComplexOrdering()
 		{
 			string expected = "Unordered: { Unordered: { Object.ToString(); } }";
 			recorder.Record(proxy,method, expectation);
-			Assert.Equal(expected, recorder.GetExpectedCallsMessage());
+			Assert.AreEqual(expected, recorder.GetExpectedCallsMessage());
 		}
 	}
 }

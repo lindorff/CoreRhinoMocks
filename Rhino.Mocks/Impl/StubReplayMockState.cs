@@ -1,4 +1,5 @@
 #region license
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
 // Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
@@ -27,7 +28,7 @@
 #endregion
 
 using System.Reflection;
-using Castle.Core.Interceptor;
+using Castle.DynamicProxy;
 using Rhino.Mocks.Interfaces;
 using Rhino.Mocks.Utilities;
 

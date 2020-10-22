@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,11 +27,10 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Text;
 
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests
 {
@@ -41,7 +41,7 @@ namespace Rhino.Mocks.Tests
 
         #region TestOrderedTimesMin0
 		//Test that a Times min of 0 works correctly inside an ordered recorder
-        [Fact]
+        [Test]
         public void TestOrderedTimesMin0()
         {
             ConfigureMockDelegate deleg = new ConfigureMockDelegate(ConfigureOrderedTimesMin0);
@@ -80,7 +80,7 @@ namespace Rhino.Mocks.Tests
 
         #region TestOrderedTimesMinNonZeroMaxHigherThanMin
 
-        [Fact]
+        [Test]
         public void TestOrderedTimesMinNonZeroMaxHigherThanMin()
         {
             ConfigureMockDelegate deleg = new ConfigureMockDelegate(ConfigureOrderedTimesMinNonZeroMaxHigherThanMin);
@@ -109,7 +109,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region TestOrderedAtLeastOnce
-		[Fact]
+		[Test]
 		public void TestOrderedAtLeastOnce()
         {
             ConfigureMockDelegate deleg = new ConfigureMockDelegate(ConfigureOrderedAtLeastOnce);
@@ -137,7 +137,7 @@ namespace Rhino.Mocks.Tests
         #endregion
 
         #region TestOrderedTimesMin0WithNestedUnordered
-		[Fact]
+		[Test]
 		public void TestOrderedTimesMin0WithNestedUnordered()
         {
             ConfigureMockDelegate deleg = new ConfigureMockDelegate(ConfigureOrderedTimesMin0WithNestedUnordered);

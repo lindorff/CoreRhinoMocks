@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,8 +27,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Impl;
 
 namespace Rhino.Mocks.Tests.Impl
@@ -35,33 +35,33 @@ namespace Rhino.Mocks.Tests.Impl
 	
 	public class RangeTests
 	{
-		[Fact]
+		[Test]
 		public void RangePropetiesReturnTheSameValuesAsThosePassedInCtor()
 		{
 			Range range = new Range(30, 50);
-			Assert.Equal(30, range.Min);
-			Assert.Equal(50, range.Max);
+			Assert.AreEqual(30, range.Min);
+			Assert.AreEqual(50, range.Max);
 		}
 
-		[Fact]
+		[Test]
 		public void RangeToString()
 		{
 			Range range = new Range(30, 50);
-			Assert.Equal("30..50", range.ToString());
+			Assert.AreEqual("30..50", range.ToString());
 		}
 
-		[Fact]
+		[Test]
 		public void RangeToStringWhenMinMaxEqual()
 		{
 			Range range = new Range(30, 30);
-			Assert.Equal("30", range.ToString());
+			Assert.AreEqual("30", range.ToString());
 		}
 
-		[Fact]
+		[Test]
 		public void RangeToStringWhenMinZeroAndMaxNonZero()
 		{
 			Range range = new Range(0, 30);
-			Assert.Equal("30", range.ToString());
+			Assert.AreEqual("30", range.ToString());
 		}
 	}
 }

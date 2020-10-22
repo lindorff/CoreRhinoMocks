@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,12 +27,11 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 
 namespace Rhino.Mocks.Tests
 {
-	using Xunit;
+	using NUnit.Framework;
 
 	
 	public class MockingAbstractClass : IDisposable
@@ -48,16 +48,16 @@ namespace Rhino.Mocks.Tests
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void MockAbsPropertyGetter()
 		{
 			AbsCls ac = (AbsCls)mocks.StrictMock(typeof(AbsCls));
 			Expect.Call(ac.AbPropGet).Return("n");
 			mocks.ReplayAll();
-			Assert.Equal("n", ac.AbPropGet);
+			Assert.AreEqual("n", ac.AbPropGet);
 		}
 
-		[Fact]
+		[Test]
 		public void MockAbsPropertySetter()
 		{
 			AbsCls ac = (AbsCls)mocks.StrictMock(typeof(AbsCls));
@@ -67,7 +67,7 @@ namespace Rhino.Mocks.Tests
 		}
 
 
-		[Fact]
+		[Test]
 		public void MockAbsProp()
 		{
 			AbsCls ac = (AbsCls)mocks.StrictMock(typeof(AbsCls));
@@ -75,16 +75,16 @@ namespace Rhino.Mocks.Tests
 			Expect.Call(ac.AbProp).Return("u");
 			mocks.ReplayAll();
 			ac.AbProp = "n";
-			Assert.Equal("u", ac.AbProp);
+			Assert.AreEqual("u", ac.AbProp);
 		}
 
-		[Fact]
+		[Test]
 		public void MockAbstractMethod()
 		{
 			AbsCls ac = (AbsCls)mocks.StrictMock(typeof(AbsCls));
 			Expect.Call(ac.Method()).Return(45);
 			mocks.ReplayAll();
-			Assert.Equal(45, ac.Method());
+			Assert.AreEqual(45, ac.Method());
 	
 		}
 

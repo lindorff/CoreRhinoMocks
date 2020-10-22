@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,22 +27,21 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_Blaz
     {
-        [Fact]
+        [Test]
         public void SameNameInterface()
         {
             MockRepository mocks = new MockRepository();
             IDemo demo1 = (IDemo)mocks.StrictMock(typeof(IDemo));
             Other.IDemo demo2 = (Other.IDemo)mocks.StrictMock(typeof(Other.IDemo));
             
-            Assert.NotEqual(demo1.GetType(), demo2.GetType());
+            Assert.AreNotEqual(demo1.GetType(), demo2.GetType());
         }
     }
     namespace Other

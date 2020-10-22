@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -29,40 +30,43 @@
 namespace Rhino.Mocks.Tests
 {
 	using System;
-	using Xunit;
+	using NUnit.Framework;
 
 
-	public class ExpectTests : IDisposable
+	public class ExpectTests
 	{
 		private MockRepository mocks;
 		private IDemo demo;
 
-		public ExpectTests()
+        [SetUp]
+        public void SetUp()
 		{
 			mocks = new MockRepository();
 			demo = mocks.StrictMock(typeof(IDemo)) as IDemo;
 		}
 
-		public void Dispose()
+        [TearDown]
+        public void TearDown()
 		{
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanExpect()
 		{
 			Expect.On(demo).Call(demo.Prop).Return("Ayende");
 			mocks.ReplayAll();
-			Assert.Equal("Ayende", demo.Prop);
+			Assert.AreEqual("Ayende", demo.Prop);
 		}
 
-		[Fact]
+		[Test]
 		public void PassNonMock()
 		{
 			try
 			{
-				Assert.Throws<InvalidOperationException>("The object 'System.Object' is not a mocked object.",
-														 () => Expect.On(new object()));
+                Assert.Throws<InvalidOperationException> (
+                    () => Expect.On (new object()),
+                    "The object 'System.Object' is not a mocked object.");
 			}
 			finally
 			{
@@ -71,7 +75,7 @@ namespace Rhino.Mocks.Tests
 
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseAnonymousDelegatesToCallVoidMethods()
 		{
 			Expect.Call(delegate { demo.VoidNoArgs(); }).Throw(new ArgumentNullException());
@@ -79,7 +83,7 @@ namespace Rhino.Mocks.Tests
 			Assert.Throws<ArgumentNullException>(demo.VoidNoArgs);
 		}
 
-		[Fact]
+		[Test]
 		public void CanUseAnonymousDelegatesToCallVoidMethods_WithoutAnonymousDelegate()
 		{
 			Expect.Call(demo.VoidNoArgs).Throw(new ArgumentNullException());
@@ -87,32 +91,32 @@ namespace Rhino.Mocks.Tests
 			Assert.Throws<ArgumentNullException>(demo.VoidNoArgs);
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectCallNormal()
 		{
 			Expect.Call(demo.Prop).Return("ayende");
 			mocks.ReplayAll();
-			Assert.Equal("ayende", demo.Prop);
+			Assert.AreEqual("ayende", demo.Prop);
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectWhenNoCallMade()
 		{
-			Assert.Throws<InvalidOperationException>(
-				"The object is not a mock object that belong to this repository.",
-				() => Expect.Call<object>(null));
+            Assert.Throws<InvalidOperationException> (
+                () => Expect.Call<object> (null),
+                "The object is not a mock object that belong to this repository.");
 			mocks.Replay(demo); //for the tear down
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectOnReplay()
 		{
 			Expect.Call(demo.Prop).Return("ayende");
 			mocks.ReplayAll();
-			Assert.Equal("ayende", demo.Prop);
-			Assert.Throws<InvalidOperationException>(
-				"Invalid call, the last call has been used or no call has been made (make sure that you are calling a virtual (C#) / Overridable (VB) method).",
-				() => Expect.Call<object>(null));
+			Assert.AreEqual("ayende", demo.Prop);
+            Assert.Throws<InvalidOperationException> (
+                () => Expect.Call<object> (null),
+                "Invalid call, the last call has been used or no call has been made (make sure that you are calling a virtual (C#) / Overridable (VB) method).");
 		}
 	}
 }

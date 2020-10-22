@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,88 +27,89 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
 namespace Rhino.Mocks.Tests
 {
 	
-	public class DynamicMockTests : IDisposable
+	public class DynamicMockTests
 	{
 		MockRepository mocks;
 		IDemo demo;
 		private bool doNotVerifyOnTearDown ;
 
-		public DynamicMockTests()
+        [SetUp]
+        public void SetUp()
 		{
 			doNotVerifyOnTearDown = false;
 			mocks = new MockRepository();
 			demo = (IDemo)mocks.DynamicMock(typeof(IDemo));
 		}
 
-		public void Dispose()
-		{
-			if(doNotVerifyOnTearDown)
-			mocks.VerifyAll();
-		}
+        [TearDown]
+        public void TearDown ()
+        {
+            if (doNotVerifyOnTearDown)
+                mocks.VerifyAll();
+        }
 
-		[Fact]
+        [Test]
 		public void CanCallUnexpectedMethodOnDynamicMock()
 		{
 			mocks.ReplayAll();
-			Assert.Equal(0,demo.ReturnIntNoArgs());
+			Assert.AreEqual(0,demo.ReturnIntNoArgs());
 		}
 
-		[Fact]
+		[Test]
 		public void CanSetupExpectations()
 		{
 			Expect.Call(demo.ReturnIntNoArgs()).Return(30).Repeat.Once();
 			mocks.ReplayAll();
-			Assert.Equal(30,demo.ReturnIntNoArgs());
-			Assert.Equal(0,demo.ReturnIntNoArgs());
+			Assert.AreEqual(30,demo.ReturnIntNoArgs());
+			Assert.AreEqual(0,demo.ReturnIntNoArgs());
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectationExceptionWithDynamicMock()
 		{
 			Expect.Call(demo.ReturnIntNoArgs()).Return(30);
 			mocks.ReplayAll();
 			Assert.Null(demo.ReturnStringNoArgs());
 			doNotVerifyOnTearDown = true;
-			Assert.Throws<ExpectationViolationException>(
-				"IDemo.ReturnIntNoArgs(); Expected #1, Actual #0.",
-				() => mocks.Verify(demo));	
+            Assert.Throws<ExpectationViolationException> (
+                () => mocks.Verify (demo),
+                "IDemo.ReturnIntNoArgs(); Expected #1, Actual #0.");	
 		}
 
-		[Fact]
+		[Test]
 		public void SetupResultWorksWithDynamicMocks()
 		{
 			SetupResult.For(demo.StringArgString("Ayende")).Return("Rahien");
 			mocks.ReplayAll();
 			for (int i = 0; i < 43; i++)
 			{
-				Assert.Equal("Rahien",demo.StringArgString("Ayende"));
+				Assert.AreEqual("Rahien",demo.StringArgString("Ayende"));
 				Assert.Null(demo.StringArgString("another"));
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectNeverForDyanmicMock()
 		{
 			Expect.Call(demo.ReturnIntNoArgs()).Repeat.Never();
 			mocks.ReplayAll();
 		}
 
-		[Fact]
+		[Test]
 		public void ExpectNeverForDyanmicMockThrowsIfOccurs()
 		{
 			Expect.Call(demo.ReturnIntNoArgs()).Repeat.Never();
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				"IDemo.ReturnIntNoArgs(); Expected #0, Actual #1.",
-				() => demo.ReturnIntNoArgs());
+            Assert.Throws<ExpectationViolationException> (
+                () => demo.ReturnIntNoArgs(),
+                "IDemo.ReturnIntNoArgs(); Expected #0, Actual #1.");
 		}
 	}
 }

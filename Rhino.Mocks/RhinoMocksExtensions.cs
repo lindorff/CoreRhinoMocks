@@ -1,4 +1,5 @@
 #region license
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
 // Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
@@ -26,7 +27,6 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-#if DOTNET35
 using System;
 using System.Collections.Generic;
 using Rhino.Mocks.Exceptions;
@@ -485,4 +485,3 @@ namespace Rhino.Mocks
 		#endregion
 	}
 }
-#endif

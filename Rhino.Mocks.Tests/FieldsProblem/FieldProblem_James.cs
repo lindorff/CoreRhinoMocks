@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,17 +27,12 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Collections.Generic;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
-	using Castle.Core.Interceptor;
-	using Castle.DynamicProxy;
-
-	
 	public class FieldProblem_James
 	{
 		private MockRepository m_mockery;
@@ -46,7 +42,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			m_mockery = new MockRepository();
 		}
 
-		[Fact]
+		[Test]
 		public void ShouldBeAbleToMockGenericMethod()
 		{
 			ILookupMapper<int> mapper = m_mockery.StrictMock<ILookupMapper<int>>();
@@ -58,7 +54,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			m_mockery.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void ShouldBeAbleToMockGenericMethod2()
 		{
 			ILookupMapper<int> mapper = m_mockery.StrictMock<ILookupMapper<int>>();
@@ -69,7 +65,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			m_mockery.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void CanMockMethodsReturnIntPtr()
 		{
 			IFooWithIntPtr mock = m_mockery.StrictMock<IFooWithIntPtr>();
@@ -81,18 +77,18 @@ namespace Rhino.Mocks.Tests.FieldsProblem
 			using(m_mockery.Playback())
 			{
 				IntPtr buffer = mock.Buffer(15);
-				Assert.Equal(IntPtr.Zero, buffer);
+				Assert.AreEqual(IntPtr.Zero, buffer);
 			}
 		}
 
-		[Fact]
+		[Test]
 		public void ShouldGetValidErrorWhenGenericTypeMismatchOccurs()
 		{
 			ILookupMapper<int> mapper = m_mockery.StrictMock<ILookupMapper<int>>();
 			Foo<string> retval = new Foo<string>();
-			Assert.Throws<InvalidOperationException>(
-				"Type 'Rhino.Mocks.Tests.FieldsProblem.Foo`1[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]' doesn't match the return type 'Rhino.Mocks.Tests.FieldsProblem.Foo`1[System.Int32]' for method 'ILookupMapper`1.FindOneFoo();'",
-				() => Expect.Call<object>(mapper.FindOneFoo()).Return(retval));
+            Assert.Throws<InvalidOperationException> (
+                () => Expect.Call<object> (mapper.FindOneFoo()).Return (retval),
+                "Type 'Rhino.Mocks.Tests.FieldsProblem.Foo`1[[System.String, mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]' doesn't match the return type 'Rhino.Mocks.Tests.FieldsProblem.Foo`1[System.Int32]' for method 'ILookupMapper`1.FindOneFoo();'");
 		}
 	}
 

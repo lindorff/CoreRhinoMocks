@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,18 +27,20 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
+#if NETFRAMEWORK
 using System.Web.UI;
+#endif
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_David
     {
-        [Fact]
+#if NETFRAMEWORK
+        [Test]
         public void MockWebUIPageClass()
         {
             MockRepository mocks = new MockRepository();
@@ -47,8 +50,9 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             page.Validate();
             mocks.VerifyAll();
         }
+#endif
 
-        [Fact]
+        [Test]
         public void MockClassWithVirtualMethodCallFromConstructor()
         {
             MockRepository mocks = new MockRepository();
@@ -56,7 +60,7 @@ namespace Rhino.Mocks.Tests.FieldsProblem
             Assert.NotNull(cwvmcfc);
             Expect.Call(cwvmcfc.ToString()).Return("Success");
             mocks.ReplayAll();
-            Assert.Equal("Success", cwvmcfc.ToString());
+            Assert.AreEqual("Success", cwvmcfc.ToString());
             mocks.VerifyAll();
         }
 

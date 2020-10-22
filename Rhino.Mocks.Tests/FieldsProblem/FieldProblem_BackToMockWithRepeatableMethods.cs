@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,25 +27,25 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
     
     public class FieldProblem_BackToMockWithRepeatableMethods
     {
-        [Fact]
+        [Test]
         public void UsingBackToRecordWithSetUpResult()
         {
             MockRepository mocks = new MockRepository();
             IDemo demo = (IDemo) mocks.StrictMock(typeof(IDemo));
             SetupResult.For(demo.Prop).Return("Here is 1 sample greeting");
             mocks.Replay(demo);
-            Assert.Equal("Here is 1 sample greeting",demo.Prop);
+            Assert.AreEqual("Here is 1 sample greeting",demo.Prop);
             mocks.BackToRecord(demo);
             SetupResult.For(demo.Prop).Return("Here is another sample greeting");
             mocks.Replay(demo);
-            Assert.Equal("Here is another sample greeting", demo.Prop);
+            Assert.AreEqual("Here is another sample greeting", demo.Prop);
             mocks.VerifyAll();
         }
     }

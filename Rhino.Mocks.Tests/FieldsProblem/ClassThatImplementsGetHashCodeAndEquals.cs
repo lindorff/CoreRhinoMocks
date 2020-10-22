@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,32 +27,33 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
 using System.Data;
 using System.Text;
-using Xunit;
+using NUnit.Framework;
 
 namespace Rhino.Mocks.Tests.FieldsProblem
 {
 	/// <summary>
 	/// Summary description for Bug_45.
 	/// </summary>
-	public class ClassThatImplementsGetHashCodeAndEquals : IDisposable
+	public class ClassThatImplementsGetHashCodeAndEquals
 	{
         MockRepository mocks;
 
-        public ClassThatImplementsGetHashCodeAndEquals()
+		[SetUp]
+        public void SetUp()
         {
             mocks = new MockRepository();
         }
 
-        public void Dispose()
+        [TearDown]
+        public void TearDown()
         {
             mocks.VerifyAll();
         }
 	    
-		[Fact]
+		[Test]
 		public void InitClass()
 		{
 				EmployeeInfo info = (EmployeeInfo)mocks.StrictMock(typeof(EmployeeInfo), "ID001");

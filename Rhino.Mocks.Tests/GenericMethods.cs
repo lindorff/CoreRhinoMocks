@@ -1,5 +1,6 @@
 ﻿#region license
-// Copyright (c) 2005 - 2007 Ayende Rahien (ayende@ayende.com)
+// Copyright (c) 2020 rubicon IT GmbH, www.rubicon.eu
+// Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
 // All rights reserved.
 // 
 // Redistribution and use in source and binary forms, with or without modification,
@@ -26,9 +27,8 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 #endregion
 
-
 using System;
-using Xunit;
+using NUnit.Framework;
 using Rhino.Mocks.Exceptions;
 
 namespace Rhino.Mocks.Tests
@@ -36,14 +36,14 @@ namespace Rhino.Mocks.Tests
 	
 	public class GenericMethods
 	{
-		[Fact]
+		[Test]
 		public void CanStrictMockOfInterfaceWithGenericMethod()
 		{
 			MockRepository mocks = new MockRepository();
 			mocks.StrictMock<IFactory>();
 		}
 
-		[Fact]
+		[Test]
 		public void CanSetExpectationsOnInterfaceWithGenericMethod()
 		{
 			MockRepository mocks = new MockRepository();
@@ -51,25 +51,25 @@ namespace Rhino.Mocks.Tests
 			Expect.Call(factory.Create<string>()).Return("working?");
 			mocks.ReplayAll();
 			string result = factory.Create<string>();
-			Assert.Equal("working?",result);
+			Assert.AreEqual("working?",result);
 			mocks.VerifyAll();
 		}
 
-		[Fact]
+		[Test]
 		public void WillGetErrorIfCallingMethodWithDifferentGenericArgument()
 		{
 			MockRepository mocks = new MockRepository();
 			IFactory factory = mocks.StrictMock<IFactory>();
 			Expect.Call(factory.Create<string>()).Return("working?");
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				@"IFactory.Create<System.Int32>(); Expected #1, Actual #1.
-IFactory.Create<System.String>(); Expected #1, Actual #0.",
-				() => factory.Create<int>());
+            Assert.Throws<ExpectationViolationException> (
+                () => factory.Create<int>(),
+                @"IFactory.Create<System.Int32>(); Expected #1, Actual #1.
+IFactory.Create<System.String>(); Expected #1, Actual #0.");
 		}
 
 //		Won't compile anymore
-//		[Fact]
+//		[Test]
 //		[ExpectedException(typeof(InvalidOperationException),"Type 'System.Int32' doesn't match the return type 'System.String' for method 'IFactory.Create<System.String>();'")]
 //		public void WillGiveErrorIfThereIsTypeMismatchInGenericParameters()
 //		{
@@ -78,16 +78,16 @@ IFactory.Create<System.String>(); Expected #1, Actual #0.",
 //			Expect.Call(factory.Create<string>()).Return(1);
 //		}
 
-		[Fact]
+		[Test]
 		public void WillGiveErrorIfMissingCallToGenericMethod()
 		{
 			MockRepository mocks = new MockRepository();
 			IFactory factory = mocks.StrictMock<IFactory>();
 			Expect.Call(factory.Create<string>()).Return("working?");
 			mocks.ReplayAll();
-			Assert.Throws<ExpectationViolationException>(
-				"IFactory.Create<System.String>(); Expected #1, Actual #0.",
-				() => mocks.VerifyAll());
+            Assert.Throws<ExpectationViolationException> (
+                () => mocks.VerifyAll(),
+                "IFactory.Create<System.String>(); Expected #1, Actual #0.");
 
 		}
 
