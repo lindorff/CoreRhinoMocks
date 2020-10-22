@@ -43,4 +43,6 @@ jobs:
           path: Rhino.Mocks\bin\release\*.nupkg
 
       - name: Push NuGet package to GitHub registry
-        run: dotnet nuget push Rhino.Mocks\bin\release\*.nupkg --skip-duplicate --no-symbols true
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+        run: dotnet nuget push Rhino.Mocks\bin\release\*.nupkg --skip-duplicate --no-symbols true -s https://nuget.pkg.github.com/rubicon-oss -k "${env:GITHUB_TOKEN}"
