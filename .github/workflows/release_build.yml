@@ -41,6 +41,7 @@ jobs:
         run: |
           .\ilrepack.ps1 "Rhino.Mocks\bin\release\net35\"
           .\ilrepack.ps1 "Rhino.Mocks\bin\release\netcoreapp3.1\"
+          .\ilrepack.ps1 "Rhino.Mocks\bin\release\net6.0\"
 
       - name: Pack
         run: |
