@@ -34,7 +34,7 @@ jobs:
         run: nuget restore Rhino.Mocks.sln
 
       - name: Build the Solution
-        run: msbuild Rhino.Mocks.sln
+        run: msbuild Rhino.Mocks.sln /m
 
       - name: .NET 3.5 Tests
         run: exit (Start-Process -FilePath "$env:userprofile\.nuget\packages\nunit.consolerunner\3.11.1\tools\nunit3-console.exe" -PassThru -NoNewWindow -Wait -ArgumentList ".\Rhino.Mocks.Tests\bin\debug\net35\Rhino.Mocks.Tests.dll").ExitCode
@@ -53,5 +53,5 @@ jobs:
 
       - name: Pack
         run: |
-          dotnet pack --no-restore --no-build /p:Version=0.0.0 -o .\Rhino.Mocks\bin\debug\ .\Rhino.Mocks\Rhino.Mocks.csproj
+         dotnet pack --no-restore --no-build /p:Version=0.0.0 -o .\Rhino.Mocks\bin\debug\ .\Rhino.Mocks\Rhino.Mocks.csproj
           

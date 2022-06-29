@@ -1,18 +1,46 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
     <TargetFrameworks>net35;netcoreapp3.1;net6.0;netstandard2.0</TargetFrameworks>
-    <AssemblyTitle>RhinoMocks</AssemblyTitle>
-    <RepositoryType>git</RepositoryType>
-    <Version>3.6.1.0</Version>
-    <AssemblyVersion>3.6.1.0</AssemblyVersion>
-    <FileVersion>3.6.1.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <NuspecFile>Rhino.Mocks.nuspec</NuspecFile>
-    <NuspecProperties>version=$(Version)</NuspecProperties>
+    <Platform>AnyCPU</Platform>
+    <Deterministic>true</Deterministic>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!-- NuSpec information -->
+    <AssemblyTitle>RhinoMocks</AssemblyTitle>
+    <RepositoryType>git</RepositoryType>
+    <PackageId>CoreRhinoMocks</PackageId>
+    <PackageDescription>
+      This is a fork of Rhino Mocks for usage in .NET Core.
+      Rhino Mocks is using Castle Dynamic Proxy (http://www.castleproject.org/dynamicproxy/index.html) to handle proxying the types it needs to mock.
+      The Dynamic Proxy project has been invaluable resource and made creating Rhino Mocks possible.
+    </PackageDescription>
+    <PackageLicenseExpression>BSD-3-Clause</PackageLicenseExpression>
+    <Authors>rubicon IT GmbH</Authors>
+    <Copyright>
+      Copyright (c) 2020 - $([System.DateTime]::Now.ToString(yyyy)) rubicon IT GmbH, www.rubicon.eu
+      Copyright (c) 2005 - 2009 Ayende Rahien (ayende@ayende.com)
+    </Copyright>
+    <PackageTags>tdd mocking mocks unittests unittesting</PackageTags>
     <RepositoryUrl>https://github.com/rubicon-oss/CoreRhinoMocks</RepositoryUrl>
+    <Version>3.6.1.0</Version>
+    <AssemblyVersion>3.6.1.0</AssemblyVersion>
+    <FileVersion>3.6.1.0</FileVersion>
+    <!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl> 
+    <!-- Embed source files that are not tracked by the source control manager in the PDB -->
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+    <!-- Include PDB in the built .nupkg -->
+    <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
   </PropertyGroup>
+
+  <!-- Enable as per deterministic builds. Recommended by Microsoft -->
+  <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+    <ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+  </PropertyGroup>  
+
   <ItemGroup>
     <None Include="..\ayende-open-source.snk">
       <Link>ayende-open-source.snk</Link>
@@ -24,6 +52,7 @@
     <None Include="Diagrams\MockStates.cd" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
+    <!-- This will be merged by ILRepack so PrivateAssets indicates don't have this as a dependency. -->
+    <PackageReference Include="Castle.Core" Version="4.4.1" PrivateAssets="all" />
   </ItemGroup>
 </Project>
