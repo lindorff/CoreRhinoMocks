@@ -52,6 +52,5 @@ jobs:
           .\ilrepack.ps1 "Rhino.Mocks\bin\debug\net6.0\"
 
       - name: Pack
-        run: |
-         dotnet pack --no-restore --no-build /p:Version=0.0.0 -o .\Rhino.Mocks\bin\debug\ .\Rhino.Mocks\Rhino.Mocks.csproj
+        run: dotnet pack --no-restore --no-build /p:Version=0.0.0 -o .\Rhino.Mocks\bin\debug\ .\Rhino.Mocks\Rhino.Mocks.csproj
           
