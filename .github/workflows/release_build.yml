@@ -46,7 +46,7 @@ jobs:
       - name: Pack
         run: |
           $tag = ${env:GITHUB_REF} -replace 'refs/tags/v',''
-          dotnet pack --no-restore --no-build /p:Version=${tag} -o .\Rhino.Mocks\bin\release\ .\Rhino.Mocks\Rhino.Mocks.csproj
+          dotnet pack /p:Configuration=Release --no-restore --no-build /p:Version=${tag} -o .\Rhino.Mocks\bin\release\ .\Rhino.Mocks\Rhino.Mocks.csproj
 
       - name: Upload artifact
         uses: actions/upload-artifact@v2

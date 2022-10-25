@@ -8,6 +8,7 @@ Move-Item "$assemblyPath$rhinoMocksName" "$assemblyPath$originalRhinoMocksName"
 
 .\Tools\ILRepack.exe "$assemblyPath$originalRhinoMocksName" "$assemblyPath$castleName" `
   /out:"$assemblyPath$rhinoMocksName" `
+  /xmldocs `
   /t:library `
   "/keyfile:ayende-open-source.snk" `
   "/internalize:ilrepack.exclude"
