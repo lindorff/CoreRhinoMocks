@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net35;netcoreapp3.1</TargetFrameworks>
+    <TargetFrameworks>net35;netcoreapp3.1;net6.0</TargetFrameworks>
     <AssemblyTitle>Rhino.Mocks</AssemblyTitle>
     <Company>$company</Company>
     <Product>$product</Product>
@@ -11,6 +11,8 @@
     <FileVersion>3.6.0.0</FileVersion>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
+    <IsPackable>false</IsPackable>
+    <Platform>AnyCPU</Platform>
   </PropertyGroup>
   <ItemGroup Condition="'$(TargetFramework)'=='net35'">
     <Reference Include="System.Data.DataSetExtensions" />

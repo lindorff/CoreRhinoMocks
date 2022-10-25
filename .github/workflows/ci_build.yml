@@ -8,25 +8,49 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: windows-2022
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check Out
+        uses: actions/checkout@v3.0.2
+
+      - name: Install .NET 6
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Install .NET Core 3.1
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '3.1.x'
 
       - name: Add msbuild to PATH
-        uses: microsoft/setup-msbuild@v1.0.1
+        uses: microsoft/setup-msbuild@v1.1
 
       - name: Setup NuGet
-        uses: NuGet/setup-nuget@v1.0.2
+        uses: NuGet/setup-nuget@v1.0.6
 
       - name: Restore NuGet packages
         run: nuget restore Rhino.Mocks.sln
 
       - name: Build the Solution
-        run: msbuild Rhino.Mocks.sln
+        run: msbuild Rhino.Mocks.sln /m
 
       - name: .NET 3.5 Tests
         run: exit (Start-Process -FilePath "$env:userprofile\.nuget\packages\nunit.consolerunner\3.11.1\tools\nunit3-console.exe" -PassThru -NoNewWindow -Wait -ArgumentList ".\Rhino.Mocks.Tests\bin\debug\net35\Rhino.Mocks.Tests.dll").ExitCode
 
       - name: netcoreapp3.1 Tests
         run: dotnet test .\Rhino.Mocks.Tests\Rhino.Mocks.Tests.csproj --framework netcoreapp3.1 --no-build
+
+      - name: net6.0 Tests
+        run: dotnet test .\Rhino.Mocks.Tests\Rhino.Mocks.Tests.csproj --framework net6.0 --no-build
+
+      - name: ILRepack assemblies
+        run: |
+          .\ilrepack.ps1 "Rhino.Mocks\bin\debug\net35\"
+          .\ilrepack.ps1 "Rhino.Mocks\bin\debug\netcoreapp3.1\"
+          .\ilrepack.ps1 "Rhino.Mocks\bin\debug\net6.0\"
+
+      - name: Pack
+        run: dotnet pack --no-restore --no-build /p:Version=0.0.0 -o .\Rhino.Mocks\bin\debug\ .\Rhino.Mocks\Rhino.Mocks.csproj
+          

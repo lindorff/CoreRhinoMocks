@@ -10,3 +10,4 @@ build/
 _ReSharper.*/
 AssemblyInfo.cs
 *.user
+.vs/
