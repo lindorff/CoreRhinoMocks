@@ -49,7 +49,7 @@ jobs:
           dotnet pack /p:Configuration=Release --no-restore --no-build /p:Version=${tag} -o .\Rhino.Mocks\bin\release\ .\Rhino.Mocks\Rhino.Mocks.csproj
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Rhino.Mocks
           path: Rhino.Mocks\bin\release\*.nupkg
