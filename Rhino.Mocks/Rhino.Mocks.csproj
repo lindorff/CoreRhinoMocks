@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net35;netcoreapp3.1;net6.0;netstandard2.0</TargetFrameworks>
+    <TargetFrameworks>net8.0</TargetFrameworks>
     <SignAssembly>true</SignAssembly>
     <AssemblyOriginatorKeyFile>..\ayende-open-source.snk</AssemblyOriginatorKeyFile>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
@@ -53,6 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <!-- This will be merged by ILRepack so PrivateAssets indicates don't have this as a dependency. -->
-    <PackageReference Include="Castle.Core" Version="4.4.1" PrivateAssets="all" />
+    <PackageReference Include="Castle.Core" Version="5.1.1" PrivateAssets="all" />
   </ItemGroup>
 </Project>

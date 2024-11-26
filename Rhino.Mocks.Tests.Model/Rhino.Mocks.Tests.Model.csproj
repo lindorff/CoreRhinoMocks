@@ -1,6 +1,6 @@
 ﻿<Project Sdk="MSBuild.Sdk.Extras">
   <PropertyGroup>
-    <TargetFrameworks>net35;netcoreapp3.1;net6.0</TargetFrameworks>
+	<TargetFrameworks>net8.0</TargetFrameworks>
     <AssemblyTitle>Rhino.Mocks</AssemblyTitle>
     <Company>$company</Company>
     <Product>$product</Product>

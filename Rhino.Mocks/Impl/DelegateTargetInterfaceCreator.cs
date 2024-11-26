@@ -77,7 +77,16 @@ namespace Rhino.Mocks.Impl
         {
             Type type;
             long count = Interlocked.Increment(ref counter);
-            TypeBuilder typeBuilder = moduleScope.ObtainDynamicModule(true).DefineType(
+            
+            // method is now internal, so we just invoke it via reflection
+            //var dynamicModule = moduleScope.ObtainDynamicModule(true);
+            var dynamicModuleGetter = moduleScope.GetType()
+                .GetMethod("ObtainDynamicModule", BindingFlags.Instance | BindingFlags.NonPublic)
+                ?? throw new ArgumentException($"Could not find 'ObtainDynamicModule' method on {moduleScope}");
+
+            var dynamicModule = (ModuleBuilder) dynamicModuleGetter.Invoke(moduleScope, [true]);
+
+            TypeBuilder typeBuilder = dynamicModule.DefineType(
                 string.Format("ProxyDelegate_{0}_{1}", delegateType.Name, count),
                 TypeAttributes.Interface | TypeAttributes.Abstract | TypeAttributes.Public);
 
